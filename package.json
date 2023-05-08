@@ -1,5 +1,13 @@
 {
-  "devDependencies": {
-    "typescript": "5.0.4"
-  }
+    "scripts": {
+        "dev": "pigeon dev"
+    },
+    "devDependencies": {
+        "pigeon-mode-game-library": "evannorton/pigeon-mode-game-library",
+        "typescript": "5.0.4"
+    },
+    "engines": {
+        "npm": "9.5.1",
+        "node": "18.16.0"
+    }
 }
