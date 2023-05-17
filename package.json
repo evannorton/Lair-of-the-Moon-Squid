@@ -1,5 +1,6 @@
 {
     "scripts": {
+        "build": "pigeon build",
         "dev": "pigeon dev",
         "lint": "eslint src",
         "lint:fix": "eslint src --fix"
@@ -12,8 +13,7 @@
         "eslint-config-prettier": "8.8.0",
         "eslint-plugin-prettier": "4.2.1",
         "eslint-plugin-sort-imports-es6-autofix": "0.6.0",
-        "pigeon-mode-game-library": "evannorton/pigeon-mode-game-library",
-        "typescript": "5.0.4"
+        "pigeon-mode-game-library": "evannorton/pigeon-mode-game-library"
     },
     "engines": {
         "npm": "9.5.1",
