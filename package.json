@@ -5,7 +5,7 @@
         "lint": "pigeon lint",
         "lint:fix": "pigeon lint:fix"
     },
-    "devDependencies": {
+    "dependencies": {
         "pigeon-mode-game-library": "evannorton/pigeon-mode-game-library"
     },
     "engines": {
