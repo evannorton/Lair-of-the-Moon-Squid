@@ -1,0 +1,8 @@
+{
+  "parserOptions": {
+    "project": "./node_modules/pigeon-mode-game-library/game-tsconfig.json"
+  },
+  "extends": [
+    "./node_modules/pigeon-mode-game-library/.eslintrc"
+  ]
+}
