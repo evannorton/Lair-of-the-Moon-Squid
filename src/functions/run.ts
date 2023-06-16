@@ -1,4 +1,12 @@
-import { InputHandler, Sprite, init } from "pigeon-mode-game-library";
+import { InputHandler, Sprite, State, init } from "pigeon-mode-game-library";
+
+interface StateSchema {
+  isAtTitle: boolean;
+}
+
+const defaultState: StateSchema = {
+  isAtTitle: true,
+};
 
 const run = (): void => {
   console.log("Hello World");
@@ -11,9 +19,11 @@ const run = (): void => {
   new InputHandler({
     leftClick: true,
     onInput: (): void => {
-      console.log("Advance main menu");
+      state.setValues({ isAtTitle: false });
     },
   });
+
+  const state = new State(defaultState);
 
   init();
 };
