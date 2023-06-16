@@ -11,8 +11,8 @@ const run = (): void => {
   });
 
   new InputHandler({
-    condition: (): boolean => state.values.isAtTitle,
     leftClick: true,
+    condition: (): boolean => state.values.isAtTitle,
     onInput: (): void => {
       if (state.values.isAtTitle) {
         console.log("update state");
