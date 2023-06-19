@@ -15,7 +15,6 @@ const run = (): void => {
     condition: (): boolean => state.values.isAtTitle,
     onInput: (): void => {
       if (state.values.isAtTitle) {
-        console.log("update state");
         state.setValues({ isAtTitle: false });
       }
     },
