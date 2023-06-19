@@ -11,6 +11,7 @@ const run = (): void => {
   });
 
   new InputHandler({
+    keys: ["Space", "Enter"],
     leftClick: true,
     condition: (): boolean => state.values.isAtTitle,
     onInput: (): void => {
