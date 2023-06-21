@@ -11,8 +11,9 @@ const run = (): void => {
   });
 
   new InputHandler({
-    keys: ["Space", "Enter"],
     leftClick: true,
+    keys: ["Space", "Enter"],
+    gamepadButtons: [9],
     condition: (): boolean => state.values.isAtTitle,
     onInput: (): void => {
       if (state.values.isAtTitle) {
