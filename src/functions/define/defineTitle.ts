@@ -3,7 +3,7 @@ import state from "../../state";
 
 const defineTitle = (): void => {
   new Sprite({
-    file: "title",
+    imagePath: "title",
     x: 0,
     y: 0,
     condition: (): boolean => state.values.isAtTitle,
