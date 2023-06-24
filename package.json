@@ -1,6 +1,5 @@
 {
     "scripts": {
-        "build": "pigeon build",
         "dev": "pigeon dev",
         "lint": "pigeon lint",
         "lint:fix": "pigeon lint:fix",
