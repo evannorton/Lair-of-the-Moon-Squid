@@ -1,28 +1,12 @@
-import { InputHandler, Sprite, init } from "pigeon-mode-game-library";
-import state from "../state";
+import { init } from "pigeon-mode-game-library";
+import define from "./define/define";
 
 const run = (): void => {
-  console.log("Hello World");
-
-  new Sprite("title", {
-    condition: (): boolean => state.values.isAtTitle,
-    x: 0,
-    y: 0,
-  });
-
-  new InputHandler({
-    leftClick: true,
-    keys: ["Space", "Enter"],
-    gamepadButtons: [9],
-    condition: (): boolean => state.values.isAtTitle,
-    onInput: (): void => {
-      if (state.values.isAtTitle) {
-        state.setValues({ isAtTitle: false });
-      }
-    },
-  });
+  define();
 
   init();
+
+  console.log("Moon Squid is running!");
 };
 
 export default run;
