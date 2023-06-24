@@ -1,13 +1,11 @@
 import { State } from "pigeon-mode-game-library";
 
-interface Schema {
+interface StateSchema {
   isAtTitle: boolean;
 }
-
-const defaultState: Schema = {
+const defaultState: StateSchema = {
   isAtTitle: true,
 };
-
-const state = new State(defaultState);
+const state: State<StateSchema> = new State(defaultState);
 
 export default state;

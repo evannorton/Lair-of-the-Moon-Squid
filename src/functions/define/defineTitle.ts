@@ -3,17 +3,16 @@ import state from "../../state";
 
 const defineTitle = (): void => {
   new Sprite({
+    condition: (): boolean => state.values.isAtTitle,
     imagePath: "title",
     x: 0,
     y: 0,
-    condition: (): boolean => state.values.isAtTitle,
   });
-
   new InputHandler({
-    leftClick: true,
-    keys: ["Space", "Enter"],
-    gamepadButtons: [9],
     condition: (): boolean => state.values.isAtTitle,
+    gamepadButtons: [9],
+    keys: ["Space", "Enter"],
+    leftClick: true,
     onInput: (): void => {
       if (state.values.isAtTitle) {
         state.setValues({ isAtTitle: false });

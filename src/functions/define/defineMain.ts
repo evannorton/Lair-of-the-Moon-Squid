@@ -3,8 +3,8 @@ import state from "../../state";
 
 const defineMain = (): void => {
   new Level({
-    file: "test-level",
     condition: (): boolean => !state.values.isAtTitle,
+    file: "test-level",
   });
 };
 

@@ -3,9 +3,7 @@ import define from "./define/define";
 
 const run = (): void => {
   define();
-
   init();
-
   console.log("Moon Squid is running!");
 };
 

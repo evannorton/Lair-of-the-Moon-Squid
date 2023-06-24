@@ -3,7 +3,8 @@
         "dev": "pigeon dev",
         "lint": "pigeon lint",
         "lint:fix": "pigeon lint:fix",
-        "xD": "pigeon xD"
+        "xD": "pigeon xD",
+        "zip": "pigeon zip"
     },
     "dependencies": {
         "pigeon-mode-game-library": "evannorton/pigeon-mode-game-library"
