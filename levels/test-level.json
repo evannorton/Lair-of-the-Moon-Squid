@@ -6,7 +6,7 @@
   "offsetY": 0,
   "layers": [
     {
-      "name": "TestLayer",
+      "name": "Tiles",
       "_eid": "50436494",
       "offsetX": 0,
       "offsetY": 0,
@@ -307,6 +307,19 @@
       ],
       "exportMode": 1,
       "arrayMode": 1
+    },
+    {
+      "name": "Entities",
+      "_eid": "62954657",
+      "offsetX": 0,
+      "offsetY": 0,
+      "gridCellWidth": 16,
+      "gridCellHeight": 16,
+      "gridCellsX": 16,
+      "gridCellsY": 16,
+      "entities": [
+        {"name": "Player", "id": 0, "_eid": "50499838", "x": 64, "y": 48, "originX": 0, "originY": 0}
+      ]
     }
   ]
 }

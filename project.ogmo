@@ -19,12 +19,20 @@
   "layers": [
     {
       "definition": "tile",
-      "name": "TestLayer",
+      "name": "Tiles",
       "gridSize": {"x": 16, "y": 16},
       "exportID": "50436494",
       "exportMode": 1,
       "arrayMode": 1,
       "defaultTileset": "TestTileset"
+    },
+    {
+      "definition": "entity",
+      "name": "Entities",
+      "gridSize": {"x": 16, "y": 16},
+      "exportID": "62954657",
+      "requiredTags": [],
+      "excludedTags": []
     }
   ],
   "entities": [
