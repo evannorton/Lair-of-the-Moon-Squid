@@ -1,49 +1,60 @@
 import { InputTickHandler, moveEntity } from "pigeon-mode-game-library";
 import state from "../../state";
 
-enum Direction {
-  Down = "down",
+enum XDirection {
   Left = "left",
   Right = "right",
+}
+enum YDirection {
+  Down = "down",
   Up = "up",
 }
 const defineMain = (): void => {
-  new InputTickHandler<Direction>({
+  new InputTickHandler<XDirection>({
     condition: (): boolean => !state.values.isAtTitle,
     groups: [
       {
-        gamepadButtons: [13],
-        id: Direction.Down,
-        keys: ["ArrowDown", "KeyS"],
-      },
-      {
         gamepadButtons: [14],
-        id: Direction.Left,
+        id: XDirection.Left,
         keys: ["ArrowLeft", "KeyA"],
       },
       {
         gamepadButtons: [15],
-        id: Direction.Right,
+        id: XDirection.Right,
         keys: ["ArrowRight", "KeyD"],
+      },
+    ],
+    onTick: (direction: XDirection | null): void => {
+      switch (direction) {
+        case XDirection.Left:
+          moveEntity("player", -64, 0);
+          break;
+        case XDirection.Right:
+          moveEntity("player", 64, 0);
+          break;
+      }
+    },
+  });
+  new InputTickHandler<YDirection>({
+    condition: (): boolean => !state.values.isAtTitle,
+    groups: [
+      {
+        gamepadButtons: [13],
+        id: YDirection.Down,
+        keys: ["ArrowDown", "KeyS"],
       },
       {
         gamepadButtons: [12],
-        id: Direction.Up,
+        id: YDirection.Up,
         keys: ["ArrowUp", "KeyW"],
       },
     ],
-    onTick: (direction: Direction | null): void => {
+    onTick: (direction: YDirection | null): void => {
       switch (direction) {
-        case Direction.Down:
+        case YDirection.Down:
           moveEntity("player", 0, 64);
           break;
-        case Direction.Left:
-          moveEntity("player", -64, 0);
-          break;
-        case Direction.Right:
-          moveEntity("player", 64, 0);
-          break;
-        case Direction.Up:
+        case YDirection.Up:
           moveEntity("player", 0, -64);
           break;
       }
