@@ -1,4 +1,9 @@
-import { InputHandler, Sprite, goToLevel } from "pigeon-mode-game-library";
+import {
+  InputHandler,
+  Sprite,
+  goToLevel,
+  lockCameraToEntity,
+} from "pigeon-mode-game-library";
 import state from "../../state";
 
 const defineTitle = (): void => {
@@ -18,6 +23,7 @@ const defineTitle = (): void => {
         state.setValues({ isAtTitle: false });
       }
       goToLevel("test_level");
+      lockCameraToEntity("player");
     },
   });
 };
