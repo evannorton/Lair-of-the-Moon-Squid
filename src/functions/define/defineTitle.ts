@@ -1,5 +1,5 @@
 import {
-  InputHandler,
+  InputPressHandler,
   Sprite,
   goToLevel,
   lockCameraToEntity,
@@ -13,7 +13,7 @@ const defineTitle = (): void => {
     x: 0,
     y: 0,
   });
-  new InputHandler({
+  new InputPressHandler({
     condition: (): boolean => state.values.isAtTitle,
     gamepadButtons: [9],
     keys: ["Space", "Enter"],
