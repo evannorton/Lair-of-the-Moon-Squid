@@ -1,4 +1,4 @@
-import { InputTickHandler } from "pigeon-mode-game-library";
+import { InputTickHandler, moveEntity } from "pigeon-mode-game-library";
 import state from "../../state";
 
 enum Direction {
@@ -35,16 +35,16 @@ const defineMain = (): void => {
     onTick: (direction: Direction | null): void => {
       switch (direction) {
         case Direction.Down:
-          console.log("walk down");
+          moveEntity("player", 0, 64);
           break;
         case Direction.Left:
-          console.log("walk left");
+          moveEntity("player", -64, 0);
           break;
         case Direction.Right:
-          console.log("walk right");
+          moveEntity("player", 64, 0);
           break;
         case Direction.Up:
-          console.log("walk up");
+          moveEntity("player", 0, -64);
           break;
       }
     },
