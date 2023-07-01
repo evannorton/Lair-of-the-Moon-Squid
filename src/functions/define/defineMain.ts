@@ -1,4 +1,4 @@
-import { InputTickHandler, moveEntity } from "pigeon-mode-game-library";
+import { addInputTickHandler, moveEntity } from "pigeon-mode-game-library";
 import state from "../../state";
 
 enum XDirection {
@@ -10,7 +10,7 @@ enum YDirection {
   Up = "up",
 }
 const defineMain = (): void => {
-  new InputTickHandler<XDirection>({
+  addInputTickHandler<XDirection>({
     condition: (): boolean => !state.values.isAtTitle,
     groups: [
       {
@@ -41,7 +41,7 @@ const defineMain = (): void => {
       }
     },
   });
-  new InputTickHandler<YDirection>({
+  addInputTickHandler<YDirection>({
     condition: (): boolean => !state.values.isAtTitle,
     groups: [
       {
