@@ -1,4 +1,8 @@
-import { addInputTickHandler, moveEntity } from "pigeon-mode-game-library";
+import {
+  addInputTickHandler,
+  moveEntity,
+  stopEntity,
+} from "pigeon-mode-game-library";
 import state from "../../state";
 
 enum XDirection {
@@ -25,16 +29,17 @@ const defineMain = (): void => {
       },
     ],
     onTick: (direction: XDirection | null): void => {
+      stopEntity("player", {
+        x: true,
+      });
       switch (direction) {
         case XDirection.Left:
-          moveEntity({
-            entityID: "player",
+          moveEntity("player", {
             xVelocity: -64,
           });
           break;
         case XDirection.Right:
-          moveEntity({
-            entityID: "player",
+          moveEntity("player", {
             xVelocity: 64,
           });
           break;
@@ -56,16 +61,17 @@ const defineMain = (): void => {
       },
     ],
     onTick: (direction: YDirection | null): void => {
+      stopEntity("player", {
+        y: true,
+      });
       switch (direction) {
         case YDirection.Down:
-          moveEntity({
-            entityID: "player",
+          moveEntity("player", {
             yVelocity: 64,
           });
           break;
         case YDirection.Up:
-          moveEntity({
-            entityID: "player",
+          moveEntity("player", {
             yVelocity: -64,
           });
           break;
