@@ -7,8 +7,7 @@ import {
 import state from "../../state";
 
 const addTitle = (): void => {
-  const titleAnimationID: string = "title";
-  addSprite({
+  addSprite<"title">({
     animations: [
       {
         frames: [
@@ -21,11 +20,11 @@ const addTitle = (): void => {
             width: 160,
           },
         ],
-        id: titleAnimationID,
+        id: "title",
       },
     ],
     condition: (): boolean => state.values.isAtTitle,
-    defaultAnimationID: titleAnimationID,
+    defaultAnimationID: "title",
     imagePath: "title",
     x: 0,
     y: 0,
