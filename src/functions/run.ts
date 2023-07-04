@@ -1,8 +1,8 @@
 import { init } from "pigeon-mode-game-library";
-import define from "./define/define";
+import add from "./add/add";
 
 const run = (): void => {
-  define();
+  add();
   init();
   console.log("Moon Squid is running!");
 };

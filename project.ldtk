@@ -11,7 +11,7 @@
 	"iid": "62f839c0-ed50-11ed-94a8-29f55ac69c66",
 	"jsonVersion": "1.3.3",
 	"appBuildId": 467698,
-	"nextUid": 10,
+	"nextUid": 11,
 	"identifierStyle": "Lowercase",
 	"toc": [],
 	"worldLayout": "Free",
@@ -131,7 +131,42 @@
 			"limitBehavior": "MoveLastOne",
 			"pivotX": 0,
 			"pivotY": 0,
-			"fieldDefs": []
+			"fieldDefs": [
+				{
+					"identifier": "pmglSpriteImagePath",
+					"doc": null,
+					"__type": "String",
+					"uid": 10,
+					"type": "F_String",
+					"isArray": false,
+					"canBeNull": true,
+					"arrayMinLength": null,
+					"arrayMaxLength": null,
+					"editorDisplayMode": "Hidden",
+					"editorDisplayScale": 0,
+					"editorDisplayPos": "Above",
+					"editorLinkStyle": "StraightArrow",
+					"editorAlwaysShow": false,
+					"editorShowInWorld": true,
+					"editorCutLongValues": true,
+					"editorTextSuffix": null,
+					"editorTextPrefix": null,
+					"useForSmartColor": false,
+					"min": null,
+					"max": null,
+					"regex": null,
+					"acceptFileTypes": null,
+					"defaultOverride": null,
+					"textLanguageMode": null,
+					"symmetricalRef": false,
+					"autoChainRef": true,
+					"allowOutOfLevelRef": true,
+					"allowedRefs": "OnlySame",
+					"allowedRefsEntityUid": null,
+					"allowedRefTags": [],
+					"tilesetUid": null
+				}
+			]
 		}
 	], "tilesets": [
 		{
@@ -212,7 +247,10 @@
 							"height": 16,
 							"defUid": 8,
 							"px": [128,128],
-							"fieldInstances": []
+							"fieldInstances": [{ "__identifier": "pmglSpriteImagePath", "__type": "String", "__value": "player", "__tile": null, "defUid": 10, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["player"]
+							}] }]
 						}
 					]
 				},
