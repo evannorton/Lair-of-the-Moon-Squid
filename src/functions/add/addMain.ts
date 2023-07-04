@@ -4,6 +4,7 @@ import {
   addSprite,
   moveEntity,
   onTick,
+  playSpriteAnimation,
   stopEntity,
 } from "pigeon-mode-game-library";
 import state from "../../state";
@@ -237,10 +238,26 @@ const addMain = (): void => {
     },
   });
   onTick((): void => {
-    if (state.values.yDirection !== null) {
-      state.setValues({ direction: state.values.yDirection });
-    } else if (state.values.xDirection !== null) {
-      state.setValues({ direction: state.values.xDirection });
+    if (!state.values.isAtTitle) {
+      if (state.values.yDirection !== null) {
+        state.setValues({ direction: state.values.yDirection });
+      } else if (state.values.xDirection !== null) {
+        state.setValues({ direction: state.values.xDirection });
+      }
+      switch (state.values.direction) {
+        case XDirection.Left:
+          playSpriteAnimation("player", PlayerAnimation.IdleLeft);
+          break;
+        case XDirection.Right:
+          playSpriteAnimation("player", PlayerAnimation.IdleRight);
+          break;
+        case YDirection.Down:
+          playSpriteAnimation("player", PlayerAnimation.IdleDown);
+          break;
+        case YDirection.Up:
+          playSpriteAnimation("player", PlayerAnimation.IdleUp);
+          break;
+      }
     }
   });
 };
