@@ -21,6 +21,8 @@ enum PlayerAnimation {
 }
 const addMain = (): void => {
   const walkDuration: number = 250;
+  const playerEntityID: string = "player";
+  const playerImagePath: string = "player";
   addSprite<PlayerAnimation>({
     animations: [
       {
@@ -169,7 +171,7 @@ const addMain = (): void => {
       },
     ],
     defaultAnimationID: PlayerAnimation.IdleDown,
-    imagePath: "player",
+    imagePath: playerImagePath,
   });
   addInputTickHandler<XDirection>({
     condition: (): boolean => !state.values.isAtTitle,
@@ -187,17 +189,17 @@ const addMain = (): void => {
     ],
     onTick: (direction: XDirection | null): void => {
       state.setValues({ xDirection: direction });
-      stopEntity("player", {
+      stopEntity(playerEntityID, {
         x: true,
       });
       switch (direction) {
         case XDirection.Left:
-          moveEntity("player", {
+          moveEntity(playerEntityID, {
             xVelocity: -64,
           });
           break;
         case XDirection.Right:
-          moveEntity("player", {
+          moveEntity(playerEntityID, {
             xVelocity: 64,
           });
           break;
@@ -220,17 +222,17 @@ const addMain = (): void => {
     ],
     onTick: (direction: YDirection | null): void => {
       state.setValues({ yDirection: direction });
-      stopEntity("player", {
+      stopEntity(playerEntityID, {
         y: true,
       });
       switch (direction) {
         case YDirection.Down:
-          moveEntity("player", {
+          moveEntity(playerEntityID, {
             yVelocity: 64,
           });
           break;
         case YDirection.Up:
-          moveEntity("player", {
+          moveEntity(playerEntityID, {
             yVelocity: -64,
           });
           break;
@@ -246,16 +248,16 @@ const addMain = (): void => {
       }
       switch (state.values.direction) {
         case XDirection.Left:
-          playSpriteAnimation("player", PlayerAnimation.IdleLeft);
+          playSpriteAnimation(playerImagePath, PlayerAnimation.IdleLeft);
           break;
         case XDirection.Right:
-          playSpriteAnimation("player", PlayerAnimation.IdleRight);
+          playSpriteAnimation(playerImagePath, PlayerAnimation.IdleRight);
           break;
         case YDirection.Down:
-          playSpriteAnimation("player", PlayerAnimation.IdleDown);
+          playSpriteAnimation(playerImagePath, PlayerAnimation.IdleDown);
           break;
         case YDirection.Up:
-          playSpriteAnimation("player", PlayerAnimation.IdleUp);
+          playSpriteAnimation(playerImagePath, PlayerAnimation.IdleUp);
           break;
       }
     }
