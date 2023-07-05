@@ -1,12 +1,13 @@
-import { XDirection, YDirection } from "../../types/Direction";
 import {
-  addInputTickHandler,
-  addSprite,
+  createInputTickHandler,
+  createSprite,
+  getInputTickHandlerGroupID,
   moveEntity,
   onTick,
   playSpriteAnimation,
   stopEntity,
 } from "pigeon-mode-game-library";
+import Direction, { XDirection, YDirection } from "../../types/Direction";
 import state from "../../state";
 
 enum PlayerAnimation {
@@ -19,11 +20,10 @@ enum PlayerAnimation {
   WalkUp = "walk-up",
   WalkDown = "walk-down",
 }
-const addMain = (): void => {
+const createMain = (): void => {
   const walkDuration: number = 250;
   const playerEntityID: string = "player";
-  const playerImagePath: string = "player";
-  addSprite<PlayerAnimation>({
+  const playerSpriteID: string = createSprite<PlayerAnimation>({
     animations: [
       {
         frames: [
@@ -171,10 +171,9 @@ const addMain = (): void => {
       },
     ],
     defaultAnimationID: PlayerAnimation.IdleDown,
-    imagePath: playerImagePath,
+    imagePath: "player",
   });
-  addInputTickHandler<XDirection>({
-    condition: (): boolean => !state.values.isAtTitle,
+  const xInputTickHandlerID: string = createInputTickHandler<XDirection>({
     groups: [
       {
         gamepadButtons: [14],
@@ -187,27 +186,8 @@ const addMain = (): void => {
         keys: ["ArrowRight", "KeyD"],
       },
     ],
-    onTick: (direction: XDirection | null): void => {
-      state.setValues({ xDirection: direction });
-      stopEntity(playerEntityID, {
-        x: true,
-      });
-      switch (direction) {
-        case XDirection.Left:
-          moveEntity(playerEntityID, {
-            xVelocity: -64,
-          });
-          break;
-        case XDirection.Right:
-          moveEntity(playerEntityID, {
-            xVelocity: 64,
-          });
-          break;
-      }
-    },
   });
-  addInputTickHandler<YDirection>({
-    condition: (): boolean => !state.values.isAtTitle,
+  const yInputTickHandlerID: string = createInputTickHandler<YDirection>({
     groups: [
       {
         gamepadButtons: [13],
@@ -220,48 +200,55 @@ const addMain = (): void => {
         keys: ["ArrowUp", "KeyW"],
       },
     ],
-    onTick: (direction: YDirection | null): void => {
-      state.setValues({ yDirection: direction });
-      stopEntity(playerEntityID, {
-        y: true,
-      });
-      switch (direction) {
-        case YDirection.Down:
-          moveEntity(playerEntityID, {
-            yVelocity: 64,
-          });
-          break;
-        case YDirection.Up:
-          moveEntity(playerEntityID, {
-            yVelocity: -64,
-          });
-          break;
-      }
-    },
   });
   onTick((): void => {
     if (!state.values.isAtTitle) {
-      if (state.values.yDirection !== null) {
-        state.setValues({ direction: state.values.yDirection });
-      } else if (state.values.xDirection !== null) {
-        state.setValues({ direction: state.values.xDirection });
-      }
-      switch (state.values.direction) {
+      const xDirection: XDirection | null =
+        getInputTickHandlerGroupID<XDirection>(xInputTickHandlerID);
+      const yDirection: YDirection | null =
+        getInputTickHandlerGroupID<YDirection>(yInputTickHandlerID);
+      stopEntity(playerEntityID, {
+        x: true,
+        y: true,
+      });
+      const xVelocity: number =
+        xDirection === XDirection.Left
+          ? -64
+          : xDirection === XDirection.Right
+          ? 64
+          : 0;
+      const yVelocity: number =
+        yDirection === YDirection.Up
+          ? -64
+          : yDirection === YDirection.Down
+          ? 64
+          : 0;
+      moveEntity(playerEntityID, {
+        xVelocity,
+        yVelocity,
+      });
+      const direction: Direction | null =
+        yDirection !== null
+          ? yDirection
+          : xDirection !== null
+          ? xDirection
+          : null;
+      switch (direction) {
         case XDirection.Left:
-          playSpriteAnimation(playerImagePath, PlayerAnimation.IdleLeft);
+          playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleLeft);
           break;
         case XDirection.Right:
-          playSpriteAnimation(playerImagePath, PlayerAnimation.IdleRight);
+          playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleRight);
           break;
         case YDirection.Down:
-          playSpriteAnimation(playerImagePath, PlayerAnimation.IdleDown);
+          playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleDown);
           break;
         case YDirection.Up:
-          playSpriteAnimation(playerImagePath, PlayerAnimation.IdleUp);
+          playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleUp);
           break;
       }
     }
   });
 };
 
-export default addMain;
+export default createMain;

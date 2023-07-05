@@ -1,13 +1,13 @@
 import {
-  addInputPressHandler,
-  addSprite,
+  createInputPressHandler,
+  createSprite,
   goToLevel,
   lockCameraToEntity,
 } from "pigeon-mode-game-library";
 import state from "../../state";
 
-const addTitle = (): void => {
-  addSprite<"title">({
+const createTitle = (): void => {
+  createSprite<"title">({
     animations: [
       {
         frames: [
@@ -29,7 +29,7 @@ const addTitle = (): void => {
     x: 0,
     y: 0,
   });
-  addInputPressHandler({
+  createInputPressHandler({
     condition: (): boolean => state.values.isAtTitle,
     gamepadButtons: [9],
     keys: ["Space", "Enter"],
@@ -44,4 +44,4 @@ const addTitle = (): void => {
   });
 };
 
-export default addTitle;
+export default createTitle;
