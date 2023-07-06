@@ -1,5 +1,6 @@
 import { XDirection, YDirection } from "../../types/Direction";
 import {
+  createInputPressHandler,
   createInputTickHandler,
   createSprite,
   getInputTickHandlerGroupID,
@@ -20,6 +21,7 @@ enum PlayerAnimation {
   WalkUp = "walk-up",
   WalkDown = "walk-down",
 }
+const isMainGameOngoing = (): boolean => !state.values.isAtTitle;
 const createMain = (): void => {
   const walkDuration: number = 250;
   const playerEntityID: string = "player";
@@ -173,6 +175,24 @@ const createMain = (): void => {
     defaultAnimationID: PlayerAnimation.IdleDown,
     imagePath: "player",
   });
+  createInputPressHandler({
+    condition: (): boolean => isMainGameOngoing(),
+    gamepadButtons: [0],
+    keys: ["KeyZ"],
+    leftClick: true,
+    onInput: (): void => {
+      console.log("swing sword");
+    },
+  });
+  createInputPressHandler({
+    condition: (): boolean => isMainGameOngoing(),
+    gamepadButtons: [1],
+    keys: ["KeyX"],
+    onInput: (): void => {
+      console.log("shoot arrow");
+    },
+    rightClick: true,
+  });
   const xInputTickHandlerID: string = createInputTickHandler<XDirection>({
     groups: [
       {
@@ -202,7 +222,7 @@ const createMain = (): void => {
     ],
   });
   onTick((): void => {
-    if (!state.values.isAtTitle) {
+    if (isMainGameOngoing()) {
       const xDirection: XDirection | null =
         getInputTickHandlerGroupID<XDirection>(xInputTickHandlerID);
       const yDirection: YDirection | null =
