@@ -24,10 +24,12 @@ const createTitle = (): void => {
       },
     ],
     condition: (): boolean => state.values.isAtTitle,
+    coordinates: {
+      x: 0,
+      y: 0,
+    },
     defaultAnimationID: "title",
     imagePath: "title",
-    x: 0,
-    y: 0,
   });
   createInputPressHandler({
     condition: (): boolean => state.values.isAtTitle,

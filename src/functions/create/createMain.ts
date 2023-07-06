@@ -1,3 +1,4 @@
+import { XDirection, YDirection } from "../../types/Direction";
 import {
   createInputTickHandler,
   createSprite,
@@ -7,7 +8,6 @@ import {
   playSpriteAnimation,
   stopEntity,
 } from "pigeon-mode-game-library";
-import Direction, { XDirection, YDirection } from "../../types/Direction";
 import state from "../../state";
 
 enum PlayerAnimation {
@@ -227,25 +227,41 @@ const createMain = (): void => {
         xVelocity,
         yVelocity,
       });
-      const direction: Direction | null =
-        yDirection !== null
-          ? yDirection
-          : xDirection !== null
-          ? xDirection
-          : null;
-      switch (direction) {
-        case XDirection.Left:
-          playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleLeft);
-          break;
-        case XDirection.Right:
-          playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleRight);
-          break;
-        case YDirection.Down:
-          playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleDown);
-          break;
-        case YDirection.Up:
-          playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleUp);
-          break;
+      if (yDirection !== null) {
+        state.setValues({ direction: yDirection });
+      } else if (xDirection !== null) {
+        state.setValues({ direction: xDirection });
+      }
+      if (xVelocity !== 0 || yVelocity !== 0) {
+        switch (state.values.direction) {
+          case XDirection.Left:
+            playSpriteAnimation(playerSpriteID, PlayerAnimation.WalkLeft);
+            break;
+          case XDirection.Right:
+            playSpriteAnimation(playerSpriteID, PlayerAnimation.WalkRight);
+            break;
+          case YDirection.Down:
+            playSpriteAnimation(playerSpriteID, PlayerAnimation.WalkDown);
+            break;
+          case YDirection.Up:
+            playSpriteAnimation(playerSpriteID, PlayerAnimation.WalkUp);
+            break;
+        }
+      } else {
+        switch (state.values.direction) {
+          case XDirection.Left:
+            playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleLeft);
+            break;
+          case XDirection.Right:
+            playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleRight);
+            break;
+          case YDirection.Down:
+            playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleDown);
+            break;
+          case YDirection.Up:
+            playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleUp);
+            break;
+        }
       }
     }
   });
