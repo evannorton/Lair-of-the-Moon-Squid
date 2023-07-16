@@ -1,35 +1,26 @@
 import {
   createInputPressHandler,
-  createSprite,
+  createSpriteInstance,
   goToLevel,
   lockCameraToEntity,
+  playSpriteInstanceAnimation,
+  spawnEntityInstance,
 } from "pigeon-mode-game-library";
+import { playerSpriteID, titleSpriteID } from "../../sprites";
 import state from "../../state";
 
 const createTitle = (): void => {
-  createSprite<"title">({
-    animations: [
-      {
-        frames: [
-          {
-            height: 144,
-            sourceHeight: 144,
-            sourceWidth: 160,
-            sourceX: 0,
-            sourceY: 0,
-            width: 160,
-          },
-        ],
-        id: "title",
-      },
-    ],
-    condition: (): boolean => state.values.isAtTitle,
+  const titleSpriteInstanceID: string = createSpriteInstance({
     coordinates: {
+      condition: (): boolean => state.values.isAtTitle,
       x: 0,
       y: 0,
     },
-    defaultAnimationID: "title",
-    imagePath: "title",
+    spriteID: titleSpriteID,
+  });
+  playSpriteInstanceAnimation({
+    animationID: "title",
+    spriteInstanceID: titleSpriteInstanceID,
   });
   createInputPressHandler({
     condition: (): boolean => state.values.isAtTitle,
@@ -42,6 +33,22 @@ const createTitle = (): void => {
       }
       goToLevel("test_level");
       lockCameraToEntity("player");
+      const playerSpriteInstanceID: string = createSpriteInstance({
+        spriteID: playerSpriteID,
+      });
+      const playerEntityInstanceID: string = spawnEntityInstance({
+        entityID: "player",
+        height: 16,
+        layerID: "entities",
+        spriteInstanceID: playerSpriteInstanceID,
+        width: 16,
+        x: 0,
+        y: 0,
+      });
+      state.setValues({
+        playerEntityInstanceID,
+        playerSpriteInstanceID,
+      });
     },
   });
 };

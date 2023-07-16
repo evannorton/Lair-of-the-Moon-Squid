@@ -1,186 +1,31 @@
-import { XDirection, YDirection } from "../../types/Direction";
+import { ArrowAnimation, PlayerAnimation, arrowSpriteID } from "../../sprites";
 import {
+  EntityInstanceData,
   createInputPressHandler,
   createInputTickHandler,
-  createSprite,
+  createSpriteInstance,
+  getEntityInstanceData,
   getInputTickHandlerGroupID,
-  moveEntity,
+  moveEntityInstance,
   onTick,
-  playSpriteAnimation,
-  stopEntity,
+  playSpriteInstanceAnimation,
+  spawnEntityInstance,
+  stopEntityInstance,
 } from "pigeon-mode-game-library";
+import { XDirection, YDirection } from "../../types/Direction";
 import state from "../../state";
 
-enum PlayerAnimation {
-  IdleLeft = "idle-left",
-  IdleRight = "idle-right",
-  IdleUp = "idle-up",
-  IdleDown = "idle-down",
-  WalkLeft = "walk-left",
-  WalkRight = "walk-right",
-  WalkUp = "walk-up",
-  WalkDown = "walk-down",
-}
 const isMainGameOngoing = (): boolean => !state.values.isAtTitle;
 const createMain = (): void => {
-  const walkDuration: number = 250;
-  const playerEntityID: string = "player";
-  const playerSpriteID: string = createSprite<PlayerAnimation>({
-    animations: [
-      {
-        frames: [
-          {
-            height: 16,
-            sourceHeight: 16,
-            sourceWidth: 16,
-            sourceX: 0,
-            sourceY: 0,
-            width: 16,
-          },
-        ],
-        id: PlayerAnimation.IdleLeft,
-      },
-      {
-        frames: [
-          {
-            height: 16,
-            sourceHeight: 16,
-            sourceWidth: 16,
-            sourceX: 0,
-            sourceY: 16,
-            width: 16,
-          },
-        ],
-        id: PlayerAnimation.IdleRight,
-      },
-      {
-        frames: [
-          {
-            height: 16,
-            sourceHeight: 16,
-            sourceWidth: 16,
-            sourceX: 0,
-            sourceY: 32,
-            width: 16,
-          },
-        ],
-        id: PlayerAnimation.IdleUp,
-      },
-      {
-        frames: [
-          {
-            height: 16,
-            sourceHeight: 16,
-            sourceWidth: 16,
-            sourceX: 0,
-            sourceY: 48,
-            width: 16,
-          },
-        ],
-        id: PlayerAnimation.IdleDown,
-      },
-      {
-        frames: [
-          {
-            duration: walkDuration,
-            height: 16,
-            sourceHeight: 16,
-            sourceWidth: 16,
-            sourceX: 0,
-            sourceY: 64,
-            width: 16,
-          },
-          {
-            duration: walkDuration,
-            height: 16,
-            sourceHeight: 16,
-            sourceWidth: 16,
-            sourceX: 16,
-            sourceY: 64,
-            width: 16,
-          },
-        ],
-        id: PlayerAnimation.WalkLeft,
-      },
-      {
-        frames: [
-          {
-            duration: walkDuration,
-            height: 16,
-            sourceHeight: 16,
-            sourceWidth: 16,
-            sourceX: 0,
-            sourceY: 80,
-            width: 16,
-          },
-          {
-            duration: walkDuration,
-            height: 16,
-            sourceHeight: 16,
-            sourceWidth: 16,
-            sourceX: 16,
-            sourceY: 80,
-            width: 16,
-          },
-        ],
-        id: PlayerAnimation.WalkRight,
-      },
-      {
-        frames: [
-          {
-            duration: walkDuration,
-            height: 16,
-            sourceHeight: 16,
-            sourceWidth: 16,
-            sourceX: 0,
-            sourceY: 96,
-            width: 16,
-          },
-          {
-            duration: walkDuration,
-            height: 16,
-            sourceHeight: 16,
-            sourceWidth: 16,
-            sourceX: 16,
-            sourceY: 96,
-            width: 16,
-          },
-        ],
-        id: PlayerAnimation.WalkUp,
-      },
-      {
-        frames: [
-          {
-            duration: walkDuration,
-            height: 16,
-            sourceHeight: 16,
-            sourceWidth: 16,
-            sourceX: 0,
-            sourceY: 112,
-            width: 16,
-          },
-          {
-            duration: walkDuration,
-            height: 16,
-            sourceHeight: 16,
-            sourceWidth: 16,
-            sourceX: 16,
-            sourceY: 112,
-            width: 16,
-          },
-        ],
-        id: PlayerAnimation.WalkDown,
-      },
-    ],
-    defaultAnimationID: PlayerAnimation.IdleDown,
-    imagePath: "player",
-  });
   createInputPressHandler({
     condition: (): boolean => isMainGameOngoing(),
     gamepadButtons: [0],
     keys: ["KeyZ"],
     leftClick: true,
     onInput: (): void => {
+      if (state.values.playerEntityInstanceID === null) {
+        throw new Error("A sword input was received with no player entity.");
+      }
       console.log("swing sword");
     },
   });
@@ -189,7 +34,64 @@ const createMain = (): void => {
     gamepadButtons: [1],
     keys: ["KeyX"],
     onInput: (): void => {
-      console.log("shoot arrow");
+      if (state.values.playerEntityInstanceID === null) {
+        throw new Error("An arrow input was received with no player entity.");
+      }
+      const playerEntityData: EntityInstanceData = getEntityInstanceData(
+        state.values.playerEntityInstanceID
+      );
+      let x: number = playerEntityData.x;
+      let y: number = playerEntityData.y;
+      switch (state.values.direction) {
+        case XDirection.Left:
+          x -= 16;
+          break;
+        case XDirection.Right:
+          x += 16;
+          break;
+        case YDirection.Up:
+          y -= 16;
+          break;
+        case YDirection.Down:
+          y += 16;
+          break;
+      }
+      const arrowSpriteInstanceID: string = createSpriteInstance({
+        spriteID: arrowSpriteID,
+      });
+      const arrowEntityInstanceID: string = spawnEntityInstance({
+        entityID: "arrow",
+        height: 16,
+        layerID: "entities",
+        spriteInstanceID: arrowSpriteInstanceID,
+        width: 16,
+        x,
+        y,
+      });
+      switch (state.values.direction) {
+        case XDirection.Left:
+          moveEntityInstance(arrowEntityInstanceID, { xVelocity: -64 });
+          break;
+        case XDirection.Right:
+          moveEntityInstance(arrowEntityInstanceID, { xVelocity: 64 });
+          break;
+        case YDirection.Up:
+          moveEntityInstance(arrowEntityInstanceID, { yVelocity: -64 });
+          break;
+        case YDirection.Down:
+          moveEntityInstance(arrowEntityInstanceID, { yVelocity: 64 });
+          break;
+      }
+      state.setValues({
+        arrows: [
+          ...state.values.arrows,
+          {
+            direction: state.values.direction,
+            entityInstanceID: arrowEntityInstanceID,
+            spriteInstanceID: arrowSpriteInstanceID,
+          },
+        ],
+      });
     },
     rightClick: true,
   });
@@ -223,14 +125,26 @@ const createMain = (): void => {
   });
   onTick((): void => {
     if (isMainGameOngoing()) {
+      if (state.values.playerEntityInstanceID === null) {
+        throw new Error(
+          "A tick was attempted in the main state with no player entity instance."
+        );
+      }
+      if (state.values.playerSpriteInstanceID === null) {
+        throw new Error(
+          "A tick was attempted in the main state with no player sprite instance."
+        );
+      }
+      // Stop player entity
+      stopEntityInstance(state.values.playerEntityInstanceID, {
+        x: true,
+        y: true,
+      });
+      // Move player entity
       const xDirection: XDirection | null =
         getInputTickHandlerGroupID<XDirection>(xInputTickHandlerID);
       const yDirection: YDirection | null =
         getInputTickHandlerGroupID<YDirection>(yInputTickHandlerID);
-      stopEntity(playerEntityID, {
-        x: true,
-        y: true,
-      });
       const xVelocity: number =
         xDirection === XDirection.Left
           ? -64
@@ -243,43 +157,100 @@ const createMain = (): void => {
           : yDirection === YDirection.Down
           ? 64
           : 0;
-      moveEntity(playerEntityID, {
+      moveEntityInstance(state.values.playerEntityInstanceID, {
         xVelocity,
         yVelocity,
       });
+      // Set player direction
       if (yDirection !== null) {
         state.setValues({ direction: yDirection });
       } else if (xDirection !== null) {
         state.setValues({ direction: xDirection });
       }
+      // Play player walk animation
       if (xVelocity !== 0 || yVelocity !== 0) {
         switch (state.values.direction) {
           case XDirection.Left:
-            playSpriteAnimation(playerSpriteID, PlayerAnimation.WalkLeft);
+            playSpriteInstanceAnimation({
+              animationID: PlayerAnimation.WalkLeft,
+              spriteInstanceID: state.values.playerSpriteInstanceID,
+            });
             break;
           case XDirection.Right:
-            playSpriteAnimation(playerSpriteID, PlayerAnimation.WalkRight);
+            playSpriteInstanceAnimation({
+              animationID: PlayerAnimation.WalkRight,
+              spriteInstanceID: state.values.playerSpriteInstanceID,
+            });
             break;
           case YDirection.Down:
-            playSpriteAnimation(playerSpriteID, PlayerAnimation.WalkDown);
+            playSpriteInstanceAnimation({
+              animationID: PlayerAnimation.WalkDown,
+              spriteInstanceID: state.values.playerSpriteInstanceID,
+            });
             break;
           case YDirection.Up:
-            playSpriteAnimation(playerSpriteID, PlayerAnimation.WalkUp);
+            playSpriteInstanceAnimation({
+              animationID: PlayerAnimation.WalkUp,
+              spriteInstanceID: state.values.playerSpriteInstanceID,
+            });
             break;
         }
-      } else {
+      }
+      // Play player idle animation
+      else {
         switch (state.values.direction) {
           case XDirection.Left:
-            playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleLeft);
+            playSpriteInstanceAnimation({
+              animationID: PlayerAnimation.IdleLeft,
+              spriteInstanceID: state.values.playerSpriteInstanceID,
+            });
             break;
           case XDirection.Right:
-            playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleRight);
+            playSpriteInstanceAnimation({
+              animationID: PlayerAnimation.IdleRight,
+              spriteInstanceID: state.values.playerSpriteInstanceID,
+            });
             break;
           case YDirection.Down:
-            playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleDown);
+            playSpriteInstanceAnimation({
+              animationID: PlayerAnimation.IdleDown,
+              spriteInstanceID: state.values.playerSpriteInstanceID,
+            });
             break;
           case YDirection.Up:
-            playSpriteAnimation(playerSpriteID, PlayerAnimation.IdleUp);
+            playSpriteInstanceAnimation({
+              animationID: PlayerAnimation.IdleUp,
+              spriteInstanceID: state.values.playerSpriteInstanceID,
+            });
+            break;
+        }
+      }
+      // Play arrow animations
+      for (const arrow of state.values.arrows) {
+        switch (arrow.direction) {
+          case XDirection.Left:
+            playSpriteInstanceAnimation({
+              animationID: ArrowAnimation.Left,
+              spriteInstanceID: arrow.spriteInstanceID,
+            });
+            break;
+          case XDirection.Right:
+            playSpriteInstanceAnimation({
+              animationID: ArrowAnimation.Right,
+              spriteInstanceID: arrow.spriteInstanceID,
+            });
+            break;
+          case YDirection.Down:
+            playSpriteInstanceAnimation({
+              animationID: ArrowAnimation.Down,
+              spriteInstanceID: arrow.spriteInstanceID,
+            });
+            break;
+          case YDirection.Up:
+            playSpriteInstanceAnimation({
+              animationID: ArrowAnimation.Up,
+              spriteInstanceID: arrow.spriteInstanceID,
+            });
             break;
         }
       }
