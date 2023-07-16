@@ -70,16 +70,16 @@ const createMain = (): void => {
       });
       switch (state.values.direction) {
         case XDirection.Left:
-          moveEntityInstance(arrowEntityInstanceID, { xVelocity: -64 });
+          moveEntityInstance(arrowEntityInstanceID, { xVelocity: -128 });
           break;
         case XDirection.Right:
-          moveEntityInstance(arrowEntityInstanceID, { xVelocity: 64 });
+          moveEntityInstance(arrowEntityInstanceID, { xVelocity: 128 });
           break;
         case YDirection.Up:
-          moveEntityInstance(arrowEntityInstanceID, { yVelocity: -64 });
+          moveEntityInstance(arrowEntityInstanceID, { yVelocity: -128 });
           break;
         case YDirection.Down:
-          moveEntityInstance(arrowEntityInstanceID, { yVelocity: 64 });
+          moveEntityInstance(arrowEntityInstanceID, { yVelocity: 128 });
           break;
       }
       state.setValues({
