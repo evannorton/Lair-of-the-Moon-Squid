@@ -1,25 +1,68 @@
-import { createSprite } from "pigeon-mode-game-library";
-import walkDuration from "./constants/walkDuration";
+import { XDirection, YDirection } from "../types/Direction";
+import {
+  createInputPressHandler,
+  createInputTickHandler,
+  createSprite,
+  createSpriteInstance,
+} from "pigeon-mode-game-library";
+import isShootingArrow from "../functions/isShootingArrow";
+import movementDuration from "../constants/movementDuration";
+import shootArrow from "../functions/shootArrow";
+import state from "../state";
 
-const titleSpriteID: string = createSprite<"title">({
-  animations: [
+export const isMainGameOngoing = (): boolean => !state.values.isAtTitle;
+export const swordInputPressHandlerID: string = createInputPressHandler({
+  condition: isMainGameOngoing,
+  gamepadButtons: [0, 3],
+  keys: ["KeyZ"],
+  leftClick: true,
+  onInput: (): void => {
+    if (state.values.playerEntityInstanceID === null) {
+      throw new Error("A sword input was received with no player entity.");
+    }
+    console.log("swing sword");
+  },
+});
+export const arrowInputPressHandlerID: string = createInputPressHandler({
+  condition: isMainGameOngoing,
+  gamepadButtons: [1, 2],
+  keys: ["KeyX"],
+  onInput: (): void => {
+    if (!isShootingArrow()) {
+      shootArrow();
+    }
+  },
+  rightClick: true,
+});
+export const xInputTickHandlerID: string = createInputTickHandler<XDirection>({
+  groups: [
     {
-      frames: [
-        {
-          height: 144,
-          sourceHeight: 144,
-          sourceWidth: 160,
-          sourceX: 0,
-          sourceY: 0,
-          width: 160,
-        },
-      ],
-      id: "title",
+      gamepadButtons: [14],
+      id: XDirection.Left,
+      keys: ["ArrowLeft", "KeyA"],
+    },
+    {
+      gamepadButtons: [15],
+      id: XDirection.Right,
+      keys: ["ArrowRight", "KeyD"],
     },
   ],
-  imagePath: "title",
 });
-enum PlayerAnimation {
+export const yInputTickHandlerID: string = createInputTickHandler<YDirection>({
+  groups: [
+    {
+      gamepadButtons: [13],
+      id: YDirection.Down,
+      keys: ["ArrowDown", "KeyS"],
+    },
+    {
+      gamepadButtons: [12],
+      id: YDirection.Up,
+      keys: ["ArrowUp", "KeyW"],
+    },
+  ],
+});
+export enum PlayerAnimation {
   IdleLeft = "idle-left",
   IdleRight = "idle-right",
   IdleUp = "idle-up",
@@ -29,7 +72,7 @@ enum PlayerAnimation {
   WalkUp = "walk-up",
   WalkDown = "walk-down",
 }
-const playerSpriteID: string = createSprite<PlayerAnimation>({
+export const playerSpriteID: string = createSprite<PlayerAnimation>({
   animations: [
     {
       frames: [
@@ -86,7 +129,7 @@ const playerSpriteID: string = createSprite<PlayerAnimation>({
     {
       frames: [
         {
-          duration: walkDuration,
+          duration: movementDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -95,7 +138,7 @@ const playerSpriteID: string = createSprite<PlayerAnimation>({
           width: 16,
         },
         {
-          duration: walkDuration,
+          duration: movementDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -109,7 +152,7 @@ const playerSpriteID: string = createSprite<PlayerAnimation>({
     {
       frames: [
         {
-          duration: walkDuration,
+          duration: movementDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -118,7 +161,7 @@ const playerSpriteID: string = createSprite<PlayerAnimation>({
           width: 16,
         },
         {
-          duration: walkDuration,
+          duration: movementDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -132,7 +175,7 @@ const playerSpriteID: string = createSprite<PlayerAnimation>({
     {
       frames: [
         {
-          duration: walkDuration,
+          duration: movementDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -141,7 +184,7 @@ const playerSpriteID: string = createSprite<PlayerAnimation>({
           width: 16,
         },
         {
-          duration: walkDuration,
+          duration: movementDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -155,7 +198,7 @@ const playerSpriteID: string = createSprite<PlayerAnimation>({
     {
       frames: [
         {
-          duration: walkDuration,
+          duration: movementDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -164,7 +207,7 @@ const playerSpriteID: string = createSprite<PlayerAnimation>({
           width: 16,
         },
         {
-          duration: walkDuration,
+          duration: movementDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -178,13 +221,16 @@ const playerSpriteID: string = createSprite<PlayerAnimation>({
   ],
   imagePath: "player",
 });
-enum ArrowAnimation {
+export const playerSpriteInstanceID: string = createSpriteInstance({
+  spriteID: playerSpriteID,
+});
+export enum ArrowAnimation {
   Left = "left",
   Right = "right",
   Up = "up",
   Down = "down",
 }
-const arrowSpriteID: string = createSprite({
+export const arrowSpriteID: string = createSprite({
   animations: [
     {
       frames: [
@@ -241,11 +287,3 @@ const arrowSpriteID: string = createSprite({
   ],
   imagePath: "arrow",
 });
-
-export {
-  titleSpriteID,
-  PlayerAnimation,
-  playerSpriteID,
-  ArrowAnimation,
-  arrowSpriteID,
-};
