@@ -19,7 +19,7 @@ const isMainGameOngoing = (): boolean => !state.values.isAtTitle;
 const createMain = (): void => {
   createInputPressHandler({
     condition: (): boolean => isMainGameOngoing(),
-    gamepadButtons: [0],
+    gamepadButtons: [0, 3],
     keys: ["KeyZ"],
     leftClick: true,
     onInput: (): void => {
@@ -31,7 +31,7 @@ const createMain = (): void => {
   });
   createInputPressHandler({
     condition: (): boolean => isMainGameOngoing(),
-    gamepadButtons: [1],
+    gamepadButtons: [1, 2],
     keys: ["KeyX"],
     onInput: (): void => {
       if (state.values.playerEntityInstanceID === null) {
