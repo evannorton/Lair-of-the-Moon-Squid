@@ -7,7 +7,7 @@ import {
   spawnEntityInstance,
 } from "pigeon-mode-game-library";
 import { XDirection, YDirection } from "../types/Direction";
-import { arrowSpriteID } from "../game/main";
+import { arrowSpriteID } from "../game/main/sprites";
 import state from "../state";
 
 const shootArrow = (): void => {

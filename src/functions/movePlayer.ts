@@ -3,7 +3,10 @@ import {
   getInputTickHandlerGroupID,
   moveEntityInstance,
 } from "pigeon-mode-game-library";
-import { xInputTickHandlerID, yInputTickHandlerID } from "../game/main";
+import {
+  xInputTickHandlerID,
+  yInputTickHandlerID,
+} from "../game/main/inputHandlers";
 import state from "../state";
 
 const movePlayer = (): void => {

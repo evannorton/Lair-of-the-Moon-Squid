@@ -3,7 +3,7 @@ import {
   lockCameraToEntity,
   spawnEntityInstance,
 } from "pigeon-mode-game-library";
-import { playerSpriteInstanceID } from "../game/main";
+import { playerSpriteInstanceID } from "../game/main/spriteInstances";
 import state from "../state";
 
 const startMainGame = (): void => {

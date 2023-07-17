@@ -1,21 +1,18 @@
-import {
-  ArrowAnimation,
-  PlayerAnimation,
-  isMainGameOngoing,
-  playerSpriteInstanceID,
-} from "../game/main";
-import { XDirection, YDirection } from "../types/Direction";
+import { ArrowAnimation, PlayerAnimation } from "./game/main/sprites";
+import { XDirection, YDirection } from "./types/Direction";
 import {
   init,
   isEntityInstanceMoving,
   onTick,
   playSpriteInstanceAnimation,
 } from "pigeon-mode-game-library";
-import { titleSpriteInstanceID } from "../game/title";
-import isShootingArrow from "./isShootingArrow";
-import movePlayer from "./movePlayer";
-import state from "../state";
-import stopPlayer from "./stopPlayer";
+import { isMainGameOngoing } from "./game/main/conditions";
+import { playerSpriteInstanceID } from "./game/main/spriteInstances";
+import { titleSpriteInstanceID } from "./game/title/spriteInstances";
+import isShootingArrow from "./functions/isShootingArrow";
+import movePlayer from "./functions/movePlayer";
+import state from "./state";
+import stopPlayer from "./functions/stopPlayer";
 
 const run = (): void => {
   console.log("Moon Squid is running!");

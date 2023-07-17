@@ -1,3 +1,5 @@
-import run from "./functions/run";
+import "./game/main";
+import "./game/title";
+import run from "./run";
 
 run();
