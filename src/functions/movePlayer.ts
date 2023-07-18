@@ -2,7 +2,7 @@ import { XDirection, YDirection } from "../types/Direction";
 import {
   getInputTickHandlerGroupID,
   moveEntityInstance,
-} from "pigeon-mode-game-library";
+} from "pigeon-mode-game-framework";
 import {
   xInputTickHandlerID,
   yInputTickHandlerID,

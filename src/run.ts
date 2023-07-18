@@ -5,7 +5,7 @@ import {
   isEntityInstanceMoving,
   onTick,
   playSpriteInstanceAnimation,
-} from "pigeon-mode-game-library";
+} from "pigeon-mode-game-framework";
 import { isMainGameOngoing } from "./game/main/conditions";
 import { playerSpriteInstanceID } from "./game/main/spriteInstances";
 import { titleSpriteInstanceID } from "./game/title/spriteInstances";

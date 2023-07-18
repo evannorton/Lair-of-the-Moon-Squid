@@ -2,7 +2,7 @@ import {
   goToLevel,
   lockCameraToEntity,
   spawnEntityInstance,
-} from "pigeon-mode-game-library";
+} from "pigeon-mode-game-framework";
 import { playerSpriteInstanceID } from "../game/main/spriteInstances";
 import state from "../state";
 

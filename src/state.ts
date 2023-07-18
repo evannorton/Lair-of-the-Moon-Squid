@@ -1,4 +1,4 @@
-import { State } from "pigeon-mode-game-library";
+import { State } from "pigeon-mode-game-framework";
 import Direction, { YDirection } from "./types/Direction";
 
 interface Arrow {

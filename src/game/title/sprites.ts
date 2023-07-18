@@ -1,4 +1,4 @@
-import { createSprite } from "pigeon-mode-game-library";
+import { createSprite } from "pigeon-mode-game-framework";
 
 export const titleSpriteID: string = createSprite<"title">({
   animations: [

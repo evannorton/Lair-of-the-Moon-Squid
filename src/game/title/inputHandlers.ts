@@ -1,4 +1,4 @@
-import { createInputPressHandler } from "pigeon-mode-game-library";
+import { createInputPressHandler } from "pigeon-mode-game-framework";
 import { isAtTitle } from "./conditions";
 import startMainGame from "../../functions/startMainGame";
 

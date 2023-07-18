@@ -1,4 +1,4 @@
-import { stopEntityInstance } from "pigeon-mode-game-library";
+import { stopEntityInstance } from "pigeon-mode-game-framework";
 import state from "../state";
 
 const stopPlayer = (): void => {

@@ -1,4 +1,4 @@
-import { createSprite } from "pigeon-mode-game-library";
+import { createSprite } from "pigeon-mode-game-framework";
 import movementDuration from "../../constants/movementDuration";
 
 export enum PlayerAnimation {

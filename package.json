@@ -7,7 +7,7 @@
         "zip": "pigeon zip"
     },
     "dependencies": {
-        "pigeon-mode-game-library": "evannorton/pigeon-mode-game-library"
+        "pigeon-mode-game-framework": "evannorton/pigeon-mode-game-framework"
     },
     "engines": {
         "npm": "9.5.1",

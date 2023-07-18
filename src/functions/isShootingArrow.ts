@@ -1,4 +1,4 @@
-import { getCurrentTime } from "pigeon-mode-game-library";
+import { getCurrentTime } from "pigeon-mode-game-framework";
 import arrowShootDuration from "../constants/arrowShootDuration";
 import state, { Arrow } from "../state";
 

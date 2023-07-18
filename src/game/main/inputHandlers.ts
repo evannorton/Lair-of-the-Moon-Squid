@@ -2,7 +2,7 @@ import { XDirection, YDirection } from "../../types/Direction";
 import {
   createInputPressHandler,
   createInputTickHandler,
-} from "pigeon-mode-game-library";
+} from "pigeon-mode-game-framework";
 import { isMainGameOngoing } from "./conditions";
 import isShootingArrow from "../../functions/isShootingArrow";
 import shootArrow from "../../functions/shootArrow";

@@ -1,4 +1,4 @@
-import { createSpriteInstance } from "pigeon-mode-game-library";
+import { createSpriteInstance } from "pigeon-mode-game-framework";
 import { isAtTitle } from "./conditions";
 import { titleSpriteID } from "./sprites";
 

@@ -5,7 +5,7 @@ import {
   getEntityInstanceData,
   moveEntityInstance,
   spawnEntityInstance,
-} from "pigeon-mode-game-library";
+} from "pigeon-mode-game-framework";
 import { XDirection, YDirection } from "../types/Direction";
 import { arrowSpriteID } from "../game/main/sprites";
 import state from "../state";
