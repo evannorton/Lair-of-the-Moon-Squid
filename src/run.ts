@@ -32,8 +32,37 @@ const run = (): void => {
       if (!isShootingArrow()) {
         movePlayer();
       }
+      // Play player arrow animation
+      if (isShootingArrow()) {
+        switch (state.values.direction) {
+          case XDirection.Left:
+            playSpriteInstanceAnimation({
+              animationID: PlayerAnimation.ArrowLeft,
+              spriteInstanceID: playerSpriteInstanceID,
+            });
+            break;
+          case XDirection.Right:
+            playSpriteInstanceAnimation({
+              animationID: PlayerAnimation.ArrowRight,
+              spriteInstanceID: playerSpriteInstanceID,
+            });
+            break;
+          case YDirection.Down:
+            playSpriteInstanceAnimation({
+              animationID: PlayerAnimation.ArrowDown,
+              spriteInstanceID: playerSpriteInstanceID,
+            });
+            break;
+          case YDirection.Up:
+            playSpriteInstanceAnimation({
+              animationID: PlayerAnimation.ArrowUp,
+              spriteInstanceID: playerSpriteInstanceID,
+            });
+            break;
+        }
+      }
       // Play player walk animation
-      if (isEntityInstanceMoving(state.values.playerEntityInstanceID)) {
+      else if (isEntityInstanceMoving(state.values.playerEntityInstanceID)) {
         switch (state.values.direction) {
           case XDirection.Left:
             playSpriteInstanceAnimation({
