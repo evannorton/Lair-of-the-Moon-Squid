@@ -1,6 +1,6 @@
-import { getCurrentTime } from "pigeon-mode-game-framework";
+import { Arrow, state } from "../state";
 import { arrowShootDuration } from "../constants/arrowShootDuration";
-import { state , Arrow } from "../state";
+import { getCurrentTime } from "pigeon-mode-game-framework";
 
 export const isShootingArrow = (): boolean => {
   if (state.values.arrows.length > 0) {
