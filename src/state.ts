@@ -1,9 +1,9 @@
 import { State } from "pigeon-mode-game-framework";
-import Direction, { YDirection } from "./types/Direction";
+import { Direction , YDirection } from "./types/Direction";
 
-interface Arrow {
-  readonly direction: Direction;
+export interface Arrow {
   readonly entityInstanceID: string;
+  readonly shootDirection: Direction;
   readonly shotAt: number;
   readonly spriteInstanceID: string;
 }
@@ -19,7 +19,4 @@ const defaultState: StateSchema = {
   isAtTitle: true,
   playerEntityInstanceID: null,
 };
-const state: State<StateSchema> = new State(defaultState);
-
-export default state;
-export { Arrow };
+export const state: State<StateSchema> = new State(defaultState);

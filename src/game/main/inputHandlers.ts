@@ -4,9 +4,9 @@ import {
   createInputTickHandler,
 } from "pigeon-mode-game-framework";
 import { isMainGameOngoing } from "./conditions";
-import isShootingArrow from "../../functions/isShootingArrow";
-import shootArrow from "../../functions/shootArrow";
-import state from "../../state";
+import { isShootingArrow } from "../../functions/isShootingArrow";
+import { shootArrow } from "../../functions/shootArrow";
+import { state } from "../../state";
 
 export const swordInputPressHandlerID: string = createInputPressHandler({
   condition: isMainGameOngoing,

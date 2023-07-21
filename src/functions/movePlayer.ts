@@ -7,9 +7,9 @@ import {
   xInputTickHandlerID,
   yInputTickHandlerID,
 } from "../game/main/inputHandlers";
-import state from "../state";
+import { state } from "../state";
 
-const movePlayer = (): void => {
+export const movePlayer = (): void => {
   if (state.values.playerEntityInstanceID === null) {
     throw new Error(
       "An attempt was made to move the player with no player entity instance"
@@ -41,5 +41,3 @@ const movePlayer = (): void => {
     state.setValues({ direction: xDirection });
   }
 };
-
-export default movePlayer;

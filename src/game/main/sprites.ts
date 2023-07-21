@@ -1,5 +1,5 @@
 import { createSprite } from "pigeon-mode-game-framework";
-import movementDuration from "../../constants/movementDuration";
+import { movementDuration } from "../../constants/movementDuration";
 
 export enum PlayerAnimation {
   ArrowLeft = "arrow-left",
@@ -217,10 +217,14 @@ export const playerSpriteID: string = createSprite<PlayerAnimation>({
   imagePath: "player",
 });
 export enum ArrowAnimation {
-  Left = "left",
-  Right = "right",
-  Up = "up",
-  Down = "down",
+  BounceLeft = "bounce-left",
+  BounceRight = "bounce-right",
+  BounceUp = "bounce-up",
+  BounceDown = "bounce-down",
+  ShootLeft = "shoot-left",
+  ShootRight = "shoot-right",
+  ShootUp = "shoot-up",
+  ShootDown = "shoot-down",
 }
 export const arrowSpriteID: string = createSprite({
   animations: [
@@ -235,7 +239,7 @@ export const arrowSpriteID: string = createSprite({
           width: 16,
         },
       ],
-      id: ArrowAnimation.Left,
+      id: ArrowAnimation.ShootLeft,
     },
     {
       frames: [
@@ -248,7 +252,7 @@ export const arrowSpriteID: string = createSprite({
           width: 16,
         },
       ],
-      id: ArrowAnimation.Right,
+      id: ArrowAnimation.ShootRight,
     },
     {
       frames: [
@@ -261,7 +265,7 @@ export const arrowSpriteID: string = createSprite({
           width: 16,
         },
       ],
-      id: ArrowAnimation.Up,
+      id: ArrowAnimation.ShootUp,
     },
     {
       frames: [
@@ -274,7 +278,7 @@ export const arrowSpriteID: string = createSprite({
           width: 16,
         },
       ],
-      id: ArrowAnimation.Down,
+      id: ArrowAnimation.ShootDown,
     },
   ],
   imagePath: "arrow",

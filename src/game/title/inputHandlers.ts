@@ -1,6 +1,6 @@
 import { createInputPressHandler } from "pigeon-mode-game-framework";
 import { isAtTitle } from "./conditions";
-import startMainGame from "../../functions/startMainGame";
+import { startMainGame } from "../../functions/startMainGame";
 
 export const titleInputPressHandlerID: string = createInputPressHandler({
   condition: isAtTitle,

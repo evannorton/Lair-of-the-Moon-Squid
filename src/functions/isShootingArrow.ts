@@ -1,8 +1,8 @@
 import { getCurrentTime } from "pigeon-mode-game-framework";
-import arrowShootDuration from "../constants/arrowShootDuration";
-import state, { Arrow } from "../state";
+import { arrowShootDuration } from "../constants/arrowShootDuration";
+import { state , Arrow } from "../state";
 
-const isShootingArrow = (): boolean => {
+export const isShootingArrow = (): boolean => {
   if (state.values.arrows.length > 0) {
     const mostRecentArrow: Arrow =
       state.values.arrows[state.values.arrows.length - 1];
@@ -10,5 +10,3 @@ const isShootingArrow = (): boolean => {
   }
   return false;
 };
-
-export default isShootingArrow;

@@ -9,17 +9,16 @@ import {
 import { isMainGameOngoing } from "./game/main/conditions";
 import { playerSpriteInstanceID } from "./game/main/spriteInstances";
 import { titleSpriteInstanceID } from "./game/title/spriteInstances";
-import isShootingArrow from "./functions/isShootingArrow";
-import movePlayer from "./functions/movePlayer";
-import state from "./state";
-import stopPlayer from "./functions/stopPlayer";
+import { isShootingArrow } from "./functions/isShootingArrow";
+import { movePlayer } from "./functions/movePlayer";
+import { state } from "./state";
+import { stopPlayer } from "./functions/stopPlayer";
 
-const run = (): void => {
+export const run = (): void => {
   console.log("Moon Squid is running!");
   init();
-  playSpriteInstanceAnimation({
+  playSpriteInstanceAnimation(titleSpriteInstanceID, {
     animationID: "title",
-    spriteInstanceID: titleSpriteInstanceID,
   });
   onTick((): void => {
     if (isMainGameOngoing()) {
@@ -36,27 +35,27 @@ const run = (): void => {
       if (isShootingArrow()) {
         switch (state.values.direction) {
           case XDirection.Left:
-            playSpriteInstanceAnimation({
+            playSpriteInstanceAnimation(playerSpriteInstanceID,{
               animationID: PlayerAnimation.ArrowLeft,
-              spriteInstanceID: playerSpriteInstanceID,
+              
             });
             break;
           case XDirection.Right:
-            playSpriteInstanceAnimation({
+            playSpriteInstanceAnimation(playerSpriteInstanceID,{
               animationID: PlayerAnimation.ArrowRight,
-              spriteInstanceID: playerSpriteInstanceID,
+              
             });
             break;
           case YDirection.Down:
-            playSpriteInstanceAnimation({
+            playSpriteInstanceAnimation(playerSpriteInstanceID,{
               animationID: PlayerAnimation.ArrowDown,
-              spriteInstanceID: playerSpriteInstanceID,
+              
             });
             break;
           case YDirection.Up:
-            playSpriteInstanceAnimation({
+            playSpriteInstanceAnimation(playerSpriteInstanceID,{
               animationID: PlayerAnimation.ArrowUp,
-              spriteInstanceID: playerSpriteInstanceID,
+              
             });
             break;
         }
@@ -65,27 +64,27 @@ const run = (): void => {
       else if (isEntityInstanceMoving(state.values.playerEntityInstanceID)) {
         switch (state.values.direction) {
           case XDirection.Left:
-            playSpriteInstanceAnimation({
+            playSpriteInstanceAnimation(playerSpriteInstanceID,{
               animationID: PlayerAnimation.WalkLeft,
-              spriteInstanceID: playerSpriteInstanceID,
+              
             });
             break;
           case XDirection.Right:
-            playSpriteInstanceAnimation({
+            playSpriteInstanceAnimation(playerSpriteInstanceID,{
               animationID: PlayerAnimation.WalkRight,
-              spriteInstanceID: playerSpriteInstanceID,
+              
             });
             break;
           case YDirection.Down:
-            playSpriteInstanceAnimation({
+            playSpriteInstanceAnimation(playerSpriteInstanceID,{
               animationID: PlayerAnimation.WalkDown,
-              spriteInstanceID: playerSpriteInstanceID,
+              
             });
             break;
           case YDirection.Up:
-            playSpriteInstanceAnimation({
+            playSpriteInstanceAnimation(playerSpriteInstanceID,{
               animationID: PlayerAnimation.WalkUp,
-              spriteInstanceID: playerSpriteInstanceID,
+              
             });
             break;
         }
@@ -94,56 +93,48 @@ const run = (): void => {
       else {
         switch (state.values.direction) {
           case XDirection.Left:
-            playSpriteInstanceAnimation({
+            playSpriteInstanceAnimation(playerSpriteInstanceID,{
               animationID: PlayerAnimation.IdleLeft,
-              spriteInstanceID: playerSpriteInstanceID,
             });
             break;
           case XDirection.Right:
-            playSpriteInstanceAnimation({
+            playSpriteInstanceAnimation(playerSpriteInstanceID,{
               animationID: PlayerAnimation.IdleRight,
-              spriteInstanceID: playerSpriteInstanceID,
             });
             break;
           case YDirection.Down:
-            playSpriteInstanceAnimation({
+            playSpriteInstanceAnimation(playerSpriteInstanceID,{
               animationID: PlayerAnimation.IdleDown,
-              spriteInstanceID: playerSpriteInstanceID,
             });
             break;
           case YDirection.Up:
-            playSpriteInstanceAnimation({
+            playSpriteInstanceAnimation(playerSpriteInstanceID,{
               animationID: PlayerAnimation.IdleUp,
-              spriteInstanceID: playerSpriteInstanceID,
             });
             break;
         }
       }
       // Play arrow animations
       for (const arrow of state.values.arrows) {
-        switch (arrow.direction) {
+        switch (arrow.shootDirection) {
           case XDirection.Left:
-            playSpriteInstanceAnimation({
-              animationID: ArrowAnimation.Left,
-              spriteInstanceID: arrow.spriteInstanceID,
+            playSpriteInstanceAnimation(arrow.spriteInstanceID,{
+              animationID: ArrowAnimation.ShootLeft
             });
             break;
           case XDirection.Right:
-            playSpriteInstanceAnimation({
-              animationID: ArrowAnimation.Right,
-              spriteInstanceID: arrow.spriteInstanceID,
+            playSpriteInstanceAnimation(arrow.spriteInstanceID,{
+              animationID: ArrowAnimation.ShootRight
             });
             break;
           case YDirection.Down:
-            playSpriteInstanceAnimation({
-              animationID: ArrowAnimation.Down,
-              spriteInstanceID: arrow.spriteInstanceID,
+            playSpriteInstanceAnimation(arrow.spriteInstanceID,{
+              animationID: ArrowAnimation.ShootDown
             });
             break;
           case YDirection.Up:
-            playSpriteInstanceAnimation({
-              animationID: ArrowAnimation.Up,
-              spriteInstanceID: arrow.spriteInstanceID,
+            playSpriteInstanceAnimation(arrow.spriteInstanceID,{
+              animationID: ArrowAnimation.ShootUp
             });
             break;
         }
@@ -151,5 +142,3 @@ const run = (): void => {
     }
   });
 };
-
-export default run;

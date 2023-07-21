@@ -1,3 +1,1 @@
-const movementDuration: number = 250;
-
-export default movementDuration;
+export const movementDuration: number = 250;

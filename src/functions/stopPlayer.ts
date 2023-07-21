@@ -1,7 +1,7 @@
 import { stopEntityInstance } from "pigeon-mode-game-framework";
-import state from "../state";
+import { state } from "../state";
 
-const stopPlayer = (): void => {
+export const stopPlayer = (): void => {
   if (state.values.playerEntityInstanceID === null) {
     throw new Error(
       "A attempt was made to stop the player with no player entity instance."
@@ -12,5 +12,3 @@ const stopPlayer = (): void => {
     y: true,
   });
 };
-
-export default stopPlayer;

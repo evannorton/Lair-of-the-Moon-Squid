@@ -1,3 +1,1 @@
-const arrowShootDuration: number = 375;
-
-export default arrowShootDuration;
+export const arrowShootDuration: number = 375;
