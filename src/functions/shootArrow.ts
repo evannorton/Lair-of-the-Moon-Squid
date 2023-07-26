@@ -60,13 +60,14 @@ export const shootArrow = (): void => {
           "An arrow collided with an entity instance, but the arrow could not be found in state.",
         );
       }
+      arrow.isBouncing = true;
       switch (arrow.shootDirection) {
         case XDirection.Left:
           moveEntityInstance(arrowEntityInstanceID, {
             xVelocity: Math.floor(arrowShootSpeed / 2),
           });
           playSpriteInstanceAnimation(arrowSpriteInstanceID, {
-            animationID: ArrowAnimation.BounceLeft,
+            animationID: ArrowAnimation.BounceRight,
           });
           break;
         case XDirection.Right:
@@ -74,7 +75,7 @@ export const shootArrow = (): void => {
             xVelocity: -Math.floor(arrowShootSpeed / 2),
           });
           playSpriteInstanceAnimation(arrowSpriteInstanceID, {
-            animationID: ArrowAnimation.BounceRight,
+            animationID: ArrowAnimation.BounceLeft,
           });
           break;
         case YDirection.Up:
@@ -82,7 +83,7 @@ export const shootArrow = (): void => {
             yVelocity: Math.floor(arrowShootSpeed / 2),
           });
           playSpriteInstanceAnimation(arrowSpriteInstanceID, {
-            animationID: ArrowAnimation.BounceUp,
+            animationID: ArrowAnimation.BounceDown,
           });
           break;
         case YDirection.Down:
@@ -90,7 +91,7 @@ export const shootArrow = (): void => {
             yVelocity: -Math.floor(arrowShootSpeed / 2),
           });
           playSpriteInstanceAnimation(arrowSpriteInstanceID, {
-            animationID: ArrowAnimation.BounceDown,
+            animationID: ArrowAnimation.BounceUp,
           });
           break;
       }
@@ -123,6 +124,7 @@ export const shootArrow = (): void => {
       ...state.values.arrows,
       {
         entityInstanceID: arrowEntityInstanceID,
+        isBouncing: false,
         shootDirection: state.values.direction,
         shotAt: getCurrentTime(),
         spriteInstanceID: arrowSpriteInstanceID,

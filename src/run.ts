@@ -108,27 +108,29 @@ export const run = (): void => {
       }
       // Play arrow animations
       for (const arrow of state.values.arrows) {
-        switch (arrow.shootDirection) {
-          case XDirection.Left:
-            playSpriteInstanceAnimation(arrow.spriteInstanceID, {
-              animationID: ArrowAnimation.ShootLeft,
-            });
-            break;
-          case XDirection.Right:
-            playSpriteInstanceAnimation(arrow.spriteInstanceID, {
-              animationID: ArrowAnimation.ShootRight,
-            });
-            break;
-          case YDirection.Down:
-            playSpriteInstanceAnimation(arrow.spriteInstanceID, {
-              animationID: ArrowAnimation.ShootDown,
-            });
-            break;
-          case YDirection.Up:
-            playSpriteInstanceAnimation(arrow.spriteInstanceID, {
-              animationID: ArrowAnimation.ShootUp,
-            });
-            break;
+        if (!arrow.isBouncing) {
+          switch (arrow.shootDirection) {
+            case XDirection.Left:
+              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                animationID: ArrowAnimation.ShootLeft,
+              });
+              break;
+            case XDirection.Right:
+              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                animationID: ArrowAnimation.ShootRight,
+              });
+              break;
+            case YDirection.Down:
+              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                animationID: ArrowAnimation.ShootDown,
+              });
+              break;
+            case YDirection.Up:
+              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                animationID: ArrowAnimation.ShootUp,
+              });
+              break;
+          }
         }
       }
     }

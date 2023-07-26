@@ -3,6 +3,7 @@ import { State } from "pigeon-mode-game-framework";
 
 export interface Arrow {
   readonly entityInstanceID: string;
+  isBouncing: boolean;
   readonly shootDirection: Direction;
   readonly shotAt: number;
   readonly spriteInstanceID: string;
