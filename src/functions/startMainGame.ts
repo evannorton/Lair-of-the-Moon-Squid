@@ -9,7 +9,6 @@ import { state } from "../state";
 export const startMainGame = (): void => {
   state.setValues({ isAtTitle: false });
   goToLevel("test_level");
-  lockCameraToEntityInstance("player");
   const playerEntityInstanceID: string = spawnEntityInstance({
     entityID: "player",
     height: 16,
@@ -19,6 +18,7 @@ export const startMainGame = (): void => {
     x: 0,
     y: 0,
   });
+  lockCameraToEntityInstance(playerEntityInstanceID);
   state.setValues({
     playerEntityInstanceID,
   });

@@ -1,6 +1,9 @@
 import { ArrowAnimation, PlayerAnimation } from "./game/main/sprites";
 import { XDirection, YDirection } from "./types/Direction";
+import { arrowBounceDuration } from "./constants/arrowBounceDuration";
 import {
+  despawnEntityInstance,
+  getCurrentTime,
   init,
   isEntityInstanceMoving,
   onTick,
@@ -21,6 +24,7 @@ export const run = (): void => {
     animationID: "title",
   });
   onTick((): void => {
+    const currentTime: number = getCurrentTime();
     if (isMainGameOngoing()) {
       if (state.values.playerEntityInstanceID === null) {
         throw new Error(
@@ -30,6 +34,12 @@ export const run = (): void => {
       stopPlayer();
       if (!isShootingArrow()) {
         movePlayer();
+      }
+      for (const [arrowEntityInstanceID, arrow] of state.values.arrows) {
+        if (currentTime - arrow.shotAt > arrowBounceDuration * 3) {
+          despawnEntityInstance(arrowEntityInstanceID);
+          state.values.arrows.delete(arrowEntityInstanceID);
+        }
       }
       // Play player arrow animation
       if (isShootingArrow()) {
@@ -107,8 +117,31 @@ export const run = (): void => {
         }
       }
       // Play arrow animations
-      for (const arrow of state.values.arrows) {
-        if (!arrow.isBouncing) {
+      for (const [, arrow] of state.values.arrows) {
+        if (arrow.isBouncing) {
+          switch (arrow.shootDirection) {
+            case XDirection.Left:
+              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                animationID: ArrowAnimation.BounceRight,
+              });
+              break;
+            case XDirection.Right:
+              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                animationID: ArrowAnimation.BounceLeft,
+              });
+              break;
+            case YDirection.Up:
+              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                animationID: ArrowAnimation.BounceDown,
+              });
+              break;
+            case YDirection.Down:
+              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                animationID: ArrowAnimation.BounceUp,
+              });
+              break;
+          }
+        } else {
           switch (arrow.shootDirection) {
             case XDirection.Left:
               playSpriteInstanceAnimation(arrow.spriteInstanceID, {

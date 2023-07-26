@@ -1,5 +1,4 @@
 import { Arrow, state } from "../state";
-import { ArrowAnimation, arrowSpriteID } from "../game/main/sprites";
 import {
   EntityInstanceData,
   createSpriteInstance,
@@ -7,12 +6,12 @@ import {
   getCurrentTime,
   getEntityInstanceData,
   moveEntityInstance,
-  playSpriteInstanceAnimation,
   spawnEntityInstance,
   stopEntityInstance,
 } from "pigeon-mode-game-framework";
 import { XDirection, YDirection } from "../types/Direction";
 import { arrowShootSpeed } from "../constants/arrowShootSpeed";
+import { arrowSpriteID } from "../game/main/sprites";
 
 export const shootArrow = (): void => {
   if (state.values.playerEntityInstanceID === null) {
@@ -51,10 +50,7 @@ export const shootArrow = (): void => {
         y: true,
       });
       const arrow: Arrow | null =
-        state.values.arrows.find(
-          (stateArrow: Arrow): boolean =>
-            arrowEntityInstanceID === stateArrow.entityInstanceID,
-        ) ?? null;
+        state.values.arrows.get(arrowEntityInstanceID) ?? null;
       if (arrow === null) {
         throw new Error(
           "An arrow collided with an entity instance, but the arrow could not be found in state.",
@@ -66,32 +62,20 @@ export const shootArrow = (): void => {
           moveEntityInstance(arrowEntityInstanceID, {
             xVelocity: Math.floor(arrowShootSpeed / 2),
           });
-          playSpriteInstanceAnimation(arrowSpriteInstanceID, {
-            animationID: ArrowAnimation.BounceRight,
-          });
           break;
         case XDirection.Right:
           moveEntityInstance(arrowEntityInstanceID, {
             xVelocity: -Math.floor(arrowShootSpeed / 2),
-          });
-          playSpriteInstanceAnimation(arrowSpriteInstanceID, {
-            animationID: ArrowAnimation.BounceLeft,
           });
           break;
         case YDirection.Up:
           moveEntityInstance(arrowEntityInstanceID, {
             yVelocity: Math.floor(arrowShootSpeed / 2),
           });
-          playSpriteInstanceAnimation(arrowSpriteInstanceID, {
-            animationID: ArrowAnimation.BounceDown,
-          });
           break;
         case YDirection.Down:
           moveEntityInstance(arrowEntityInstanceID, {
             yVelocity: -Math.floor(arrowShootSpeed / 2),
-          });
-          playSpriteInstanceAnimation(arrowSpriteInstanceID, {
-            animationID: ArrowAnimation.BounceUp,
           });
           break;
       }
@@ -119,16 +103,12 @@ export const shootArrow = (): void => {
       moveEntityInstance(arrowEntityInstanceID, { yVelocity: arrowShootSpeed });
       break;
   }
-  state.setValues({
-    arrows: [
-      ...state.values.arrows,
-      {
-        entityInstanceID: arrowEntityInstanceID,
-        isBouncing: false,
-        shootDirection: state.values.direction,
-        shotAt: getCurrentTime(),
-        spriteInstanceID: arrowSpriteInstanceID,
-      },
-    ],
+  const arrows: Map<string, Arrow> = new Map(state.values.arrows);
+  arrows.set(arrowEntityInstanceID, {
+    isBouncing: false,
+    shootDirection: state.values.direction,
+    shotAt: getCurrentTime(),
+    spriteInstanceID: arrowSpriteInstanceID,
   });
+  state.setValues({ arrows });
 };
