@@ -8,6 +8,7 @@ import {
   isEntityInstanceMoving,
   onTick,
   playSpriteInstanceAnimation,
+  removeSpriteInstance,
 } from "pigeon-mode-game-framework";
 import { isMainGameOngoing } from "./game/main/conditions";
 import { isShootingArrow } from "./functions/isShootingArrow";
@@ -37,6 +38,7 @@ export const run = (): void => {
       }
       for (const [arrowEntityInstanceID, arrow] of state.values.arrows) {
         if (currentTime - arrow.shotAt > arrowBounceDuration * 3) {
+          removeSpriteInstance(arrow.spriteInstanceID);
           despawnEntityInstance(arrowEntityInstanceID);
           state.values.arrows.delete(arrowEntityInstanceID);
         }
