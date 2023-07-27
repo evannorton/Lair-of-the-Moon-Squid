@@ -1,13 +1,16 @@
 import {
   goToLevel,
   lockCameraToEntityInstance,
+  removeSpriteInstance,
   spawnEntityInstance,
 } from "pigeon-mode-game-framework";
 import { playerSpriteInstanceID } from "../game/main/spriteInstances";
 import { state } from "../state";
+import { titleSpriteInstanceID } from "../game/title/spriteInstances";
 
 export const startMainGame = (): void => {
   state.setValues({ isAtTitle: false });
+  removeSpriteInstance(titleSpriteInstanceID);
   goToLevel("test_level");
   const playerEntityInstanceID: string = spawnEntityInstance({
     entityID: "player",
