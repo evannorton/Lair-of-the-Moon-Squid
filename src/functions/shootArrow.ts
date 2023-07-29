@@ -1,24 +1,25 @@
-import { Arrow, state } from "../state";
+import { Arrow } from "../types/Arrow";
 import {
-  EntityInstanceData,
+  EntityData,
   createSpriteInstance,
-  disableEntityInstanceCollision,
+  disableEntityCollision,
   getCurrentTime,
-  getEntityInstanceData,
-  moveEntityInstance,
-  spawnEntityInstance,
-  stopEntityInstance,
+  getEntityData,
+  moveEntity,
+  spawnEntity,
+  stopEntity,
 } from "pigeon-mode-game-framework";
 import { XDirection, YDirection } from "../types/Direction";
 import { arrowShootSpeed } from "../constants/arrowShootSpeed";
 import { arrowSpriteID } from "../game/main/sprites";
+import { state } from "../state";
 
 export const shootArrow = (): void => {
-  if (state.values.playerEntityInstanceID === null) {
+  if (state.values.playerEntityID === null) {
     throw new Error("An arrow input was received with no player entity.");
   }
-  const playerEntityData: EntityInstanceData = getEntityInstanceData(
-    state.values.playerEntityInstanceID,
+  const playerEntityData: EntityData = getEntityData(
+    state.values.playerEntityID,
   );
   let x: number = playerEntityData.x;
   let y: number = playerEntityData.y;
@@ -39,18 +40,18 @@ export const shootArrow = (): void => {
   const arrowSpriteInstanceID: string = createSpriteInstance({
     spriteID: arrowSpriteID,
   });
-  const arrowEntityInstanceID: string = spawnEntityInstance({
+  const arrowEntityID: string = spawnEntity({
     entityID: "arrow",
     height: 16,
     layerID: "entities",
     onCollision: (): void => {
-      disableEntityInstanceCollision(arrowEntityInstanceID);
-      stopEntityInstance(arrowEntityInstanceID, {
+      disableEntityCollision(arrowEntityID);
+      stopEntity(arrowEntityID, {
         x: true,
         y: true,
       });
       const arrow: Arrow | null =
-        state.values.arrows.get(arrowEntityInstanceID) ?? null;
+        state.values.arrows.get(arrowEntityID) ?? null;
       if (arrow === null) {
         throw new Error(
           "An arrow collided with an entity instance, but the arrow could not be found in state.",
@@ -59,22 +60,22 @@ export const shootArrow = (): void => {
       arrow.isBouncing = true;
       switch (arrow.shootDirection) {
         case XDirection.Left:
-          moveEntityInstance(arrowEntityInstanceID, {
+          moveEntity(arrowEntityID, {
             xVelocity: Math.floor(arrowShootSpeed / 2),
           });
           break;
         case XDirection.Right:
-          moveEntityInstance(arrowEntityInstanceID, {
+          moveEntity(arrowEntityID, {
             xVelocity: -Math.floor(arrowShootSpeed / 2),
           });
           break;
         case YDirection.Up:
-          moveEntityInstance(arrowEntityInstanceID, {
+          moveEntity(arrowEntityID, {
             yVelocity: Math.floor(arrowShootSpeed / 2),
           });
           break;
         case YDirection.Down:
-          moveEntityInstance(arrowEntityInstanceID, {
+          moveEntity(arrowEntityID, {
             yVelocity: -Math.floor(arrowShootSpeed / 2),
           });
           break;
@@ -84,27 +85,29 @@ export const shootArrow = (): void => {
     width: 16,
     x,
     y,
+    zIndex: 2,
   });
   switch (state.values.direction) {
     case XDirection.Left:
-      moveEntityInstance(arrowEntityInstanceID, {
+      moveEntity(arrowEntityID, {
         xVelocity: -arrowShootSpeed,
       });
       break;
     case XDirection.Right:
-      moveEntityInstance(arrowEntityInstanceID, { xVelocity: arrowShootSpeed });
+      moveEntity(arrowEntityID, { xVelocity: arrowShootSpeed });
       break;
     case YDirection.Up:
-      moveEntityInstance(arrowEntityInstanceID, {
+      moveEntity(arrowEntityID, {
         yVelocity: -arrowShootSpeed,
       });
       break;
     case YDirection.Down:
-      moveEntityInstance(arrowEntityInstanceID, { yVelocity: arrowShootSpeed });
+      moveEntity(arrowEntityID, { yVelocity: arrowShootSpeed });
       break;
   }
   const arrows: Map<string, Arrow> = new Map(state.values.arrows);
-  arrows.set(arrowEntityInstanceID, {
+  arrows.set(arrowEntityID, {
+    entityID: arrowEntityID,
     isBouncing: false,
     shootDirection: state.values.direction,
     shotAt: getCurrentTime(),

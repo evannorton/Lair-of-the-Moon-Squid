@@ -1,7 +1,7 @@
 import { XDirection, YDirection } from "../types/Direction";
 import {
   getInputTickHandlerGroupID,
-  moveEntityInstance,
+  moveEntity,
 } from "pigeon-mode-game-framework";
 import { state } from "../state";
 import {
@@ -10,7 +10,7 @@ import {
 } from "../game/main/inputHandlers";
 
 export const movePlayer = (): void => {
-  if (state.values.playerEntityInstanceID === null) {
+  if (state.values.playerEntityID === null) {
     throw new Error(
       "An attempt was made to move the player with no player entity instance",
     );
@@ -31,7 +31,7 @@ export const movePlayer = (): void => {
       : yDirection === YDirection.Down
       ? 64
       : 0;
-  moveEntityInstance(state.values.playerEntityInstanceID, {
+  moveEntity(state.values.playerEntityID, {
     xVelocity,
     yVelocity,
   });

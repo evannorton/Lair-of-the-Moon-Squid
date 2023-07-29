@@ -14,7 +14,7 @@ export const swordInputPressHandlerID: string = createInputPressHandler({
   keys: ["KeyZ"],
   leftClick: true,
   onInput: (): void => {
-    if (state.values.playerEntityInstanceID === null) {
+    if (state.values.playerEntityID === null) {
       throw new Error("A sword input was received with no player entity.");
     }
     console.log("swing sword");

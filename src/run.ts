@@ -2,10 +2,10 @@ import { ArrowAnimation, PlayerAnimation } from "./game/main/sprites";
 import { XDirection, YDirection } from "./types/Direction";
 import { arrowBounceDuration } from "./constants/arrowBounceDuration";
 import {
-  despawnEntityInstance,
+  despawnEntity,
   getCurrentTime,
   init,
-  isEntityInstanceMoving,
+  isEntityMoving,
   onTick,
   playSpriteInstanceAnimation,
   removeSpriteInstance,
@@ -27,7 +27,7 @@ export const run = (): void => {
   onTick((): void => {
     const currentTime: number = getCurrentTime();
     if (isMainGameOngoing()) {
-      if (state.values.playerEntityInstanceID === null) {
+      if (state.values.playerEntityID === null) {
         throw new Error(
           "An attempt was made to update the main game with no player entity instance",
         );
@@ -35,13 +35,6 @@ export const run = (): void => {
       stopPlayer();
       if (!isShootingArrow()) {
         movePlayer();
-      }
-      for (const [arrowEntityInstanceID, arrow] of state.values.arrows) {
-        if (currentTime - arrow.shotAt > arrowBounceDuration * 3) {
-          removeSpriteInstance(arrow.spriteInstanceID);
-          despawnEntityInstance(arrowEntityInstanceID);
-          state.values.arrows.delete(arrowEntityInstanceID);
-        }
       }
       // Play player arrow animation
       if (isShootingArrow()) {
@@ -56,20 +49,20 @@ export const run = (): void => {
               animationID: PlayerAnimation.ArrowRight,
             });
             break;
-          case YDirection.Down:
-            playSpriteInstanceAnimation(playerSpriteInstanceID, {
-              animationID: PlayerAnimation.ArrowDown,
-            });
-            break;
           case YDirection.Up:
             playSpriteInstanceAnimation(playerSpriteInstanceID, {
               animationID: PlayerAnimation.ArrowUp,
             });
             break;
+          case YDirection.Down:
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.ArrowDown,
+            });
+            break;
         }
       }
       // Play player walk animation
-      else if (isEntityInstanceMoving(state.values.playerEntityInstanceID)) {
+      else if (isEntityMoving(state.values.playerEntityID)) {
         switch (state.values.direction) {
           case XDirection.Left:
             playSpriteInstanceAnimation(playerSpriteInstanceID, {
@@ -81,14 +74,14 @@ export const run = (): void => {
               animationID: PlayerAnimation.WalkRight,
             });
             break;
-          case YDirection.Down:
-            playSpriteInstanceAnimation(playerSpriteInstanceID, {
-              animationID: PlayerAnimation.WalkDown,
-            });
-            break;
           case YDirection.Up:
             playSpriteInstanceAnimation(playerSpriteInstanceID, {
               animationID: PlayerAnimation.WalkUp,
+            });
+            break;
+          case YDirection.Down:
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.WalkDown,
             });
             break;
         }
@@ -106,65 +99,100 @@ export const run = (): void => {
               animationID: PlayerAnimation.IdleRight,
             });
             break;
-          case YDirection.Down:
-            playSpriteInstanceAnimation(playerSpriteInstanceID, {
-              animationID: PlayerAnimation.IdleDown,
-            });
-            break;
           case YDirection.Up:
             playSpriteInstanceAnimation(playerSpriteInstanceID, {
               animationID: PlayerAnimation.IdleUp,
             });
             break;
+          case YDirection.Down:
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleDown,
+            });
+            break;
         }
       }
-      // Play arrow animations
-      for (const [, arrow] of state.values.arrows) {
-        if (arrow.isBouncing) {
-          switch (arrow.shootDirection) {
-            case XDirection.Left:
-              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
-                animationID: ArrowAnimation.BounceRight,
-              });
-              break;
-            case XDirection.Right:
-              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
-                animationID: ArrowAnimation.BounceLeft,
-              });
-              break;
-            case YDirection.Up:
-              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
-                animationID: ArrowAnimation.BounceDown,
-              });
-              break;
-            case YDirection.Down:
-              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
-                animationID: ArrowAnimation.BounceUp,
-              });
-              break;
-          }
+      // Monsters
+      for (const [, monster] of state.values.monsters) {
+        // Play monster idle animation
+        switch (monster.direction) {
+          case XDirection.Left:
+            playSpriteInstanceAnimation(monster.spriteInstanceID, {
+              animationID: monster.idleLeftAnimationID,
+            });
+            break;
+          case XDirection.Right:
+            playSpriteInstanceAnimation(monster.spriteInstanceID, {
+              animationID: monster.idleRightAnimationID,
+            });
+            break;
+          case YDirection.Up:
+            playSpriteInstanceAnimation(monster.spriteInstanceID, {
+              animationID: monster.idleUpAnimationID,
+            });
+            break;
+          case YDirection.Down:
+            playSpriteInstanceAnimation(monster.spriteInstanceID, {
+              animationID: monster.idleDownAnimationID,
+            });
+            break;
+        }
+      }
+      // Arrows
+      for (const [arrowID, arrow] of state.values.arrows) {
+        if (currentTime - arrow.shotAt > arrowBounceDuration * 3) {
+          // Remove arrow
+          removeSpriteInstance(arrow.spriteInstanceID);
+          despawnEntity(arrow.entityID);
+          state.values.arrows.delete(arrowID);
         } else {
-          switch (arrow.shootDirection) {
-            case XDirection.Left:
-              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
-                animationID: ArrowAnimation.ShootLeft,
-              });
-              break;
-            case XDirection.Right:
-              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
-                animationID: ArrowAnimation.ShootRight,
-              });
-              break;
-            case YDirection.Down:
-              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
-                animationID: ArrowAnimation.ShootDown,
-              });
-              break;
-            case YDirection.Up:
-              playSpriteInstanceAnimation(arrow.spriteInstanceID, {
-                animationID: ArrowAnimation.ShootUp,
-              });
-              break;
+          if (arrow.isBouncing) {
+            // Play arrow bounce animation
+            switch (arrow.shootDirection) {
+              case XDirection.Left:
+                playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                  animationID: ArrowAnimation.BounceRight,
+                });
+                break;
+              case XDirection.Right:
+                playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                  animationID: ArrowAnimation.BounceLeft,
+                });
+                break;
+              case YDirection.Up:
+                playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                  animationID: ArrowAnimation.BounceDown,
+                });
+                break;
+              case YDirection.Down:
+                playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                  animationID: ArrowAnimation.BounceUp,
+                });
+                break;
+            }
+          } else {
+            // Play arrow shoot animation
+            switch (arrow.shootDirection) {
+              case XDirection.Left:
+                playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                  animationID: ArrowAnimation.ShootLeft,
+                });
+                break;
+              case XDirection.Right:
+                playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                  animationID: ArrowAnimation.ShootRight,
+                });
+                break;
+              case YDirection.Up:
+                playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                  animationID: ArrowAnimation.ShootUp,
+                });
+                break;
+              case YDirection.Down:
+                playSpriteInstanceAnimation(arrow.spriteInstanceID, {
+                  animationID: ArrowAnimation.ShootDown,
+                });
+                break;
+            }
           }
         }
       }

@@ -1,13 +1,13 @@
 import { state } from "../state";
-import { stopEntityInstance } from "pigeon-mode-game-framework";
+import { stopEntity } from "pigeon-mode-game-framework";
 
 export const stopPlayer = (): void => {
-  if (state.values.playerEntityInstanceID === null) {
+  if (state.values.playerEntityID === null) {
     throw new Error(
       "A attempt was made to stop the player with no player entity instance.",
     );
   }
-  stopEntityInstance(state.values.playerEntityInstanceID, {
+  stopEntity(state.values.playerEntityID, {
     x: true,
     y: true,
   });

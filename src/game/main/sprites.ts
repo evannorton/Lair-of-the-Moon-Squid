@@ -217,6 +217,69 @@ export const playerSpriteID: string = createSprite<PlayerAnimation>({
   ],
   imagePath: "player",
 });
+export enum MoblinAnimation {
+  IdleLeft = "idle-left",
+  IdleRight = "idle-right",
+  IdleUp = "idle-up",
+  IdleDown = "idle-down",
+}
+export const moblinSpriteID: string = createSprite<MoblinAnimation>({
+  animations: [
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 0,
+          width: 16,
+        },
+      ],
+      id: MoblinAnimation.IdleLeft,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 16,
+          width: 16,
+        },
+      ],
+      id: MoblinAnimation.IdleRight,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 32,
+          width: 16,
+        },
+      ],
+      id: MoblinAnimation.IdleUp,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 48,
+          width: 16,
+        },
+      ],
+      id: MoblinAnimation.IdleDown,
+    },
+  ],
+  imagePath: "monsters/moblin",
+});
 export enum ArrowAnimation {
   BounceLeft = "bounce-left",
   BounceRight = "bounce-right",
