@@ -1,6 +1,6 @@
 import { arrowBounceDuration } from "../../constants/arrowBounceDuration";
 import { createSprite } from "pigeon-mode-game-framework";
-import { movementDuration } from "../../constants/movementDuration";
+import { movementFrameDuration } from "../../constants/movementFrameDuration";
 
 export enum PlayerAnimation {
   ArrowLeft = "arrow-left",
@@ -16,7 +16,7 @@ export enum PlayerAnimation {
   WalkUp = "walk-up",
   WalkDown = "walk-down",
 }
-export const playerSpriteID: string = createSprite<PlayerAnimation>({
+export const playerSpriteID: string = createSprite({
   animations: [
     {
       frames: [
@@ -73,7 +73,7 @@ export const playerSpriteID: string = createSprite<PlayerAnimation>({
     {
       frames: [
         {
-          duration: movementDuration,
+          duration: movementFrameDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -82,7 +82,7 @@ export const playerSpriteID: string = createSprite<PlayerAnimation>({
           width: 16,
         },
         {
-          duration: movementDuration,
+          duration: movementFrameDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -96,7 +96,7 @@ export const playerSpriteID: string = createSprite<PlayerAnimation>({
     {
       frames: [
         {
-          duration: movementDuration,
+          duration: movementFrameDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -105,7 +105,7 @@ export const playerSpriteID: string = createSprite<PlayerAnimation>({
           width: 16,
         },
         {
-          duration: movementDuration,
+          duration: movementFrameDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -119,7 +119,7 @@ export const playerSpriteID: string = createSprite<PlayerAnimation>({
     {
       frames: [
         {
-          duration: movementDuration,
+          duration: movementFrameDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -128,7 +128,7 @@ export const playerSpriteID: string = createSprite<PlayerAnimation>({
           width: 16,
         },
         {
-          duration: movementDuration,
+          duration: movementFrameDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -142,7 +142,7 @@ export const playerSpriteID: string = createSprite<PlayerAnimation>({
     {
       frames: [
         {
-          duration: movementDuration,
+          duration: movementFrameDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -151,7 +151,7 @@ export const playerSpriteID: string = createSprite<PlayerAnimation>({
           width: 16,
         },
         {
-          duration: movementDuration,
+          duration: movementFrameDuration,
           height: 16,
           sourceHeight: 16,
           sourceWidth: 16,
@@ -223,7 +223,7 @@ export enum MoblinAnimation {
   IdleUp = "idle-up",
   IdleDown = "idle-down",
 }
-export const moblinSpriteID: string = createSprite<MoblinAnimation>({
+export const moblinSpriteID: string = createSprite({
   animations: [
     {
       frames: [

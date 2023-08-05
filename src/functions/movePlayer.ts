@@ -3,6 +3,7 @@ import {
   getInputTickHandlerGroupID,
   moveEntity,
 } from "pigeon-mode-game-framework";
+import { movementSpeed } from "../constants/movementSpeed";
 import { state } from "../state";
 import {
   xInputTickHandlerID,
@@ -21,15 +22,15 @@ export const movePlayer = (): void => {
     getInputTickHandlerGroupID<YDirection>(yInputTickHandlerID);
   const xVelocity: number =
     xDirection === XDirection.Left
-      ? -64
+      ? -movementSpeed
       : xDirection === XDirection.Right
-      ? 64
+      ? movementSpeed
       : 0;
   const yVelocity: number =
     yDirection === YDirection.Up
-      ? -64
+      ? -movementSpeed
       : yDirection === YDirection.Down
-      ? 64
+      ? movementSpeed
       : 0;
   moveEntity(state.values.playerEntityID, {
     xVelocity,

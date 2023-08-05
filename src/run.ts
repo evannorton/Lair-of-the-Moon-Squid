@@ -6,13 +6,17 @@ import {
   getCurrentTime,
   init,
   isEntityMoving,
+  moveEntity,
   onTick,
   playSpriteInstanceAnimation,
   removeSpriteInstance,
+  stopEntity,
 } from "pigeon-mode-game-framework";
 import { isMainGameOngoing } from "./game/main/conditions";
 import { isShootingArrow } from "./functions/isShootingArrow";
+import { knockbackDuration } from "./constants/knockbackDuration";
 import { movePlayer } from "./functions/movePlayer";
+import { movementSpeed } from "./constants/movementSpeed";
 import { playerSpriteInstanceID } from "./game/main/spriteInstances";
 import { state } from "./state";
 import { stopPlayer } from "./functions/stopPlayer";
@@ -113,6 +117,36 @@ export const run = (): void => {
       }
       // Monsters
       for (const [, monster] of state.values.monsters) {
+        stopEntity(monster.entityID, {
+          x: true,
+          y: true,
+        });
+        const sinceHit: number | null =
+          monster.hit !== null ? getCurrentTime() - monster.hit.time : null;
+        if (sinceHit !== null && sinceHit < knockbackDuration) {
+          switch (monster.hit?.direction) {
+            case XDirection.Left:
+              moveEntity(monster.entityID, {
+                xVelocity: -movementSpeed,
+              });
+              break;
+            case XDirection.Right:
+              moveEntity(monster.entityID, {
+                xVelocity: movementSpeed,
+              });
+              break;
+            case YDirection.Up:
+              moveEntity(monster.entityID, {
+                yVelocity: -movementSpeed,
+              });
+              break;
+            case YDirection.Down:
+              moveEntity(monster.entityID, {
+                yVelocity: movementSpeed,
+              });
+              break;
+          }
+        }
         // Play monster idle animation
         switch (monster.direction) {
           case XDirection.Left:

@@ -1,5 +1,6 @@
 import { Arrow } from "../types/Arrow";
 import {
+  CollisionData,
   EntityData,
   createSpriteInstance,
   disableEntityCollision,
@@ -9,9 +10,12 @@ import {
   spawnEntity,
   stopEntity,
 } from "pigeon-mode-game-framework";
+import { CollisionLayer } from "../types/CollisionLayer";
+import { Monster } from "../types/Monster";
 import { XDirection, YDirection } from "../types/Direction";
 import { arrowShootSpeed } from "../constants/arrowShootSpeed";
 import { arrowSpriteID } from "../game/main/sprites";
+import { knockbackDuration } from "../constants/knockbackDuration";
 import { state } from "../state";
 
 export const shootArrow = (): void => {
@@ -40,11 +44,12 @@ export const shootArrow = (): void => {
   const arrowSpriteInstanceID: string = createSpriteInstance({
     spriteID: arrowSpriteID,
   });
-  const arrowEntityID: string = spawnEntity({
-    entityID: "arrow",
+  const arrowEntityID: string = spawnEntity<CollisionLayer>({
+    collidableLayers: [CollisionLayer.Monster],
+    collisionLayers: [CollisionLayer.Projectile],
     height: 16,
     layerID: "entities",
-    onCollision: (): void => {
+    onCollision: (data: CollisionData): void => {
       disableEntityCollision(arrowEntityID);
       stopEntity(arrowEntityID, {
         x: true,
@@ -79,6 +84,20 @@ export const shootArrow = (): void => {
             yVelocity: -Math.floor(arrowShootSpeed / 2),
           });
           break;
+      }
+      for (const entityID of data.entityIDs) {
+        const monster: Monster<string> | null =
+          state.values.monsters.get(entityID) ?? null;
+        if (
+          monster !== null &&
+          (monster.hit === null ||
+            getCurrentTime() - monster.hit.time >= knockbackDuration)
+        ) {
+          monster.hit = {
+            direction: state.values.direction,
+            time: getCurrentTime(),
+          };
+        }
       }
     },
     spriteInstanceID: arrowSpriteInstanceID,

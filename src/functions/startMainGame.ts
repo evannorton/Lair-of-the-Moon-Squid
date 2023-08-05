@@ -1,3 +1,4 @@
+import { CollisionLayer } from "../types/CollisionLayer";
 import { MoblinAnimation, moblinSpriteID } from "../game/main/sprites";
 import { Monster } from "../types/Monster";
 import { YDirection } from "../types/Direction";
@@ -13,8 +14,8 @@ import { state } from "../state";
 export const startMainGame = (): void => {
   state.setValues({ isAtTitle: false });
   goToLevel("test_level");
-  const playerEntityID: string = spawnEntity({
-    entityID: "player",
+  const playerEntityID: string = spawnEntity<CollisionLayer>({
+    collisionLayers: [CollisionLayer.Player],
     height: 16,
     layerID: "entities",
     spriteInstanceID: playerSpriteInstanceID,
@@ -34,8 +35,8 @@ export const startMainGame = (): void => {
   const moblinSpriteInstanceID: string = createSpriteInstance({
     spriteID: moblinSpriteID,
   });
-  const moblinEntityID: string = spawnEntity({
-    entityID: "moblin",
+  const moblinEntityID: string = spawnEntity<CollisionLayer>({
+    collisionLayers: [CollisionLayer.Monster],
     height: 16,
     layerID: "entities",
     spriteInstanceID: moblinSpriteInstanceID,
@@ -47,6 +48,7 @@ export const startMainGame = (): void => {
   monsters.set(moblinEntityID, {
     direction: YDirection.Down,
     entityID: moblinEntityID,
+    hit: null,
     idleDownAnimationID: MoblinAnimation.IdleDown,
     idleLeftAnimationID: MoblinAnimation.IdleLeft,
     idleRightAnimationID: MoblinAnimation.IdleRight,
