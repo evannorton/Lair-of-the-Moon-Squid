@@ -222,6 +222,10 @@ export enum MoblinAnimation {
   IdleRight = "idle-right",
   IdleUp = "idle-up",
   IdleDown = "idle-down",
+  IdleLeftDamaged = "idle-left-damaged",
+  IdleRightDamaged = "idle-right-damaged",
+  IdleUpDamaged = "idle-up-damaged",
+  IdleDownDamaged = "idle-down-damaged",
 }
 export const moblinSpriteID: string = createSprite({
   animations: [
@@ -276,6 +280,58 @@ export const moblinSpriteID: string = createSprite({
         },
       ],
       id: MoblinAnimation.IdleDown,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 128,
+          width: 16,
+        },
+      ],
+      id: MoblinAnimation.IdleLeftDamaged,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 144,
+          width: 16,
+        },
+      ],
+      id: MoblinAnimation.IdleRightDamaged,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 160,
+          width: 16,
+        },
+      ],
+      id: MoblinAnimation.IdleUpDamaged,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 176,
+          width: 16,
+        },
+      ],
+      id: MoblinAnimation.IdleDownDamaged,
     },
   ],
   imagePath: "monsters/moblin",

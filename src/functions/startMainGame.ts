@@ -50,9 +50,13 @@ export const startMainGame = (): void => {
     entityID: moblinEntityID,
     hit: null,
     idleDownAnimationID: MoblinAnimation.IdleDown,
+    idleDownDamagedAnimationID: MoblinAnimation.IdleDownDamaged,
     idleLeftAnimationID: MoblinAnimation.IdleLeft,
+    idleLeftDamagedAnimationID: MoblinAnimation.IdleLeftDamaged,
     idleRightAnimationID: MoblinAnimation.IdleRight,
+    idleRightDamagedAnimationID: MoblinAnimation.IdleRightDamaged,
     idleUpAnimationID: MoblinAnimation.IdleUp,
+    idleUpDamagedAnimationID: MoblinAnimation.IdleUpDamaged,
     spriteInstanceID: moblinSpriteInstanceID,
   });
   state.setValues({ monsters });

@@ -147,28 +147,59 @@ export const run = (): void => {
               break;
           }
         }
+        // Play monster idle damaged animation
+        if (
+          monster.hit !== null &&
+          getCurrentTime() - monster.hit.time < knockbackDuration
+        ) {
+          console.log("hit");
+          switch (monster.direction) {
+            case XDirection.Left:
+              playSpriteInstanceAnimation(monster.spriteInstanceID, {
+                animationID: monster.idleLeftDamagedAnimationID,
+              });
+              break;
+            case XDirection.Right:
+              playSpriteInstanceAnimation(monster.spriteInstanceID, {
+                animationID: monster.idleRightDamagedAnimationID,
+              });
+              break;
+            case YDirection.Up:
+              playSpriteInstanceAnimation(monster.spriteInstanceID, {
+                animationID: monster.idleUpDamagedAnimationID,
+              });
+              break;
+            case YDirection.Down:
+              playSpriteInstanceAnimation(monster.spriteInstanceID, {
+                animationID: monster.idleDownDamagedAnimationID,
+              });
+              break;
+          }
+        }
         // Play monster idle animation
-        switch (monster.direction) {
-          case XDirection.Left:
-            playSpriteInstanceAnimation(monster.spriteInstanceID, {
-              animationID: monster.idleLeftAnimationID,
-            });
-            break;
-          case XDirection.Right:
-            playSpriteInstanceAnimation(monster.spriteInstanceID, {
-              animationID: monster.idleRightAnimationID,
-            });
-            break;
-          case YDirection.Up:
-            playSpriteInstanceAnimation(monster.spriteInstanceID, {
-              animationID: monster.idleUpAnimationID,
-            });
-            break;
-          case YDirection.Down:
-            playSpriteInstanceAnimation(monster.spriteInstanceID, {
-              animationID: monster.idleDownAnimationID,
-            });
-            break;
+        else {
+          switch (monster.direction) {
+            case XDirection.Left:
+              playSpriteInstanceAnimation(monster.spriteInstanceID, {
+                animationID: monster.idleLeftAnimationID,
+              });
+              break;
+            case XDirection.Right:
+              playSpriteInstanceAnimation(monster.spriteInstanceID, {
+                animationID: monster.idleRightAnimationID,
+              });
+              break;
+            case YDirection.Up:
+              playSpriteInstanceAnimation(monster.spriteInstanceID, {
+                animationID: monster.idleUpAnimationID,
+              });
+              break;
+            case YDirection.Down:
+              playSpriteInstanceAnimation(monster.spriteInstanceID, {
+                animationID: monster.idleDownAnimationID,
+              });
+              break;
+          }
         }
       }
       // Arrows
