@@ -16,6 +16,7 @@ import { XDirection, YDirection } from "../types/Direction";
 import { arrowShootSpeed } from "../constants/arrowShootSpeed";
 import { arrowSpriteID } from "../game/main/sprites";
 import { knockbackDuration } from "../constants/knockbackDuration";
+import { removeArrow } from "./removeArrow";
 import { state } from "../state";
 
 export const shootArrow = (): void => {
@@ -62,29 +63,6 @@ export const shootArrow = (): void => {
           "An arrow collided with an entity instance, but the arrow could not be found in state.",
         );
       }
-      arrow.isBouncing = true;
-      switch (arrow.shootDirection) {
-        case XDirection.Left:
-          moveEntity(arrowEntityID, {
-            xVelocity: Math.floor(arrowShootSpeed / 2),
-          });
-          break;
-        case XDirection.Right:
-          moveEntity(arrowEntityID, {
-            xVelocity: -Math.floor(arrowShootSpeed / 2),
-          });
-          break;
-        case YDirection.Up:
-          moveEntity(arrowEntityID, {
-            yVelocity: Math.floor(arrowShootSpeed / 2),
-          });
-          break;
-        case YDirection.Down:
-          moveEntity(arrowEntityID, {
-            yVelocity: -Math.floor(arrowShootSpeed / 2),
-          });
-          break;
-      }
       for (const entityID of data.entityIDs) {
         const monster: Monster<string> | null =
           state.values.monsters.get(entityID) ?? null;
@@ -97,6 +75,33 @@ export const shootArrow = (): void => {
             direction: state.values.direction,
             time: getCurrentTime(),
           };
+        }
+      }
+      if (data.entityIDs.length > 0) {
+        removeArrow(arrowEntityID);
+      } else if (data.map) {
+        arrow.isBouncing = true;
+        switch (arrow.shootDirection) {
+          case XDirection.Left:
+            moveEntity(arrowEntityID, {
+              xVelocity: Math.floor(arrowShootSpeed / 2),
+            });
+            break;
+          case XDirection.Right:
+            moveEntity(arrowEntityID, {
+              xVelocity: -Math.floor(arrowShootSpeed / 2),
+            });
+            break;
+          case YDirection.Up:
+            moveEntity(arrowEntityID, {
+              yVelocity: Math.floor(arrowShootSpeed / 2),
+            });
+            break;
+          case YDirection.Down:
+            moveEntity(arrowEntityID, {
+              yVelocity: -Math.floor(arrowShootSpeed / 2),
+            });
+            break;
         }
       }
     },

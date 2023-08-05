@@ -2,14 +2,12 @@ import { ArrowAnimation, PlayerAnimation } from "./game/main/sprites";
 import { XDirection, YDirection } from "./types/Direction";
 import { arrowBounceDuration } from "./constants/arrowBounceDuration";
 import {
-  despawnEntity,
   getCurrentTime,
   init,
   isEntityMoving,
   moveEntity,
   onTick,
   playSpriteInstanceAnimation,
-  removeSpriteInstance,
   stopEntity,
 } from "pigeon-mode-game-framework";
 import { isMainGameOngoing } from "./game/main/conditions";
@@ -18,6 +16,7 @@ import { knockbackDuration } from "./constants/knockbackDuration";
 import { movePlayer } from "./functions/movePlayer";
 import { movementSpeed } from "./constants/movementSpeed";
 import { playerSpriteInstanceID } from "./game/main/spriteInstances";
+import { removeArrow } from "./functions/removeArrow";
 import { state } from "./state";
 import { stopPlayer } from "./functions/stopPlayer";
 import { titleSpriteInstanceID } from "./game/title/spriteInstances";
@@ -152,7 +151,6 @@ export const run = (): void => {
           monster.hit !== null &&
           getCurrentTime() - monster.hit.time < knockbackDuration
         ) {
-          console.log("hit");
           switch (monster.direction) {
             case XDirection.Left:
               playSpriteInstanceAnimation(monster.spriteInstanceID, {
@@ -203,12 +201,9 @@ export const run = (): void => {
         }
       }
       // Arrows
-      for (const [arrowID, arrow] of state.values.arrows) {
+      for (const [arrowEntityID, arrow] of state.values.arrows) {
         if (currentTime - arrow.shotAt > arrowBounceDuration * 3) {
-          // Remove arrow
-          removeSpriteInstance(arrow.spriteInstanceID);
-          despawnEntity(arrow.entityID);
-          state.values.arrows.delete(arrowID);
+          removeArrow(arrowEntityID);
         } else {
           if (arrow.isBouncing) {
             // Play arrow bounce animation
