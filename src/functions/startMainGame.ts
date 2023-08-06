@@ -18,10 +18,12 @@ export const startMainGame = (): void => {
     collisionLayers: [CollisionLayer.Player],
     height: 16,
     layerID: "entities",
+    position: {
+      x: 0,
+      y: 0,
+    },
     spriteInstanceID: playerSpriteInstanceID,
     width: 16,
-    x: 0,
-    y: 0,
     zIndex: 1,
   });
   state.setValues({
@@ -39,10 +41,12 @@ export const startMainGame = (): void => {
     collisionLayers: [CollisionLayer.Monster],
     height: 16,
     layerID: "entities",
+    position: {
+      x: 64,
+      y: 64,
+    },
     spriteInstanceID: moblinSpriteInstanceID,
     width: 16,
-    x: 64,
-    y: 64,
     zIndex: 0,
   });
   monsters.set(moblinEntityID, {

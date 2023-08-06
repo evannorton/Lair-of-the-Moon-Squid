@@ -5,8 +5,9 @@ import {
 } from "pigeon-mode-game-framework";
 import { isMainGameOngoing } from "./conditions";
 import { isShootingArrow } from "../../functions/isShootingArrow";
+import { isSwingingSword } from "../../functions/isSwingingSword";
 import { shootArrow } from "../../functions/shootArrow";
-import { state } from "../../state";
+import { swingSword } from "../../functions/swingSword";
 
 export const swordInputPressHandlerID: string = createInputPressHandler({
   condition: isMainGameOngoing,
@@ -14,10 +15,9 @@ export const swordInputPressHandlerID: string = createInputPressHandler({
   keys: ["KeyZ"],
   leftClick: true,
   onInput: (): void => {
-    if (state.values.playerEntityID === null) {
-      throw new Error("A sword input was received with no player entity.");
+    if (!isSwingingSword() && !isShootingArrow()) {
+      swingSword();
     }
-    console.log("swing sword");
   },
 });
 export const arrowInputPressHandlerID: string = createInputPressHandler({
@@ -25,7 +25,7 @@ export const arrowInputPressHandlerID: string = createInputPressHandler({
   gamepadButtons: [1, 2],
   keys: ["KeyX"],
   onInput: (): void => {
-    if (!isShootingArrow()) {
+    if (!isSwingingSword() && !isShootingArrow()) {
       shootArrow();
     }
   },

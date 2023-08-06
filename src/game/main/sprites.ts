@@ -1,6 +1,7 @@
 import { arrowBounceDuration } from "../../constants/arrowBounceDuration";
 import { createSprite } from "pigeon-mode-game-framework";
 import { movementFrameDuration } from "../../constants/movementFrameDuration";
+import { swordSwingDuration } from "../../constants/swordSwingDuration";
 
 export enum PlayerAnimation {
   ArrowLeft = "arrow-left",
@@ -11,6 +12,10 @@ export enum PlayerAnimation {
   IdleRight = "idle-right",
   IdleUp = "idle-up",
   IdleDown = "idle-down",
+  SwordLeft = "sword-left",
+  SwordRight = "sword-right",
+  SwordUp = "sword-up",
+  SwordDown = "sword-down",
   WalkLeft = "walk-left",
   WalkRight = "walk-right",
   WalkUp = "walk-up",
@@ -161,6 +166,134 @@ export const playerSpriteID: string = createSprite({
         },
       ],
       id: PlayerAnimation.WalkDown,
+    },
+    {
+      frames: [
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 128,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 128,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 32,
+          sourceY: 128,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.SwordLeft,
+    },
+    {
+      frames: [
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 144,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 144,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 32,
+          sourceY: 144,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.SwordRight,
+    },
+    {
+      frames: [
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 160,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 160,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 32,
+          sourceY: 160,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.SwordUp,
+    },
+    {
+      frames: [
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 176,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 176,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 32,
+          sourceY: 176,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.SwordDown,
     },
     {
       frames: [
@@ -335,6 +468,181 @@ export const moblinSpriteID: string = createSprite({
     },
   ],
   imagePath: "monsters/moblin",
+});
+export enum SwordAnimation {
+  SwingDown1 = "swing-down-1",
+  SwingDown2 = "swing-down-2",
+  SwingDown3 = "swing-down-3",
+  SwingLeft1 = "swing-left-1",
+  SwingLeft2 = "swing-left-2",
+  SwingLeft3 = "swing-left-3",
+  SwingRight1 = "swing-right-1",
+  SwingRight2 = "swing-right-2",
+  SwingRight3 = "swing-right-3",
+  SwingUp1 = "swing-up-1",
+  SwingUp2 = "swing-up-2",
+  SwingUp3 = "swing-up-3",
+}
+export const swordSpriteID: string = createSprite({
+  animations: [
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 0,
+          width: 16,
+        },
+      ],
+      id: SwordAnimation.SwingLeft1,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 0,
+          width: 16,
+        },
+      ],
+      id: SwordAnimation.SwingLeft2,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 32,
+          sourceY: 0,
+          width: 16,
+        },
+      ],
+      id: SwordAnimation.SwingLeft3,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 16,
+          width: 16,
+        },
+      ],
+      id: SwordAnimation.SwingRight1,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 16,
+          width: 16,
+        },
+      ],
+      id: SwordAnimation.SwingRight2,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 32,
+          sourceY: 16,
+          width: 16,
+        },
+      ],
+      id: SwordAnimation.SwingRight3,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 32,
+          width: 16,
+        },
+      ],
+      id: SwordAnimation.SwingUp1,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 32,
+          width: 16,
+        },
+      ],
+      id: SwordAnimation.SwingUp2,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 32,
+          sourceY: 32,
+          width: 16,
+        },
+      ],
+      id: SwordAnimation.SwingUp3,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 48,
+          width: 16,
+        },
+      ],
+      id: SwordAnimation.SwingDown1,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 48,
+          width: 16,
+        },
+      ],
+      id: SwordAnimation.SwingDown2,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 32,
+          sourceY: 48,
+          width: 16,
+        },
+      ],
+      id: SwordAnimation.SwingDown3,
+    },
+  ],
+  imagePath: "sword",
 });
 export enum ArrowAnimation {
   BounceLeft = "bounce-left",

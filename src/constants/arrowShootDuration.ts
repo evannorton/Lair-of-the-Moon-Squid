@@ -1,1 +1,1 @@
-export const arrowShootDuration: number = 375;
+export const arrowShootDuration: number = 450;

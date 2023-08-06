@@ -1,5 +1,5 @@
 import "./game/main";
 import "./game/title";
-import { run } from "./run";
+import { run } from "./functions/run";
 
 run();

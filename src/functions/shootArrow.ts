@@ -1,11 +1,11 @@
 import { Arrow } from "../types/Arrow";
 import {
   CollisionData,
-  EntityData,
+  EntityPosition,
   createSpriteInstance,
   disableEntityCollision,
   getCurrentTime,
-  getEntityData,
+  getEntityPosition,
   moveEntity,
   spawnEntity,
   stopEntity,
@@ -23,11 +23,16 @@ export const shootArrow = (): void => {
   if (state.values.playerEntityID === null) {
     throw new Error("An arrow input was received with no player entity.");
   }
-  const playerEntityData: EntityData = getEntityData(
+  const playerEntityPosition: EntityPosition | null = getEntityPosition(
     state.values.playerEntityID,
   );
-  let x: number = playerEntityData.x;
-  let y: number = playerEntityData.y;
+  if (playerEntityPosition === null) {
+    throw new Error(
+      "An arrow shoot was attempted with the player entity having no position.",
+    );
+  }
+  let x: number = playerEntityPosition.x;
+  let y: number = playerEntityPosition.y;
   switch (state.values.direction) {
     case XDirection.Left:
       x -= 16;
@@ -105,10 +110,12 @@ export const shootArrow = (): void => {
         }
       }
     },
+    position: {
+      x,
+      y,
+    },
     spriteInstanceID: arrowSpriteInstanceID,
     width: 16,
-    x,
-    y,
     zIndex: 2,
   });
   switch (state.values.direction) {
@@ -137,5 +144,8 @@ export const shootArrow = (): void => {
     shotAt: getCurrentTime(),
     spriteInstanceID: arrowSpriteInstanceID,
   });
-  state.setValues({ arrows });
+  state.setValues({
+    arrows,
+    shotArrowAt: getCurrentTime(),
+  });
 };
