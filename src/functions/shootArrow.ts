@@ -51,8 +51,12 @@ export const shootArrow = (): void => {
     spriteID: arrowSpriteID,
   });
   const arrowEntityID: string = spawnEntity<CollisionLayer>({
-    collidableLayers: [CollisionLayer.Monster],
-    collisionLayers: [CollisionLayer.Projectile],
+    collidables: [
+      {
+        collisionLayer: CollisionLayer.Monster,
+      },
+    ],
+    collisionLayer: CollisionLayer.Projectile,
     height: 16,
     layerID: "entities",
     onCollision: (data: CollisionData): void => {
@@ -68,9 +72,9 @@ export const shootArrow = (): void => {
           "An arrow collided with an entity instance, but the arrow could not be found in state.",
         );
       }
-      for (const entityID of data.entityIDs) {
+      for (const entityCollidable of data.entityCollidables) {
         const monster: Monster<string> | null =
-          state.values.monsters.get(entityID) ?? null;
+          state.values.monsters.get(entityCollidable.entityID) ?? null;
         if (
           monster !== null &&
           (monster.hit === null ||
@@ -82,7 +86,7 @@ export const shootArrow = (): void => {
           };
         }
       }
-      if (data.entityIDs.length > 0) {
+      if (data.entityCollidables.length > 0) {
         removeArrow(arrowEntityID);
       } else if (data.map) {
         arrow.isBouncing = true;

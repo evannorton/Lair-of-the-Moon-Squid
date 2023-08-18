@@ -19,8 +19,8 @@ export const swingSword = (): void => {
     spriteID: swordSpriteID,
   });
   const swordEntityID: string = spawnEntity<CollisionLayer>({
-    collidableLayers: [CollisionLayer.Monster],
-    collisionLayers: [CollisionLayer.Projectile],
+    collidables: [{ collisionLayer: CollisionLayer.Monster }],
+    collisionLayer: CollisionLayer.Projectile,
     height: 16,
     layerID: "entities",
     onCollision: (data: CollisionData): void => {
@@ -31,9 +31,9 @@ export const swingSword = (): void => {
           "An sword collided with an entity instance, but the sword could not be found in state.",
         );
       }
-      for (const entityID of data.entityIDs) {
+      for (const entityCollidable of data.entityCollidables) {
         const monster: Monster<string> | null =
-          state.values.monsters.get(entityID) ?? null;
+          state.values.monsters.get(entityCollidable.entityID) ?? null;
         if (
           monster !== null &&
           (monster.hit === null ||

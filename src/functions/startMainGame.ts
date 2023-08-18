@@ -1,13 +1,18 @@
-import { CollisionLayer } from "../types/CollisionLayer";
-import { MoblinAnimation, moblinSpriteID } from "../game/main/sprites";
-import { Monster } from "../types/Monster";
-import { YDirection } from "../types/Direction";
 import {
+  CollisionData,
+  EntityCollidable,
   createSpriteInstance,
+  getCurrentTime,
   goToLevel,
   lockCameraToEntity,
   spawnEntity,
 } from "pigeon-mode-game-framework";
+import { CollisionLayer } from "../types/CollisionLayer";
+import { MoblinAnimation, moblinSpriteID } from "../game/main/sprites";
+import { Monster } from "../types/Monster";
+import { YDirection } from "../types/Direction";
+import { getOppositeDirection } from "./getOppositeDirection";
+import { knockbackDuration } from "../constants/knockbackDuration";
 import { playerSpriteInstanceID } from "../game/main/spriteInstances";
 import { state } from "../state";
 
@@ -15,9 +20,36 @@ export const startMainGame = (): void => {
   state.setValues({ isAtTitle: false });
   goToLevel("test_level");
   const playerEntityID: string = spawnEntity<CollisionLayer>({
-    collisionLayers: [CollisionLayer.Player],
+    collidables: [
+      {
+        collisionLayer: CollisionLayer.Monster,
+      },
+    ],
+    collisionLayer: CollisionLayer.Player,
     height: 16,
     layerID: "entities",
+    onCollision: (collisionData: CollisionData): void => {
+      if (collisionData.entityCollidables.length > 0) {
+        const entityCollidable: EntityCollidable =
+          collisionData.entityCollidables[0];
+        const monster: Monster<string> | null =
+          state.values.monsters.get(entityCollidable.entityID) ?? null;
+        if (monster !== null) {
+          if (
+            state.values.hit === null ||
+            getCurrentTime() - state.values.hit.time >= knockbackDuration
+          ) {
+            console.log("player walked into monster");
+            state.setValues({
+              hit: {
+                direction: getOppositeDirection(),
+                time: getCurrentTime(),
+              },
+            });
+          }
+        }
+      }
+    },
     position: {
       x: 0,
       y: 0,
@@ -38,7 +70,7 @@ export const startMainGame = (): void => {
     spriteID: moblinSpriteID,
   });
   const moblinEntityID: string = spawnEntity<CollisionLayer>({
-    collisionLayers: [CollisionLayer.Monster],
+    collisionLayer: CollisionLayer.Monster,
     height: 16,
     layerID: "entities",
     position: {
