@@ -1,9 +1,8 @@
 import { Direction } from "./Direction";
 
 export interface Arrow {
+  bouncedAt: number | null;
   readonly entityID: string;
-  isBouncing: boolean;
   readonly shootDirection: Direction;
-  readonly shotAt: number;
   readonly spriteInstanceID: string;
 }

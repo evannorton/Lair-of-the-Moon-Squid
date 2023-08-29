@@ -1,13 +1,13 @@
+import { CollisionLayer } from "../types/CollisionLayer";
 import {
-  CollisionData,
   EntityCollidable,
+  OverlapData,
   createSpriteInstance,
   getCurrentTime,
   goToLevel,
   lockCameraToEntity,
   spawnEntity,
 } from "pigeon-mode-game-framework";
-import { CollisionLayer } from "../types/CollisionLayer";
 import { MoblinAnimation, moblinSpriteID } from "../game/main/sprites";
 import { Monster } from "../types/Monster";
 import { YDirection } from "../types/Direction";
@@ -20,18 +20,14 @@ export const startMainGame = (): void => {
   state.setValues({ isAtTitle: false });
   goToLevel("test_level");
   const playerEntityID: string = spawnEntity<CollisionLayer>({
-    collidables: [
-      {
-        collisionLayer: CollisionLayer.Monster,
-      },
-    ],
+    collidableLayers: [],
     collisionLayer: CollisionLayer.Player,
     height: 16,
     layerID: "entities",
-    onCollision: (collisionData: CollisionData): void => {
-      if (collisionData.entityCollidables.length > 0) {
-        const entityCollidable: EntityCollidable =
-          collisionData.entityCollidables[0];
+    onOverlap: (overlapData: OverlapData<CollisionLayer>): void => {
+      if (overlapData.entityCollidables.length > 0) {
+        const entityCollidable: EntityCollidable<CollisionLayer> =
+          overlapData.entityCollidables[0];
         const monster: Monster<string> | null =
           state.values.monsters.get(entityCollidable.entityID) ?? null;
         if (monster !== null) {
@@ -69,7 +65,7 @@ export const startMainGame = (): void => {
   const moblinSpriteInstanceID: string = createSpriteInstance({
     spriteID: moblinSpriteID,
   });
-  const moblinEntityID: string = spawnEntity<CollisionLayer>({
+  const moblinEntityID: string = spawnEntity({
     collisionLayer: CollisionLayer.Monster,
     height: 16,
     layerID: "entities",

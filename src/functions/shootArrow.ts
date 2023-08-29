@@ -1,16 +1,15 @@
 import { Arrow } from "../types/Arrow";
+import { CollisionLayer } from "../types/CollisionLayer";
 import {
-  CollisionData,
   EntityPosition,
+  OverlapData,
   createSpriteInstance,
-  disableEntityCollision,
   getCurrentTime,
   getEntityPosition,
   moveEntity,
   spawnEntity,
   stopEntity,
 } from "pigeon-mode-game-framework";
-import { CollisionLayer } from "../types/CollisionLayer";
 import { Monster } from "../types/Monster";
 import { XDirection, YDirection } from "../types/Direction";
 import { arrowShootSpeed } from "../constants/arrowShootSpeed";
@@ -51,66 +50,63 @@ export const shootArrow = (): void => {
     spriteID: arrowSpriteID,
   });
   const arrowEntityID: string = spawnEntity<CollisionLayer>({
-    collidables: [
-      {
-        collisionLayer: CollisionLayer.Monster,
-      },
-    ],
-    collisionLayer: CollisionLayer.Projectile,
     height: 16,
     layerID: "entities",
-    onCollision: (data: CollisionData): void => {
-      disableEntityCollision(arrowEntityID);
-      stopEntity(arrowEntityID, {
-        x: true,
-        y: true,
-      });
+    onOverlap: (overlapData: OverlapData<CollisionLayer>): void => {
       const arrow: Arrow | null =
         state.values.arrows.get(arrowEntityID) ?? null;
       if (arrow === null) {
         throw new Error(
-          "An arrow collided with an entity instance, but the arrow could not be found in state.",
+          "An arrow overlapped, but the arrow could not be found in state.",
         );
       }
-      for (const entityCollidable of data.entityCollidables) {
-        const monster: Monster<string> | null =
-          state.values.monsters.get(entityCollidable.entityID) ?? null;
-        if (
-          monster !== null &&
-          (monster.hit === null ||
-            getCurrentTime() - monster.hit.time >= knockbackDuration)
-        ) {
-          monster.hit = {
-            direction: state.values.direction,
-            time: getCurrentTime(),
-          };
+      if (arrow.bouncedAt === null) {
+        let hitCount: number = 0;
+        for (const entityCollidable of overlapData.entityCollidables) {
+          const monster: Monster<string> | null =
+            state.values.monsters.get(entityCollidable.entityID) ?? null;
+          if (
+            monster !== null &&
+            (monster.hit === null ||
+              getCurrentTime() - monster.hit.time >= knockbackDuration)
+          ) {
+            monster.hit = {
+              direction: state.values.direction,
+              time: getCurrentTime(),
+            };
+            hitCount++;
+          }
         }
-      }
-      if (data.entityCollidables.length > 0) {
-        removeArrow(arrowEntityID);
-      } else if (data.map) {
-        arrow.isBouncing = true;
-        switch (arrow.shootDirection) {
-          case XDirection.Left:
-            moveEntity(arrowEntityID, {
-              xVelocity: Math.floor(arrowShootSpeed / 2),
-            });
-            break;
-          case XDirection.Right:
-            moveEntity(arrowEntityID, {
-              xVelocity: -Math.floor(arrowShootSpeed / 2),
-            });
-            break;
-          case YDirection.Up:
-            moveEntity(arrowEntityID, {
-              yVelocity: Math.floor(arrowShootSpeed / 2),
-            });
-            break;
-          case YDirection.Down:
-            moveEntity(arrowEntityID, {
-              yVelocity: -Math.floor(arrowShootSpeed / 2),
-            });
-            break;
+        if (hitCount > 0) {
+          removeArrow(arrowEntityID);
+        } else if (overlapData.map) {
+          stopEntity(arrowEntityID, {
+            x: true,
+            y: true,
+          });
+          arrow.bouncedAt = getCurrentTime();
+          switch (arrow.shootDirection) {
+            case XDirection.Left:
+              moveEntity(arrowEntityID, {
+                xVelocity: Math.floor(arrowShootSpeed / 2),
+              });
+              break;
+            case XDirection.Right:
+              moveEntity(arrowEntityID, {
+                xVelocity: -Math.floor(arrowShootSpeed / 2),
+              });
+              break;
+            case YDirection.Up:
+              moveEntity(arrowEntityID, {
+                yVelocity: Math.floor(arrowShootSpeed / 2),
+              });
+              break;
+            case YDirection.Down:
+              moveEntity(arrowEntityID, {
+                yVelocity: -Math.floor(arrowShootSpeed / 2),
+              });
+              break;
+          }
         }
       }
     },
@@ -142,10 +138,9 @@ export const shootArrow = (): void => {
   }
   const arrows: Map<string, Arrow> = new Map(state.values.arrows);
   arrows.set(arrowEntityID, {
+    bouncedAt: null,
     entityID: arrowEntityID,
-    isBouncing: false,
     shootDirection: state.values.direction,
-    shotAt: getCurrentTime(),
     spriteInstanceID: arrowSpriteInstanceID,
   });
   state.setValues({

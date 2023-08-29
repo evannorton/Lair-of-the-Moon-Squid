@@ -1,1 +1,1 @@
-export const knockbackDuration: number = 450;
+export const knockbackDuration: number = 250;

@@ -395,10 +395,14 @@ export const tick = (): void => {
     }
     // Arrows
     for (const [, arrow] of state.values.arrows) {
-      if (currentTime - arrow.shotAt >= arrowBounceDuration * 3) {
+      if (
+        arrow.bouncedAt !== null &&
+        currentTime - arrow.bouncedAt >= arrowBounceDuration * 3
+      ) {
+        console.log("remove arrow");
         removeArrow(arrow.entityID);
       } else {
-        if (arrow.isBouncing) {
+        if (arrow.bouncedAt !== null) {
           // Play arrow bounce animation
           switch (arrow.shootDirection) {
             case XDirection.Left:
