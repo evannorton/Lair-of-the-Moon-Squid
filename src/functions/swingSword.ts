@@ -7,7 +7,7 @@ import {
   spawnEntity,
 } from "pigeon-mode-game-framework";
 import { Sword } from "../types/Sword";
-import { knockbackDuration } from "../constants/knockbackDuration";
+import { isMonsterInvincible } from "./isMonsterInvincible";
 import { state } from "../state";
 import { swordSpriteID } from "../game/main/sprites";
 
@@ -38,10 +38,7 @@ export const swingSword = (): void => {
               sword.monstersHitAt.get(monster.entityID) ?? null;
             if (hitAt === null) {
               sword.monstersHitAt.set(monster.entityID, getCurrentTime());
-              if (
-                monster.hit === null ||
-                getCurrentTime() - monster.hit.time >= knockbackDuration
-              ) {
+              if (!isMonsterInvincible(monster)) {
                 monster.hit = {
                   direction: state.values.playerDirection,
                   time: getCurrentTime(),
@@ -64,7 +61,7 @@ export const swingSword = (): void => {
     swungAt: getCurrentTime(),
   });
   state.setValues({
+    playerSwungSwordAt: getCurrentTime(),
     swords,
-    swungSwordAt: getCurrentTime(),
   });
 };

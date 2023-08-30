@@ -12,9 +12,9 @@ interface StateSchema {
   playerDirection: Direction;
   playerEntityID: string | null;
   playerHit: Hit | null;
-  shotArrowAt: number | null;
+  playerShotArrowAt: number | null;
+  playerSwungSwordAt: number | null;
   swords: Map<string, Sword>;
-  swungSwordAt: number | null;
 }
 const defaultState: StateSchema = {
   arrows: new Map(),
@@ -23,9 +23,9 @@ const defaultState: StateSchema = {
   playerDirection: YDirection.Down,
   playerEntityID: null,
   playerHit: null,
-  shotArrowAt: null,
+  playerShotArrowAt: null,
+  playerSwungSwordAt: null,
   swords: new Map(),
-  swungSwordAt: null,
 };
 
 export const state: State<StateSchema> = new State(defaultState);

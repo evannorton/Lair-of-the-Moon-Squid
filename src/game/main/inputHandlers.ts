@@ -4,9 +4,9 @@ import {
   createInputTickHandler,
 } from "pigeon-mode-game-framework";
 import { isMainGameOngoing } from "./conditions";
-import { isShootingArrow } from "../../functions/isShootingArrow";
-import { isSwingingSword } from "../../functions/isSwingingSword";
-import { isTakingKnockback } from "../../functions/isTakingKnockback";
+import { isPlayerShootingArrow } from "../../functions/isPlayerShootingArrow";
+import { isPlayerSwingingSword } from "../../functions/isPlayerSwingingSword";
+import { isPlayerTakingKnockback } from "../../functions/isPlayerTakingKnockback";
 import { shootArrow } from "../../functions/shootArrow";
 import { swingSword } from "../../functions/swingSword";
 
@@ -16,7 +16,11 @@ export const swordInputPressHandlerID: string = createInputPressHandler({
   keys: ["KeyZ"],
   leftClick: true,
   onInput: (): void => {
-    if (!isTakingKnockback() && !isSwingingSword() && !isShootingArrow()) {
+    if (
+      !isPlayerTakingKnockback() &&
+      !isPlayerSwingingSword() &&
+      !isPlayerShootingArrow()
+    ) {
       swingSword();
     }
   },
@@ -26,7 +30,11 @@ export const arrowInputPressHandlerID: string = createInputPressHandler({
   gamepadButtons: [1, 2],
   keys: ["KeyX"],
   onInput: (): void => {
-    if (!isTakingKnockback() && !isSwingingSword() && !isShootingArrow()) {
+    if (
+      !isPlayerTakingKnockback() &&
+      !isPlayerSwingingSword() &&
+      !isPlayerShootingArrow()
+    ) {
       shootArrow();
     }
   },

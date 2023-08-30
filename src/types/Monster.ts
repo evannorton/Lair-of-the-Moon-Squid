@@ -6,12 +6,12 @@ export interface Monster<AnimationID extends string> {
   readonly entityID: string;
   hit: Hit | null;
   readonly idleDownAnimationID: AnimationID;
-  readonly idleDownDamagedAnimationID: AnimationID;
+  readonly idleDownInvincibleAnimationID: AnimationID;
   readonly idleLeftAnimationID: AnimationID;
-  readonly idleLeftDamagedAnimationID: AnimationID;
+  readonly idleLeftInvincibleAnimationID: AnimationID;
   readonly idleRightAnimationID: AnimationID;
-  readonly idleRightDamagedAnimationID: AnimationID;
+  readonly idleRightInvincibleAnimationID: AnimationID;
   readonly idleUpAnimationID: AnimationID;
-  readonly idleUpDamagedAnimationID: AnimationID;
+  readonly idleUpInvincibleAnimationID: AnimationID;
   readonly spriteInstanceID: string;
 }

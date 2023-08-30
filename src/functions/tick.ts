@@ -7,7 +7,7 @@ import {
   EntityPosition,
   getCurrentTime,
   getEntityPosition,
-  isEntityMoving,
+  getInputTickHandlerGroupID,
   moveEntity,
   playSpriteInstanceAnimation,
   setEntityPosition,
@@ -16,9 +16,11 @@ import {
 import { XDirection, YDirection } from "../types/Direction";
 import { arrowBounceDuration } from "../constants/arrowBounceDuration";
 import { isMainGameOngoing } from "../game/main/conditions";
-import { isShootingArrow } from "./isShootingArrow";
-import { isSwingingSword } from "./isSwingingSword";
-import { isTakingKnockback } from "./isTakingKnockback";
+import { isMonsterInvincible } from "./isMonsterInvincible";
+import { isPlayerInvincible } from "./isPlayerInvincible";
+import { isPlayerShootingArrow } from "./isPlayerShootingArrow";
+import { isPlayerSwingingSword } from "./isPlayerSwingingSword";
+import { isPlayerTakingKnockback } from "./isPlayerTakingKnockback";
 import { knockbackDuration } from "../constants/knockbackDuration";
 import { movePlayer } from "./movePlayer";
 import { movementSpeed } from "../constants/movementSpeed";
@@ -28,9 +30,17 @@ import { removeSword } from "./removeSword";
 import { state } from "../state";
 import { stopPlayer } from "./stopPlayer";
 import { swordSwingDuration } from "../constants/swordSwingDuration";
+import {
+  xInputTickHandlerID,
+  yInputTickHandlerID,
+} from "../game/main/inputHandlers";
 import applyKnockbackToPlayer from "./applyKnockbackToPlayer";
 
 export const tick = (): void => {
+  const xDirection: XDirection | null =
+    getInputTickHandlerGroupID<XDirection>(xInputTickHandlerID);
+  const yDirection: YDirection | null =
+    getInputTickHandlerGroupID<YDirection>(yInputTickHandlerID);
   const currentTime: number = getCurrentTime();
   if (isMainGameOngoing()) {
     if (state.values.playerEntityID === null) {
@@ -47,109 +57,209 @@ export const tick = (): void => {
       );
     }
     stopPlayer();
-    if (!isTakingKnockback() && !isSwingingSword() && !isShootingArrow()) {
+    if (
+      !isPlayerTakingKnockback() &&
+      !isPlayerSwingingSword() &&
+      !isPlayerShootingArrow()
+    ) {
       movePlayer();
     }
-    if (isTakingKnockback()) {
+    if (isPlayerTakingKnockback()) {
       applyKnockbackToPlayer();
     }
     // Play player sword animation
-    if (isSwingingSword()) {
+    if (isPlayerSwingingSword()) {
       switch (state.values.playerDirection) {
         case XDirection.Left:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.SwordLeft,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.SwordLeftInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.SwordLeft,
+            });
+          }
           break;
         case XDirection.Right:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.SwordRight,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.SwordRightInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.SwordRight,
+            });
+          }
           break;
         case YDirection.Up:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.SwordUp,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.SwordUpInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.SwordUp,
+            });
+          }
           break;
         case YDirection.Down:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.SwordDown,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.SwordDownInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.SwordDown,
+            });
+          }
           break;
       }
     }
     // Play player arrow animation
-    else if (isShootingArrow()) {
+    else if (isPlayerShootingArrow()) {
       switch (state.values.playerDirection) {
         case XDirection.Left:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.ArrowLeft,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.ArrowLeftInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.ArrowLeft,
+            });
+          }
           break;
         case XDirection.Right:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.ArrowRight,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.ArrowRightInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.ArrowRight,
+            });
+          }
           break;
         case YDirection.Up:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.ArrowUp,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.ArrowUpInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.ArrowUp,
+            });
+          }
           break;
         case YDirection.Down:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.ArrowDown,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.ArrowDownInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.ArrowDown,
+            });
+          }
           break;
       }
     }
     // Play player knockback animation
-    else if (isTakingKnockback()) {
+    else if (isPlayerTakingKnockback()) {
       switch (state.values.playerDirection) {
         case XDirection.Left:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.IdleLeft,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleLeftInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleLeft,
+            });
+          }
           break;
         case XDirection.Right:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.IdleRight,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleRightInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleRight,
+            });
+          }
           break;
         case YDirection.Up:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.IdleUp,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleUpInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleUp,
+            });
+          }
           break;
         case YDirection.Down:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.IdleDown,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleDownInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleDown,
+            });
+          }
           break;
       }
     }
     // Play player walk animation
-    else if (isEntityMoving(state.values.playerEntityID)) {
+    else if (xDirection !== null || yDirection !== null) {
       switch (state.values.playerDirection) {
         case XDirection.Left:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.WalkLeft,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.WalkLeftInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.WalkLeft,
+            });
+          }
           break;
         case XDirection.Right:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.WalkRight,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.WalkRightInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.WalkRight,
+            });
+          }
           break;
         case YDirection.Up:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.WalkUp,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.WalkUpInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.WalkUp,
+            });
+          }
           break;
         case YDirection.Down:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.WalkDown,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.WalkDownInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.WalkDown,
+            });
+          }
           break;
       }
     }
@@ -157,24 +267,48 @@ export const tick = (): void => {
     else {
       switch (state.values.playerDirection) {
         case XDirection.Left:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.IdleLeft,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleLeftInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleLeft,
+            });
+          }
           break;
         case XDirection.Right:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.IdleRight,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleRightInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleRight,
+            });
+          }
           break;
         case YDirection.Up:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.IdleUp,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleUpInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleUp,
+            });
+          }
           break;
         case YDirection.Down:
-          playSpriteInstanceAnimation(playerSpriteInstanceID, {
-            animationID: PlayerAnimation.IdleDown,
-          });
+          if (isPlayerInvincible()) {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleDownInvincible,
+            });
+          } else {
+            playSpriteInstanceAnimation(playerSpriteInstanceID, {
+              animationID: PlayerAnimation.IdleDown,
+            });
+          }
           break;
       }
     }
@@ -210,58 +344,52 @@ export const tick = (): void => {
             break;
         }
       }
-      // Play monster idle damaged animation
-      if (
-        monster.hit !== null &&
-        getCurrentTime() - monster.hit.time < knockbackDuration
-      ) {
-        switch (monster.direction) {
-          case XDirection.Left:
-            playSpriteInstanceAnimation(monster.spriteInstanceID, {
-              animationID: monster.idleLeftDamagedAnimationID,
-            });
-            break;
-          case XDirection.Right:
-            playSpriteInstanceAnimation(monster.spriteInstanceID, {
-              animationID: monster.idleRightDamagedAnimationID,
-            });
-            break;
-          case YDirection.Up:
-            playSpriteInstanceAnimation(monster.spriteInstanceID, {
-              animationID: monster.idleUpDamagedAnimationID,
-            });
-            break;
-          case YDirection.Down:
-            playSpriteInstanceAnimation(monster.spriteInstanceID, {
-              animationID: monster.idleDownDamagedAnimationID,
-            });
-            break;
-        }
-      }
       // Play monster idle animation
-      else {
-        switch (monster.direction) {
-          case XDirection.Left:
+      switch (monster.direction) {
+        case XDirection.Left:
+          if (isMonsterInvincible(monster)) {
+            playSpriteInstanceAnimation(monster.spriteInstanceID, {
+              animationID: monster.idleLeftInvincibleAnimationID,
+            });
+          } else {
             playSpriteInstanceAnimation(monster.spriteInstanceID, {
               animationID: monster.idleLeftAnimationID,
             });
-            break;
-          case XDirection.Right:
+          }
+          break;
+        case XDirection.Right:
+          if (isMonsterInvincible(monster)) {
+            playSpriteInstanceAnimation(monster.spriteInstanceID, {
+              animationID: monster.idleRightInvincibleAnimationID,
+            });
+          } else {
             playSpriteInstanceAnimation(monster.spriteInstanceID, {
               animationID: monster.idleRightAnimationID,
             });
-            break;
-          case YDirection.Up:
+          }
+          break;
+        case YDirection.Up:
+          if (isMonsterInvincible(monster)) {
+            playSpriteInstanceAnimation(monster.spriteInstanceID, {
+              animationID: monster.idleUpInvincibleAnimationID,
+            });
+          } else {
             playSpriteInstanceAnimation(monster.spriteInstanceID, {
               animationID: monster.idleUpAnimationID,
             });
-            break;
-          case YDirection.Down:
+          }
+          break;
+        case YDirection.Down:
+          if (isMonsterInvincible(monster)) {
+            playSpriteInstanceAnimation(monster.spriteInstanceID, {
+              animationID: monster.idleDownInvincibleAnimationID,
+            });
+          } else {
             playSpriteInstanceAnimation(monster.spriteInstanceID, {
               animationID: monster.idleDownAnimationID,
             });
-            break;
-        }
+          }
+          break;
       }
     }
     // Swords

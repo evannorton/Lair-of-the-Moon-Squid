@@ -8,21 +8,46 @@ export enum PlayerAnimation {
   ArrowRight = "arrow-right",
   ArrowUp = "arrow-up",
   ArrowDown = "arrow-down",
+  ArrowLeftInvincible = "arrow-left-invincible",
+  ArrowRightInvincible = "arrow-right-invincible",
+  ArrowUpInvincible = "arrow-up-invincible",
+  ArrowDownInvincible = "arrow-down-invincible",
+  KnockbackLeft = "knockback-left",
+  KnockbackRight = "knockback-right",
+  KnockbackUp = "knockback-up",
+  KnockbackDown = "knockback-down",
+  KnockbackLeftInvincible = "knockback-left-invincible",
+  KnockbackRightInvincible = "knockback-right-invincible",
+  KnockbackUpInvincible = "knockback-up-invincible",
+  KnockbackDownInvincible = "knockback-down-invincible",
   IdleLeft = "idle-left",
   IdleRight = "idle-right",
   IdleUp = "idle-up",
   IdleDown = "idle-down",
+  IdleLeftInvincible = "idle-left-invincible",
+  IdleRightInvincible = "idle-right-invincible",
+  IdleUpInvincible = "idle-up-invincible",
+  IdleDownInvincible = "idle-down-invincible",
   SwordLeft = "sword-left",
   SwordRight = "sword-right",
   SwordUp = "sword-up",
   SwordDown = "sword-down",
+  SwordLeftInvincible = "sword-left-invincible",
+  SwordRightInvincible = "sword-right-invincible",
+  SwordUpInvincible = "sword-up-invincible",
+  SwordDownInvincible = "sword-down-invincible",
   WalkLeft = "walk-left",
   WalkRight = "walk-right",
   WalkUp = "walk-up",
   WalkDown = "walk-down",
+  WalkLeftInvincible = "walk-left-invincible",
+  WalkRightInvincible = "walk-right-invincible",
+  WalkUpInvincible = "walk-up-invincible",
+  WalkDownInvincible = "walk-down-invincible",
 }
 export const playerSpriteID: string = createSprite({
   animations: [
+    // Regular
     {
       frames: [
         {
@@ -347,6 +372,435 @@ export const playerSpriteID: string = createSprite({
       ],
       id: PlayerAnimation.ArrowDown,
     },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 0,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.KnockbackLeft,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 16,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.KnockbackRight,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 32,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.KnockbackUp,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 48,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.KnockbackDown,
+    },
+    // Invincible
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 320,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.IdleLeftInvincible,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 336,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.IdleRightInvincible,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 352,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.IdleUpInvincible,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 368,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.IdleDownInvincible,
+    },
+    {
+      frames: [
+        {
+          duration: movementFrameDuration,
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 384,
+          width: 16,
+        },
+        {
+          duration: movementFrameDuration,
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 384,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.WalkLeftInvincible,
+    },
+    {
+      frames: [
+        {
+          duration: movementFrameDuration,
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 400,
+          width: 16,
+        },
+        {
+          duration: movementFrameDuration,
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 400,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.WalkRightInvincible,
+    },
+    {
+      frames: [
+        {
+          duration: movementFrameDuration,
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 416,
+          width: 16,
+        },
+        {
+          duration: movementFrameDuration,
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 416,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.WalkUpInvincible,
+    },
+    {
+      frames: [
+        {
+          duration: movementFrameDuration,
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 432,
+          width: 16,
+        },
+        {
+          duration: movementFrameDuration,
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 432,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.WalkDownInvincible,
+    },
+    {
+      frames: [
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 448,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 448,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 32,
+          sourceY: 448,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.SwordLeftInvincible,
+    },
+    {
+      frames: [
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 464,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 464,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 32,
+          sourceY: 464,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.SwordRightInvincible,
+    },
+    {
+      frames: [
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 480,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 480,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 32,
+          sourceY: 480,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.SwordUpInvincible,
+    },
+    {
+      frames: [
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 496,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 16,
+          sourceY: 496,
+          width: 16,
+        },
+        {
+          duration: Math.floor(swordSwingDuration / 3),
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 32,
+          sourceY: 496,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.SwordDownInvincible,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 512,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.ArrowLeftInvincible,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 528,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.ArrowRightInvincible,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 544,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.ArrowUpInvincible,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 560,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.ArrowDownInvincible,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 576,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.KnockbackLeftInvincible,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 592,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.KnockbackRightInvincible,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 608,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.KnockbackUpInvincible,
+    },
+    {
+      frames: [
+        {
+          height: 16,
+          sourceHeight: 16,
+          sourceWidth: 16,
+          sourceX: 0,
+          sourceY: 624,
+          width: 16,
+        },
+      ],
+      id: PlayerAnimation.KnockbackDownInvincible,
+    },
   ],
   imagePath: "player",
 });
@@ -355,10 +809,10 @@ export enum MoblinAnimation {
   IdleRight = "idle-right",
   IdleUp = "idle-up",
   IdleDown = "idle-down",
-  IdleLeftDamaged = "idle-left-damaged",
-  IdleRightDamaged = "idle-right-damaged",
-  IdleUpDamaged = "idle-up-damaged",
-  IdleDownDamaged = "idle-down-damaged",
+  IdleLeftInvincible = "idle-left-Invincible",
+  IdleRightInvincible = "idle-right-Invincible",
+  IdleUpInvincible = "idle-up-Invincible",
+  IdleDownInvincible = "idle-down-Invincible",
 }
 export const moblinSpriteID: string = createSprite({
   animations: [
@@ -425,7 +879,7 @@ export const moblinSpriteID: string = createSprite({
           width: 16,
         },
       ],
-      id: MoblinAnimation.IdleLeftDamaged,
+      id: MoblinAnimation.IdleLeftInvincible,
     },
     {
       frames: [
@@ -438,7 +892,7 @@ export const moblinSpriteID: string = createSprite({
           width: 16,
         },
       ],
-      id: MoblinAnimation.IdleRightDamaged,
+      id: MoblinAnimation.IdleRightInvincible,
     },
     {
       frames: [
@@ -451,7 +905,7 @@ export const moblinSpriteID: string = createSprite({
           width: 16,
         },
       ],
-      id: MoblinAnimation.IdleUpDamaged,
+      id: MoblinAnimation.IdleUpInvincible,
     },
     {
       frames: [
@@ -464,7 +918,7 @@ export const moblinSpriteID: string = createSprite({
           width: 16,
         },
       ],
-      id: MoblinAnimation.IdleDownDamaged,
+      id: MoblinAnimation.IdleDownInvincible,
     },
   ],
   imagePath: "monsters/moblin",

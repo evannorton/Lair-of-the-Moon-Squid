@@ -14,7 +14,7 @@ import { Monster } from "../types/Monster";
 import { XDirection, YDirection } from "../types/Direction";
 import { arrowShootSpeed } from "../constants/arrowShootSpeed";
 import { arrowSpriteID } from "../game/main/sprites";
-import { knockbackDuration } from "../constants/knockbackDuration";
+import { isMonsterInvincible } from "./isMonsterInvincible";
 import { removeArrow } from "./removeArrow";
 import { state } from "../state";
 
@@ -65,11 +65,7 @@ export const shootArrow = (): void => {
         for (const entityCollidable of overlapData.entityCollidables) {
           const monster: Monster<string> | null =
             state.values.monsters.get(entityCollidable.entityID) ?? null;
-          if (
-            monster !== null &&
-            (monster.hit === null ||
-              getCurrentTime() - monster.hit.time >= knockbackDuration)
-          ) {
+          if (monster !== null && !isMonsterInvincible(monster)) {
             monster.hit = {
               direction: state.values.playerDirection,
               time: getCurrentTime(),
@@ -145,6 +141,6 @@ export const shootArrow = (): void => {
   });
   state.setValues({
     arrows,
-    shotArrowAt: getCurrentTime(),
+    playerShotArrowAt: getCurrentTime(),
   });
 };

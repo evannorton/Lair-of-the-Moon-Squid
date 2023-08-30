@@ -12,7 +12,7 @@ import { MoblinAnimation, moblinSpriteID } from "../game/main/sprites";
 import { Monster } from "../types/Monster";
 import { YDirection } from "../types/Direction";
 import { getOppositeDirection } from "./getOppositeDirection";
-import { isTakingKnockback } from "./isTakingKnockback";
+import { isPlayerInvincible } from "./isPlayerInvincible";
 import { playerSpriteInstanceID } from "../game/main/spriteInstances";
 import { state } from "../state";
 
@@ -31,7 +31,7 @@ export const startMainGame = (): void => {
         const monster: Monster<string> | null =
           state.values.monsters.get(entityCollidable.entityID) ?? null;
         if (monster !== null) {
-          if (!isTakingKnockback()) {
+          if (!isPlayerInvincible()) {
             state.setValues({
               playerHit: {
                 direction: getOppositeDirection(state.values.playerDirection),
@@ -78,13 +78,13 @@ export const startMainGame = (): void => {
     entityID: moblinEntityID,
     hit: null,
     idleDownAnimationID: MoblinAnimation.IdleDown,
-    idleDownDamagedAnimationID: MoblinAnimation.IdleDownDamaged,
+    idleDownInvincibleAnimationID: MoblinAnimation.IdleDownInvincible,
     idleLeftAnimationID: MoblinAnimation.IdleLeft,
-    idleLeftDamagedAnimationID: MoblinAnimation.IdleLeftDamaged,
+    idleLeftInvincibleAnimationID: MoblinAnimation.IdleLeftInvincible,
     idleRightAnimationID: MoblinAnimation.IdleRight,
-    idleRightDamagedAnimationID: MoblinAnimation.IdleRightDamaged,
+    idleRightInvincibleAnimationID: MoblinAnimation.IdleRightInvincible,
     idleUpAnimationID: MoblinAnimation.IdleUp,
-    idleUpDamagedAnimationID: MoblinAnimation.IdleUpDamaged,
+    idleUpInvincibleAnimationID: MoblinAnimation.IdleUpInvincible,
     spriteInstanceID: moblinSpriteInstanceID,
   });
   state.setValues({ monsters });
