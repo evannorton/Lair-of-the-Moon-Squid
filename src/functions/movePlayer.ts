@@ -37,8 +37,8 @@ export const movePlayer = (): void => {
     yVelocity,
   });
   if (yDirection !== null) {
-    state.setValues({ direction: yDirection });
+    state.setValues({ playerDirection: yDirection });
   } else if (xDirection !== null) {
-    state.setValues({ direction: xDirection });
+    state.setValues({ playerDirection: xDirection });
   }
 };

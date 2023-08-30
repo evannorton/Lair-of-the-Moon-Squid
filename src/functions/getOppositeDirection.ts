@@ -1,8 +1,7 @@
 import { Direction, XDirection, YDirection } from "../types/Direction";
-import { state } from "../state";
 
-export const getOppositeDirection = (): Direction => {
-  switch (state.values.direction) {
+export const getOppositeDirection = (direction: Direction): Direction => {
+  switch (direction) {
     case XDirection.Left:
       return XDirection.Right;
     case XDirection.Right:

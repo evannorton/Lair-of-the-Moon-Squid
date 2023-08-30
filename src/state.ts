@@ -7,22 +7,22 @@ import { Sword } from "./types/Sword";
 
 interface StateSchema {
   arrows: Map<string, Arrow>;
-  direction: Direction;
-  hit: Hit | null;
   isAtTitle: boolean;
   monsters: Map<string, Monster<string>>;
+  playerDirection: Direction;
   playerEntityID: string | null;
+  playerHit: Hit | null;
   shotArrowAt: number | null;
   swords: Map<string, Sword>;
   swungSwordAt: number | null;
 }
 const defaultState: StateSchema = {
   arrows: new Map(),
-  direction: YDirection.Down,
-  hit: null,
   isAtTitle: true,
   monsters: new Map(),
+  playerDirection: YDirection.Down,
   playerEntityID: null,
+  playerHit: null,
   shotArrowAt: null,
   swords: new Map(),
   swungSwordAt: null,

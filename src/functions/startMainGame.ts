@@ -12,7 +12,7 @@ import { MoblinAnimation, moblinSpriteID } from "../game/main/sprites";
 import { Monster } from "../types/Monster";
 import { YDirection } from "../types/Direction";
 import { getOppositeDirection } from "./getOppositeDirection";
-import { knockbackDuration } from "../constants/knockbackDuration";
+import { isTakingKnockback } from "./isTakingKnockback";
 import { playerSpriteInstanceID } from "../game/main/spriteInstances";
 import { state } from "../state";
 
@@ -31,14 +31,10 @@ export const startMainGame = (): void => {
         const monster: Monster<string> | null =
           state.values.monsters.get(entityCollidable.entityID) ?? null;
         if (monster !== null) {
-          if (
-            state.values.hit === null ||
-            getCurrentTime() - state.values.hit.time >= knockbackDuration
-          ) {
-            console.log("player walked into monster");
+          if (!isTakingKnockback()) {
             state.setValues({
-              hit: {
-                direction: getOppositeDirection(),
+              playerHit: {
+                direction: getOppositeDirection(state.values.playerDirection),
                 time: getCurrentTime(),
               },
             });
@@ -65,7 +61,7 @@ export const startMainGame = (): void => {
   const moblinSpriteInstanceID: string = createSpriteInstance({
     spriteID: moblinSpriteID,
   });
-  const moblinEntityID: string = spawnEntity({
+  const moblinEntityID: string = spawnEntity<CollisionLayer>({
     collisionLayer: CollisionLayer.Monster,
     height: 16,
     layerID: "entities",

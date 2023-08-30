@@ -43,7 +43,7 @@ export const swingSword = (): void => {
                 getCurrentTime() - monster.hit.time >= knockbackDuration
               ) {
                 monster.hit = {
-                  direction: state.values.direction,
+                  direction: state.values.playerDirection,
                   time: getCurrentTime(),
                 };
               }

@@ -18,6 +18,7 @@ import { arrowBounceDuration } from "../constants/arrowBounceDuration";
 import { isMainGameOngoing } from "../game/main/conditions";
 import { isShootingArrow } from "./isShootingArrow";
 import { isSwingingSword } from "./isSwingingSword";
+import { isTakingKnockback } from "./isTakingKnockback";
 import { knockbackDuration } from "../constants/knockbackDuration";
 import { movePlayer } from "./movePlayer";
 import { movementSpeed } from "../constants/movementSpeed";
@@ -27,6 +28,7 @@ import { removeSword } from "./removeSword";
 import { state } from "../state";
 import { stopPlayer } from "./stopPlayer";
 import { swordSwingDuration } from "../constants/swordSwingDuration";
+import applyKnockbackToPlayer from "./applyKnockbackToPlayer";
 
 export const tick = (): void => {
   const currentTime: number = getCurrentTime();
@@ -45,12 +47,15 @@ export const tick = (): void => {
       );
     }
     stopPlayer();
-    if (!isSwingingSword() && !isShootingArrow()) {
+    if (!isTakingKnockback() && !isSwingingSword() && !isShootingArrow()) {
       movePlayer();
+    }
+    if (isTakingKnockback()) {
+      applyKnockbackToPlayer();
     }
     // Play player sword animation
     if (isSwingingSword()) {
-      switch (state.values.direction) {
+      switch (state.values.playerDirection) {
         case XDirection.Left:
           playSpriteInstanceAnimation(playerSpriteInstanceID, {
             animationID: PlayerAnimation.SwordLeft,
@@ -75,7 +80,7 @@ export const tick = (): void => {
     }
     // Play player arrow animation
     else if (isShootingArrow()) {
-      switch (state.values.direction) {
+      switch (state.values.playerDirection) {
         case XDirection.Left:
           playSpriteInstanceAnimation(playerSpriteInstanceID, {
             animationID: PlayerAnimation.ArrowLeft,
@@ -98,9 +103,34 @@ export const tick = (): void => {
           break;
       }
     }
+    // Play player knockback animation
+    else if (isTakingKnockback()) {
+      switch (state.values.playerDirection) {
+        case XDirection.Left:
+          playSpriteInstanceAnimation(playerSpriteInstanceID, {
+            animationID: PlayerAnimation.IdleLeft,
+          });
+          break;
+        case XDirection.Right:
+          playSpriteInstanceAnimation(playerSpriteInstanceID, {
+            animationID: PlayerAnimation.IdleRight,
+          });
+          break;
+        case YDirection.Up:
+          playSpriteInstanceAnimation(playerSpriteInstanceID, {
+            animationID: PlayerAnimation.IdleUp,
+          });
+          break;
+        case YDirection.Down:
+          playSpriteInstanceAnimation(playerSpriteInstanceID, {
+            animationID: PlayerAnimation.IdleDown,
+          });
+          break;
+      }
+    }
     // Play player walk animation
     else if (isEntityMoving(state.values.playerEntityID)) {
-      switch (state.values.direction) {
+      switch (state.values.playerDirection) {
         case XDirection.Left:
           playSpriteInstanceAnimation(playerSpriteInstanceID, {
             animationID: PlayerAnimation.WalkLeft,
@@ -125,7 +155,7 @@ export const tick = (): void => {
     }
     // Play player idle animation
     else {
-      switch (state.values.direction) {
+      switch (state.values.playerDirection) {
         case XDirection.Left:
           playSpriteInstanceAnimation(playerSpriteInstanceID, {
             animationID: PlayerAnimation.IdleLeft,
@@ -241,7 +271,7 @@ export const tick = (): void => {
       } else {
         const diff: number = getCurrentTime() - sword.swungAt;
         const frame: number = Math.floor((diff / swordSwingDuration) * 3);
-        switch (state.values.direction) {
+        switch (state.values.playerDirection) {
           case XDirection.Left:
             switch (frame) {
               case 0:
@@ -399,7 +429,6 @@ export const tick = (): void => {
         arrow.bouncedAt !== null &&
         currentTime - arrow.bouncedAt >= arrowBounceDuration * 3
       ) {
-        console.log("remove arrow");
         removeArrow(arrow.entityID);
       } else {
         if (arrow.bouncedAt !== null) {

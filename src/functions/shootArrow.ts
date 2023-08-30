@@ -32,7 +32,7 @@ export const shootArrow = (): void => {
   }
   let x: number = playerEntityPosition.x;
   let y: number = playerEntityPosition.y;
-  switch (state.values.direction) {
+  switch (state.values.playerDirection) {
     case XDirection.Left:
       x -= 16;
       break;
@@ -71,7 +71,7 @@ export const shootArrow = (): void => {
               getCurrentTime() - monster.hit.time >= knockbackDuration)
           ) {
             monster.hit = {
-              direction: state.values.direction,
+              direction: state.values.playerDirection,
               time: getCurrentTime(),
             };
             hitCount++;
@@ -118,7 +118,7 @@ export const shootArrow = (): void => {
     width: 16,
     zIndex: 2,
   });
-  switch (state.values.direction) {
+  switch (state.values.playerDirection) {
     case XDirection.Left:
       moveEntity(arrowEntityID, {
         xVelocity: -arrowShootSpeed,
@@ -140,7 +140,7 @@ export const shootArrow = (): void => {
   arrows.set(arrowEntityID, {
     bouncedAt: null,
     entityID: arrowEntityID,
-    shootDirection: state.values.direction,
+    shootDirection: state.values.playerDirection,
     spriteInstanceID: arrowSpriteInstanceID,
   });
   state.setValues({

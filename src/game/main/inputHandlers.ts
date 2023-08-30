@@ -6,6 +6,7 @@ import {
 import { isMainGameOngoing } from "./conditions";
 import { isShootingArrow } from "../../functions/isShootingArrow";
 import { isSwingingSword } from "../../functions/isSwingingSword";
+import { isTakingKnockback } from "../../functions/isTakingKnockback";
 import { shootArrow } from "../../functions/shootArrow";
 import { swingSword } from "../../functions/swingSword";
 
@@ -15,7 +16,7 @@ export const swordInputPressHandlerID: string = createInputPressHandler({
   keys: ["KeyZ"],
   leftClick: true,
   onInput: (): void => {
-    if (!isSwingingSword() && !isShootingArrow()) {
+    if (!isTakingKnockback() && !isSwingingSword() && !isShootingArrow()) {
       swingSword();
     }
   },
@@ -25,7 +26,7 @@ export const arrowInputPressHandlerID: string = createInputPressHandler({
   gamepadButtons: [1, 2],
   keys: ["KeyX"],
   onInput: (): void => {
-    if (!isSwingingSword() && !isShootingArrow()) {
+    if (!isTakingKnockback() && !isSwingingSword() && !isShootingArrow()) {
       shootArrow();
     }
   },
