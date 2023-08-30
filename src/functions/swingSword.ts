@@ -36,14 +36,12 @@ export const swingSword = (): void => {
           if (monster !== null) {
             const hitAt: number | null =
               sword.monstersHitAt.get(monster.entityID) ?? null;
-            if (hitAt === null) {
+            if (hitAt === null && !isMonsterInvincible(monster)) {
               sword.monstersHitAt.set(monster.entityID, getCurrentTime());
-              if (!isMonsterInvincible(monster)) {
-                monster.hit = {
-                  direction: state.values.playerDirection,
-                  time: getCurrentTime(),
-                };
-              }
+              monster.hit = {
+                direction: state.values.playerDirection,
+                time: getCurrentTime(),
+              };
             }
           }
         }
