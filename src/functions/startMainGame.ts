@@ -7,6 +7,7 @@ import {
   goToLevel,
   lockCameraToEntity,
   spawnEntity,
+  stopAudioSource,
 } from "pigeon-mode-game-framework";
 import {
   MoblinAnimation,
@@ -22,6 +23,7 @@ import { playerSpriteInstanceID } from "../game/main/spriteInstances";
 import { state } from "../state";
 
 export const startMainGame = (): void => {
+  stopAudioSource("title");
   state.setValues({ isAtTitle: false });
   goToLevel("test_level");
   const playerEntityID: string = spawnEntity<CollisionLayer>({
