@@ -13,7 +13,7 @@ import {
 export const movePlayer = (): void => {
   if (state.values.playerEntityID === null) {
     throw new Error(
-      "An attempt was made to move the player with no player entity instance",
+      "An attempt was made to move the player with no player entity",
     );
   }
   const xDirection: XDirection | null =

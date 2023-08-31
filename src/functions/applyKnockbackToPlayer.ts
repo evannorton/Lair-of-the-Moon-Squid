@@ -6,7 +6,7 @@ import { state } from "../state";
 const applyKnockbackToPlayer = (): void => {
   if (state.values.playerEntityID === null) {
     throw new Error(
-      "An attempt was made to apply knockback to the player with no player entity instance",
+      "An attempt was made to apply knockback to the player with no player entity",
     );
   }
   if (state.values.playerHit === null) {

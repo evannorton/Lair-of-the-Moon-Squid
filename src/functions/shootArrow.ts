@@ -1,4 +1,5 @@
 import { Arrow } from "../types/Arrow";
+import { ArrowAnimation, arrowSpriteID } from "../game/main/sprites";
 import { CollisionLayer } from "../types/CollisionLayer";
 import {
   EntityPosition,
@@ -13,7 +14,6 @@ import {
 import { Monster } from "../types/Monster";
 import { XDirection, YDirection } from "../types/Direction";
 import { arrowShootSpeed } from "../constants/arrowShootSpeed";
-import { arrowSpriteID } from "../game/main/sprites";
 import { isMonsterInvincible } from "./isMonsterInvincible";
 import { removeArrow } from "./removeArrow";
 import { state } from "../state";
@@ -47,6 +47,43 @@ export const shootArrow = (): void => {
       break;
   }
   const arrowSpriteInstanceID: string = createSpriteInstance({
+    getAnimationID: (): ArrowAnimation | null => {
+      const arrow: Arrow | null =
+        state.values.arrows.find(
+          (arrowInState: Arrow): boolean =>
+            arrowInState.spriteInstanceID === arrowSpriteInstanceID,
+        ) ?? null;
+      if (arrow === null) {
+        throw new Error(
+          "An Arrow collided with an entity, but the Arrow could not be found in state.",
+        );
+      }
+      if (arrow.bouncedAt !== null) {
+        // Play arrow bounce animation
+        switch (arrow.shootDirection) {
+          case XDirection.Left:
+            return ArrowAnimation.BounceRight;
+          case XDirection.Right:
+            return ArrowAnimation.BounceLeft;
+          case YDirection.Up:
+            return ArrowAnimation.BounceDown;
+          case YDirection.Down:
+            return ArrowAnimation.BounceUp;
+        }
+      } else {
+        // Play arrow shoot animation
+        switch (arrow.shootDirection) {
+          case XDirection.Left:
+            return ArrowAnimation.ShootLeft;
+          case XDirection.Right:
+            return ArrowAnimation.ShootRight;
+          case YDirection.Up:
+            return ArrowAnimation.ShootUp;
+          case YDirection.Down:
+            return ArrowAnimation.ShootDown;
+        }
+      }
+    },
     spriteID: arrowSpriteID,
   });
   const arrowEntityID: string = spawnEntity<CollisionLayer>({
@@ -54,7 +91,10 @@ export const shootArrow = (): void => {
     layerID: "entities",
     onOverlap: (overlapData: OverlapData<CollisionLayer>): void => {
       const arrow: Arrow | null =
-        state.values.arrows.get(arrowEntityID) ?? null;
+        state.values.arrows.find(
+          (arrowInState: Arrow): boolean =>
+            arrowInState.entityID === arrowEntityID,
+        ) ?? null;
       if (arrow === null) {
         throw new Error(
           "An arrow overlapped, but the arrow could not be found in state.",
@@ -64,7 +104,10 @@ export const shootArrow = (): void => {
         let hitCount: number = 0;
         for (const entityCollidable of overlapData.entityCollidables) {
           const monster: Monster<string> | null =
-            state.values.monsters.get(entityCollidable.entityID) ?? null;
+            state.values.monsters.find(
+              (monsterInState: Monster<string>): boolean =>
+                monsterInState.entityID === entityCollidable.entityID,
+            ) ?? null;
           if (monster !== null && !isMonsterInvincible(monster)) {
             monster.hit = {
               direction: state.values.playerDirection,
@@ -132,8 +175,8 @@ export const shootArrow = (): void => {
       moveEntity(arrowEntityID, { yVelocity: arrowShootSpeed });
       break;
   }
-  const arrows: Map<string, Arrow> = new Map(state.values.arrows);
-  arrows.set(arrowEntityID, {
+  const arrows: Arrow[] = [...state.values.arrows];
+  arrows.push({
     bouncedAt: null,
     entityID: arrowEntityID,
     shootDirection: state.values.playerDirection,

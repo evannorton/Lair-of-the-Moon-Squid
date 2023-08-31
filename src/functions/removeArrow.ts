@@ -6,11 +6,14 @@ import {
 import { state } from "../state";
 
 export const removeArrow = (arrowEntityID: string): void => {
-  const arrow: Arrow | undefined = state.values.arrows.get(arrowEntityID);
-  if (typeof arrow === "undefined") {
+  const arrowIndex: number = state.values.arrows.findIndex(
+    (arrowInState: Arrow): boolean => arrowInState.entityID === arrowEntityID,
+  );
+  if (arrowIndex === -1) {
     throw new Error("An attempt was made to remove a non-existent arrow.");
   }
+  const arrow: Arrow = state.values.arrows[arrowIndex];
   removeSpriteInstance(arrow.spriteInstanceID);
   despawnEntity(arrow.entityID);
-  state.values.arrows.delete(arrowEntityID);
+  state.values.arrows.splice(arrowIndex, 1);
 };

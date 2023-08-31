@@ -6,26 +6,26 @@ import { State } from "pigeon-mode-game-framework";
 import { Sword } from "./types/Sword";
 
 interface StateSchema {
-  arrows: Map<string, Arrow>;
+  arrows: Arrow[];
   isAtTitle: boolean;
-  monsters: Map<string, Monster<string>>;
+  monsters: Monster<string>[];
   playerDirection: Direction;
   playerEntityID: string | null;
   playerHit: Hit | null;
   playerShotArrowAt: number | null;
   playerSwungSwordAt: number | null;
-  swords: Map<string, Sword>;
+  swords: Sword[];
 }
 const defaultState: StateSchema = {
-  arrows: new Map(),
+  arrows: [],
   isAtTitle: true,
-  monsters: new Map(),
+  monsters: [],
   playerDirection: YDirection.Down,
   playerEntityID: null,
   playerHit: null,
   playerShotArrowAt: null,
   playerSwungSwordAt: null,
-  swords: new Map(),
+  swords: [],
 };
 
 export const state: State<StateSchema> = new State(defaultState);

@@ -1,6 +1,6 @@
+import { TitleAnimation, titleSpriteID } from "./sprites";
 import { createSpriteInstance } from "pigeon-mode-game-framework";
 import { isAtTitle } from "./conditions";
-import { titleSpriteID } from "./sprites";
 
 export const titleSpriteInstanceID: string = createSpriteInstance({
   coordinates: {
@@ -8,5 +8,6 @@ export const titleSpriteInstanceID: string = createSpriteInstance({
     x: 0,
     y: 0,
   },
+  getAnimationID: (): TitleAnimation => TitleAnimation.Title,
   spriteID: titleSpriteID,
 });
