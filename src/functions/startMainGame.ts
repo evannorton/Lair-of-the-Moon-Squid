@@ -6,6 +6,7 @@ import {
   getCurrentTime,
   goToLevel,
   lockCameraToEntity,
+  playAudioSource,
   spawnEntity,
   stopAudioSource,
 } from "pigeon-mode-game-framework";
@@ -24,6 +25,7 @@ import { state } from "../state";
 
 export const startMainGame = (): void => {
   stopAudioSource("title");
+  playAudioSource("boss");
   state.setValues({ isAtTitle: false });
   goToLevel("test_level");
   const playerEntityID: string = spawnEntity<CollisionLayer>({
