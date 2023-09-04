@@ -4,5 +4,13 @@
   },
   "extends": [
     "./node_modules/pigeon-mode-game-framework/.eslintrc"
-  ]
+  ],
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": []
+      }
+    ]
+  }
 }
