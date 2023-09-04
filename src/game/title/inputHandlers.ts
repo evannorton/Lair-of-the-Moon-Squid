@@ -5,7 +5,7 @@ import { startMainGame } from "../../functions/startMainGame";
 export const titleInputPressHandlerID: string = createInputPressHandler({
   condition: isAtTitle,
   gamepadButtons: [9],
-  keys: ["Space", "Enter"],
+  keys: [{ value: "Space" }, { value: "Enter" }],
   leftClick: true,
   onInput: startMainGame,
 });
