@@ -2,8 +2,13 @@ import { CollisionLayer } from "../types/CollisionLayer";
 import { MoblinAnimation, moblinSpriteID } from "../game/main/sprites";
 import { Monster } from "../types/Monster";
 import { XDirection, YDirection } from "../types/Direction";
-import { createSpriteInstance, spawnEntity } from "pigeon-mode-game-framework";
+import {
+  createSpriteInstance,
+  pathEntity,
+  spawnEntity,
+} from "pigeon-mode-game-framework";
 import { isMonsterInvincible } from "./isMonsterInvincible";
+import { movementSpeed } from "../constants/movementSpeed";
 import { state } from "../state";
 
 export const createMoblin = (): void => {
@@ -58,6 +63,11 @@ export const createMoblin = (): void => {
     spriteInstanceID: moblinSpriteInstanceID,
     width: 16,
     zIndex: 0,
+  });
+  pathEntity(moblinEntityID, {
+    velocity: movementSpeed,
+    x: 0,
+    y: 8,
   });
   monsters.push({
     direction: YDirection.Down,
