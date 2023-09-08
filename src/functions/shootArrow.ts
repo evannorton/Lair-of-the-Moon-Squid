@@ -119,10 +119,7 @@ export const shootArrow = (): void => {
         if (hitCount > 0) {
           removeArrow(arrowEntityID);
         } else if (overlapData.map) {
-          stopEntity(arrowEntityID, {
-            x: true,
-            y: true,
-          });
+          stopEntity(arrowEntityID);
           arrow.bouncedAt = getCurrentTime();
           switch (arrow.shootDirection) {
             case XDirection.Left:

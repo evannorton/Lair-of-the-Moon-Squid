@@ -7,8 +7,5 @@ export const stopPlayer = (): void => {
       "A attempt was made to stop the player with no player entity.",
     );
   }
-  stopEntity(state.values.playerEntityID, {
-    x: true,
-    y: true,
-  });
+  stopEntity(state.values.playerEntityID);
 };

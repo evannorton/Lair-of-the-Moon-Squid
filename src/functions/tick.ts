@@ -49,10 +49,7 @@ export const tick = (): void => {
     }
     // Monsters
     for (const monster of state.values.monsters) {
-      stopEntity(monster.entityID, {
-        x: true,
-        y: true,
-      });
+      stopEntity(monster.entityID);
       const sinceHit: number | null =
         monster.hit !== null ? getCurrentTime() - monster.hit.time : null;
       if (sinceHit !== null && sinceHit < knockbackDuration) {
