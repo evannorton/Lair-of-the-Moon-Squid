@@ -7,10 +7,7 @@
   ],
   "rules": {
     "no-restricted-imports": [
-      "error",
-      {
-        "patterns": []
-      }
+      "off"
     ]
   }
 }
