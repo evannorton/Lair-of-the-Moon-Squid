@@ -142,6 +142,7 @@ export const playerSpriteInstanceID: string = createSpriteInstance({
           return PlayerAnimation.IdleDown;
       }
     }
+    return null;
   },
   spriteID: playerSpriteID,
 });
