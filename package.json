@@ -1,5 +1,5 @@
 {
-    "name": "moon-squid",
+    "name": "lair-of-the-moon-squid",
     "scripts": {
         "dev": "pigeon dev",
         "lint": "pigeon lint",
