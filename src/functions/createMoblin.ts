@@ -57,7 +57,7 @@ export const createMoblin = (): void => {
     height: 16,
     layerID: "entities",
     position: {
-      x: 64,
+      x: 96,
       y: 128,
     },
     spriteInstanceID: moblinSpriteInstanceID,
