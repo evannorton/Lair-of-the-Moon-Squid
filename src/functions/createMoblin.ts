@@ -58,7 +58,7 @@ export const createMoblin = (): void => {
     layerID: "entities",
     position: {
       x: 64,
-      y: 64,
+      y: 128,
     },
     spriteInstanceID: moblinSpriteInstanceID,
     width: 16,
@@ -67,7 +67,7 @@ export const createMoblin = (): void => {
   pathEntity(moblinEntityID, {
     velocity: movementSpeed,
     x: 0,
-    y: 8,
+    y: 80,
   });
   monsters.push({
     direction: YDirection.Down,
