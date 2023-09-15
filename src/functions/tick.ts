@@ -2,6 +2,7 @@ import {
   EntityPosition,
   getCurrentTime,
   getEntityPosition,
+  isEntityPathing,
   moveEntity,
   setEntityPosition,
   stopEntity,
@@ -9,10 +10,10 @@ import {
 import { XDirection, YDirection } from "../types/Direction";
 import { arrowBounceDuration } from "../constants/arrowBounceDuration";
 import { isMainGameOngoing } from "../game/main/conditions";
+import { isMonsterTakingKnockback } from "./isMonsterTakingKnockback";
 import { isPlayerShootingArrow } from "./isPlayerShootingArrow";
 import { isPlayerSwingingSword } from "./isPlayerSwingingSword";
 import { isPlayerTakingKnockback } from "./isPlayerTakingKnockback";
-import { knockbackDuration } from "../constants/knockbackDuration";
 import { movePlayer } from "./movePlayer";
 import { movementSpeed } from "../constants/movementSpeed";
 import { removeArrow } from "./removeArrow";
@@ -49,9 +50,7 @@ export const tick = (): void => {
     }
     // Monsters
     for (const monster of state.values.monsters) {
-      const sinceHit: number | null =
-      monster.hit !== null ? getCurrentTime() - monster.hit.time : null;
-      if (sinceHit !== null && sinceHit < knockbackDuration) {
+      if (isMonsterTakingKnockback(monster)) {
         stopEntity(monster.entityID);
         switch (monster.hit?.direction) {
           case XDirection.Left:
@@ -74,6 +73,11 @@ export const tick = (): void => {
               yVelocity: movementSpeed,
             });
             break;
+        }
+      }
+      else {
+        if (!isEntityPathing(monster.entityID)) {
+          stopEntity(monster.entityID);
         }
       }
     }
