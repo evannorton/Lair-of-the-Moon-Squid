@@ -74,8 +74,7 @@ export const tick = (): void => {
             });
             break;
         }
-      }
-      else {
+      } else {
         if (!isEntityPathing(monster.entityID)) {
           stopEntity(monster.entityID);
         }
