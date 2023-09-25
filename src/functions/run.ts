@@ -1,5 +1,6 @@
 import {
-  init,
+  initialize,
+  onRun,
   onTick,
   playAudioSource,
   setPauseMenuCondition,
@@ -8,14 +9,11 @@ import { isMainGameOngoing } from "../game/main/conditions";
 import { tick } from "./tick";
 
 export const run = (): void => {
+  onRun((): void => {
+    console.log("Moon Squid is running.");
+    playAudioSource("title");
+  });
   onTick(tick);
   setPauseMenuCondition(isMainGameOngoing);
-  init()
-    .then((): void => {
-      console.log("Moon Squid is initialized.");
-      playAudioSource("title");
-    })
-    .catch((error: Error): void => {
-      throw error;
-    });
+  initialize();
 };
