@@ -67,7 +67,7 @@ export const createMoblin = (): void => {
   pathEntity(moblinEntityID, {
     velocity: movementSpeed,
     x: 0,
-    y: 80,
+    y: 16,
   });
   monsters.push({
     direction: YDirection.Down,
