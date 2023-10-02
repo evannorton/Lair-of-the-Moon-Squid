@@ -13,7 +13,7 @@ import { state } from "../state";
 
 export const createMoblin = (): void => {
   const monsters: Monster<string>[] = [...state.values.monsters];
-  const moblinSpriteInstanceID: string = createSpriteInstance<MoblinAnimation>({
+  const moblinSpriteInstanceID: string = createSpriteInstance({
     getAnimationID: (): MoblinAnimation | null => {
       const monster: Monster<MoblinAnimation> | null =
         (state.values.monsters.find(

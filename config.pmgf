@@ -1,4 +1,14 @@
 {
   "width": 160,
-  "height": 144
+  "height": 144,
+  "volumeChannels": [
+    {
+      "id": "music",
+      "name": "Music"
+    },
+    {
+      "id": "sfx",
+      "name": "SFX"
+    }
+  ]
 }

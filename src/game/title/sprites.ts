@@ -3,7 +3,7 @@ import { createSprite } from "pigeon-mode-game-framework";
 export enum TitleAnimation {
   Title = "title",
 }
-export const titleSpriteID: string = createSprite<TitleAnimation>({
+export const titleSpriteID: string = createSprite({
   animations: [
     {
       frames: [

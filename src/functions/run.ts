@@ -1,3 +1,4 @@
+import { VolumeChannel } from "../types/VolumeChannel";
 import {
   initialize,
   onRun,
@@ -11,7 +12,9 @@ import { tick } from "./tick";
 export const run = (): void => {
   onRun((): void => {
     console.log("Moon Squid is running.");
-    playAudioSource("title");
+    playAudioSource("title", {
+      volumeChannelID: VolumeChannel.Music,
+    });
   });
   onTick(tick);
   setPauseMenuCondition(isMainGameOngoing);
