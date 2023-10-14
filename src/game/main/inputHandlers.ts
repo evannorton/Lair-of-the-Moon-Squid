@@ -13,8 +13,8 @@ import { swingSword } from "../../functions/swingSword";
 export const swordInputPressHandlerID: string = createInputPressHandler({
   condition: isMainGameOngoing,
   gamepadButtons: [0, 3],
-  keys: [{ value: "KeyZ" }],
-  leftClick: true,
+  keyboardButtons: [{ value: "KeyZ" }],
+  mouseButtons: [0],
   onInput: (): void => {
     if (
       !isPlayerTakingKnockback() &&
@@ -28,7 +28,8 @@ export const swordInputPressHandlerID: string = createInputPressHandler({
 export const arrowInputPressHandlerID: string = createInputPressHandler({
   condition: isMainGameOngoing,
   gamepadButtons: [1, 2],
-  keys: [{ value: "KeyX" }],
+  keyboardButtons: [{ value: "KeyX" }],
+  mouseButtons: [2],
   onInput: (): void => {
     if (
       !isPlayerTakingKnockback() &&
@@ -38,14 +39,13 @@ export const arrowInputPressHandlerID: string = createInputPressHandler({
       shootArrow();
     }
   },
-  rightClick: true,
 });
 export const xInputTickHandlerID: string = createInputTickHandler<XDirection>({
   groups: [
     {
       gamepadButtons: [14],
       id: XDirection.Left,
-      keys: [
+      keyboardButtons: [
         { value: "ArrowLeft" },
         { value: "KeyA" },
         {
@@ -57,7 +57,7 @@ export const xInputTickHandlerID: string = createInputTickHandler<XDirection>({
     {
       gamepadButtons: [15],
       id: XDirection.Right,
-      keys: [
+      keyboardButtons: [
         { value: "ArrowRight" },
         { value: "KeyD" },
         {
@@ -73,7 +73,7 @@ export const yInputTickHandlerID: string = createInputTickHandler<YDirection>({
     {
       gamepadButtons: [13],
       id: YDirection.Down,
-      keys: [
+      keyboardButtons: [
         { value: "ArrowDown" },
         { value: "KeyS" },
         {
@@ -85,7 +85,7 @@ export const yInputTickHandlerID: string = createInputTickHandler<YDirection>({
     {
       gamepadButtons: [12],
       id: YDirection.Up,
-      keys: [
+      keyboardButtons: [
         { value: "ArrowUp" },
         { value: "KeyW" },
         {
