@@ -6,8 +6,8 @@ import {
   setPauseMenuCondition,
 } from "pigeon-mode-game-framework";
 import { isMainGameOngoing } from "../game/main/conditions";
-import { tick } from "./tick";
 import { musicVolumeChannelID } from "../game/global/volumeChannels";
+import { tick } from "./tick";
 
 export const run = (): void => {
   onRun((): void => {
