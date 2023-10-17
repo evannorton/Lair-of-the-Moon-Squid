@@ -1,15 +1,5 @@
 {
   "name": "Moon Squid",
   "width": 160,
-  "height": 144,
-  "volumeChannels": [
-    {
-      "id": "music",
-      "name": "Music"
-    },
-    {
-      "id": "sfx",
-      "name": "SFX"
-    }
-  ]
+  "height": 144
 }
