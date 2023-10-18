@@ -1,4 +1,4 @@
-import { getCurrentTime } from "pigeon-mode-game-framework";
+import { getCurrentTime } from "pixel-pigeon";
 import { invincibilityDuration } from "../constants/invincibilityDuration";
 import { state } from "../state";
 

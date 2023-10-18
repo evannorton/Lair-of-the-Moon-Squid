@@ -4,7 +4,7 @@ import {
   onTick,
   playAudioSource,
   setPauseMenuCondition,
-} from "pigeon-mode-game-framework";
+} from "pixel-pigeon";
 import { isMainGameOngoing } from "../game/main/conditions";
 import { musicVolumeChannelID } from "../game/global/volumeChannels";
 import { tick } from "./tick";

@@ -1,5 +1,5 @@
 import { TitleAnimation, titleSpriteID } from "./sprites";
-import { createSpriteInstance } from "pigeon-mode-game-framework";
+import { createSpriteInstance } from "pixel-pigeon";
 import { isAtTitle } from "./conditions";
 
 export const titleSpriteInstanceID: string = createSpriteInstance({

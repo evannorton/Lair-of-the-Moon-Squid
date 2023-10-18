@@ -1,4 +1,4 @@
-import { getCurrentTime } from "pigeon-mode-game-framework";
+import { getCurrentTime } from "pixel-pigeon";
 import { state } from "../state";
 import { swordSwingDuration } from "../constants/swordSwingDuration";
 

@@ -5,7 +5,7 @@ import {
   playAudioSource,
   stopAudioSource,
   unlockAchievement,
-} from "pigeon-mode-game-framework";
+} from "pixel-pigeon";
 import { musicVolumeChannelID } from "../game/global/volumeChannels";
 import { state } from "../state";
 import { testAchievementID } from "../game/global/achievements";

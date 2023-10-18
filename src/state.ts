@@ -2,7 +2,7 @@ import { Arrow } from "./types/Arrow";
 import { Direction, YDirection } from "./types/Direction";
 import { Hit } from "./types/Hit";
 import { Monster } from "./types/Monster";
-import { State } from "pigeon-mode-game-framework";
+import { State } from "pixel-pigeon";
 import { Sword } from "./types/Sword";
 
 interface StateSchema {

@@ -5,7 +5,7 @@ import {
   createSpriteInstance,
   getCurrentTime,
   spawnEntity,
-} from "pigeon-mode-game-framework";
+} from "pixel-pigeon";
 import { Sword } from "../types/Sword";
 import { SwordAnimation, swordSpriteID } from "../game/main/sprites";
 import { XDirection, YDirection } from "../types/Direction";

@@ -1,5 +1,5 @@
 import { Monster } from "../types/Monster";
-import { getCurrentTime } from "pigeon-mode-game-framework";
+import { getCurrentTime } from "pixel-pigeon";
 import { knockbackDuration } from "../constants/knockbackDuration";
 
 export const isMonsterTakingKnockback = (monster: Monster<string>): boolean =>

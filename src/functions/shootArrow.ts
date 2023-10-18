@@ -10,7 +10,7 @@ import {
   moveEntity,
   spawnEntity,
   stopEntity,
-} from "pigeon-mode-game-framework";
+} from "pixel-pigeon";
 import { Monster } from "../types/Monster";
 import { XDirection, YDirection } from "../types/Direction";
 import { arrowShootSpeed } from "../constants/arrowShootSpeed";

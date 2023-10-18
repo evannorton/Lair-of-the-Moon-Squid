@@ -5,7 +5,7 @@ import {
   getCurrentTime,
   lockCameraToEntity,
   spawnEntity,
-} from "pigeon-mode-game-framework";
+} from "pixel-pigeon";
 import { Monster } from "../types/Monster";
 import { getOppositeDirection } from "../functions/getOppositeDirection";
 import { isPlayerInvincible } from "./isPlayerInvincible";

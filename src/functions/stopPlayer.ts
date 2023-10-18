@@ -1,5 +1,5 @@
 import { state } from "../state";
-import { stopEntity } from "pigeon-mode-game-framework";
+import { stopEntity } from "pixel-pigeon";
 
 export const stopPlayer = (): void => {
   if (state.values.playerEntityID === null) {

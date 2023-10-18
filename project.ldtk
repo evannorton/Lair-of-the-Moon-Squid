@@ -119,7 +119,7 @@
 			"tags": [],
 			"tagsSourceEnumUid": null,
 			"enumTags": [],
-			"customData": [{ "tileId": 3, "data": "{\n  \"pmgfCollision\": true\n}" }],
+			"customData": [{ "tileId": 3, "data": "{\n  \"ppCollision\": true\n}" }],
 			"savedSelections": [],
 			"cachedPixelData": { "opaqueTiles": "111111101110", "averageColors": "f8b4f7b3f8b4f575f7b3f6b2f7b30000f8b4f7b3f8b40000" }
 		}

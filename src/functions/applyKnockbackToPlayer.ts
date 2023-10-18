@@ -1,5 +1,5 @@
 import { XDirection, YDirection } from "../types/Direction";
-import { moveEntity } from "pigeon-mode-game-framework";
+import { moveEntity } from "pixel-pigeon";
 import { movementSpeed } from "../constants/movementSpeed";
 import { state } from "../state";
 

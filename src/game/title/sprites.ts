@@ -1,4 +1,4 @@
-import { createSprite } from "pigeon-mode-game-framework";
+import { createSprite } from "pixel-pigeon";
 
 export enum TitleAnimation {
   Title = "title",

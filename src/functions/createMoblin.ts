@@ -6,7 +6,7 @@ import {
   createSpriteInstance,
   pathEntity,
   spawnEntity,
-} from "pigeon-mode-game-framework";
+} from "pixel-pigeon";
 import { isMonsterInvincible } from "./isMonsterInvincible";
 import { movementSpeed } from "../constants/movementSpeed";
 import { state } from "../state";

@@ -1,5 +1,5 @@
 import { arrowBounceDuration } from "../../constants/arrowBounceDuration";
-import { createSprite } from "pigeon-mode-game-framework";
+import { createSprite } from "pixel-pigeon";
 import { movementFrameDuration } from "../../constants/movementFrameDuration";
 import { swordSwingDuration } from "../../constants/swordSwingDuration";
 

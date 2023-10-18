@@ -1,4 +1,4 @@
-import { getCurrentTime } from "pigeon-mode-game-framework";
+import { getCurrentTime } from "pixel-pigeon";
 import { knockbackDuration } from "../constants/knockbackDuration";
 import { state } from "../state";
 

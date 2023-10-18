@@ -1,4 +1,4 @@
-import { createAchievement } from "pigeon-mode-game-framework";
+import { createAchievement } from "pixel-pigeon";
 
 export const testAchievementID: string = createAchievement({
   description: "Click through the title screen.",

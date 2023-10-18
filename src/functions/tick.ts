@@ -6,7 +6,7 @@ import {
   moveEntity,
   setEntityPosition,
   stopEntity,
-} from "pigeon-mode-game-framework";
+} from "pixel-pigeon";
 import { XDirection, YDirection } from "../types/Direction";
 import { arrowBounceDuration } from "../constants/arrowBounceDuration";
 import { isMainGameOngoing } from "../game/main/conditions";

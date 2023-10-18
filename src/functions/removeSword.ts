@@ -2,7 +2,7 @@ import { Sword } from "../types/Sword";
 import {
   despawnEntity,
   removeSpriteInstance,
-} from "pigeon-mode-game-framework";
+} from "pixel-pigeon";
 import { state } from "../state";
 
 export const removeSword = (swordEntityID: string): void => {
