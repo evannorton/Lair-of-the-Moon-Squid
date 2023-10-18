@@ -1,8 +1,5 @@
 import { Sword } from "../types/Sword";
-import {
-  despawnEntity,
-  removeSpriteInstance,
-} from "pixel-pigeon";
+import { despawnEntity, removeSpriteInstance } from "pixel-pigeon";
 import { state } from "../state";
 
 export const removeSword = (swordEntityID: string): void => {

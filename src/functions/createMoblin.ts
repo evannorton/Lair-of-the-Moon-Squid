@@ -2,11 +2,7 @@ import { CollisionLayer } from "../types/CollisionLayer";
 import { MoblinAnimation, moblinSpriteID } from "../game/main/sprites";
 import { Monster } from "../types/Monster";
 import { XDirection, YDirection } from "../types/Direction";
-import {
-  createSpriteInstance,
-  pathEntity,
-  spawnEntity,
-} from "pixel-pigeon";
+import { createSpriteInstance, pathEntity, spawnEntity } from "pixel-pigeon";
 import { isMonsterInvincible } from "./isMonsterInvincible";
 import { movementSpeed } from "../constants/movementSpeed";
 import { state } from "../state";

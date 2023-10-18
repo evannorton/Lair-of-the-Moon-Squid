@@ -1,9 +1,6 @@
 import { PlayerAnimation, playerSpriteID } from "./sprites";
 import { XDirection, YDirection } from "../../types/Direction";
-import {
-  createSpriteInstance,
-  getInputTickHandlerGroupID,
-} from "pixel-pigeon";
+import { createSpriteInstance, getInputTickHandlerGroupID } from "pixel-pigeon";
 import { isPlayerInvincible } from "../../functions/isPlayerInvincible";
 import { isPlayerShootingArrow } from "../../functions/isPlayerShootingArrow";
 import { isPlayerSwingingSword } from "../../functions/isPlayerSwingingSword";

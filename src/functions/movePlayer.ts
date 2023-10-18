@@ -1,8 +1,5 @@
 import { XDirection, YDirection } from "../types/Direction";
-import {
-  getInputTickHandlerGroupID,
-  moveEntity,
-} from "pixel-pigeon";
+import { getInputTickHandlerGroupID, moveEntity } from "pixel-pigeon";
 import { movementSpeed } from "../constants/movementSpeed";
 import { state } from "../state";
 import {

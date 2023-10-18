@@ -1,8 +1,5 @@
 import { XDirection, YDirection } from "../../types/Direction";
-import {
-  createInputPressHandler,
-  createInputTickHandler,
-} from "pixel-pigeon";
+import { createInputPressHandler, createInputTickHandler } from "pixel-pigeon";
 import { isMainGameOngoing } from "./conditions";
 import { isPlayerShootingArrow } from "../../functions/isPlayerShootingArrow";
 import { isPlayerSwingingSword } from "../../functions/isPlayerSwingingSword";
