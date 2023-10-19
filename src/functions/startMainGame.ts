@@ -11,6 +11,7 @@ import { state } from "../state";
 import {
   testAchievement1ID,
   testAchievement2ID,
+  testAchievement3ID,
 } from "../game/global/achievements";
 
 export const startMainGame = (): void => {
@@ -24,4 +25,5 @@ export const startMainGame = (): void => {
   createMoblin();
   unlockAchievement(testAchievement1ID);
   unlockAchievement(testAchievement2ID);
+  unlockAchievement(testAchievement3ID);
 };

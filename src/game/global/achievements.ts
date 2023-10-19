@@ -13,3 +13,10 @@ export const testAchievement2ID: string = createAchievement({
   imagePath: "achievements/test",
   name: "Test Achievement 2",
 });
+
+export const testAchievement3ID: string = createAchievement({
+  description: "Click through the title screen 3.",
+  id: "test-3",
+  imagePath: "achievements/test",
+  name: "Test Achievement 3",
+});
