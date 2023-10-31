@@ -5,5 +5,5 @@ export const testAchievementID: string = createAchievement({
   id: "test",
   imagePath: "achievements/test",
   name: "Test Achievement",
-  newgroundsMedalID: "75797"
+  newgroundsMedalID: 75797
 });
