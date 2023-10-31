@@ -19,5 +19,5 @@ export const startMainGame = (): void => {
   goToLevel("test_level");
   createPlayer();
   createMoblin();
-  unlockAchievement(testAchievementID)
+  unlockAchievement(testAchievementID);
 };
