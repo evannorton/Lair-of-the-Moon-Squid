@@ -1,7 +1,6 @@
-import { InputPressHandler } from "pixel-pigeon/api/classes/InputPressHandler";
-import { takeScreenshot } from "pixel-pigeon";
+import { createInputPressHandler, takeScreenshot } from "pixel-pigeon";
 
-export const screenshotInputHandler: InputPressHandler = new InputPressHandler({
+export const screenshotInputHandlerID: string = createInputPressHandler({
   keyboardButtons: [{ value: "KeyP" }],
   onInput: (): void => {
     takeScreenshot();
