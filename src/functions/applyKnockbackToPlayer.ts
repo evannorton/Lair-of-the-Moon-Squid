@@ -3,7 +3,7 @@ import { moveEntity } from "pixel-pigeon";
 import { movementSpeed } from "../constants/movementSpeed";
 import { state } from "../state";
 
-const applyKnockbackToPlayer = (): void => {
+export const applyKnockbackToPlayer = (): void => {
   if (state.values.playerEntityID === null) {
     throw new Error(
       "An attempt was made to apply knockback to the player with no player entity",
@@ -41,5 +41,3 @@ const applyKnockbackToPlayer = (): void => {
       break;
   }
 };
-
-export default applyKnockbackToPlayer;
