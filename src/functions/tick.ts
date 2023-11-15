@@ -8,6 +8,7 @@ import {
   stopEntity,
 } from "pixel-pigeon";
 import { XDirection, YDirection } from "../types/Direction";
+import { applyKnockbackToPlayer } from "./applyKnockbackToPlayer";
 import { arrowBounceDuration } from "../constants/arrowBounceDuration";
 import { isMainGameOngoing } from "../game/main/conditions";
 import { isMonsterTakingKnockback } from "./isMonsterTakingKnockback";
@@ -21,7 +22,6 @@ import { removeSword } from "./removeSword";
 import { state } from "../state";
 import { stopPlayer } from "./stopPlayer";
 import { swordSwingDuration } from "../constants/swordSwingDuration";
-import applyKnockbackToPlayer from "./applyKnockbackToPlayer";
 
 export const tick = (): void => {
   const currentTime: number = getCurrentTime();
