@@ -8,7 +8,7 @@
         "zip": "pigeon zip"
     },
     "dependencies": {
-        "pixel-pigeon": "evannorton/pixel-pigeon"
+        "pixel-pigeon": "evannorton/Pixel-Pigeon"
     },
     "engines": {
         "npm": "9.5.1",
