@@ -1,16 +1,9 @@
 import { Arrow } from "../classes/Arrow";
-import {
-  EntityPosition,
-  getCurrentTime,
-  getEntityPosition,
-  isEntityPathing,
-  moveEntity,
-  setEntityPosition,
-  stopEntity,
-} from "pixel-pigeon";
+import { Sword } from "../classes/Sword";
 import { XDirection, YDirection } from "../types/Direction";
 import { applyKnockbackToPlayer } from "./applyKnockbackToPlayer";
 import { getDefinables } from "../definables";
+import { isEntityPathing, moveEntity, stopEntity } from "pixel-pigeon";
 import { isMainGameOngoing } from "../game/main/conditions";
 import { isMonsterTakingKnockback } from "./isMonsterTakingKnockback";
 import { isPlayerShootingArrow } from "./isPlayerShootingArrow";
@@ -18,20 +11,14 @@ import { isPlayerSwingingSword } from "./isPlayerSwingingSword";
 import { isPlayerTakingKnockback } from "./isPlayerTakingKnockback";
 import { movePlayer } from "./movePlayer";
 import { movementSpeed } from "../constants/movementSpeed";
-import { removeSword } from "./removeSword";
 import { state } from "../state";
 import { stopPlayer } from "./stopPlayer";
-import { swordSwingDuration } from "../constants/swordSwingDuration";
 
 export const tick = (): void => {
-  const currentTime: number = getCurrentTime();
   if (isMainGameOngoing()) {
     if (state.values.playerEntityID === null) {
       throw new Error("An attempt was made to tick with no player entity.");
     }
-    const playerPosition: EntityPosition = getEntityPosition(
-      state.values.playerEntityID,
-    );
     stopPlayer();
     if (
       !isPlayerTakingKnockback() &&
@@ -76,103 +63,8 @@ export const tick = (): void => {
       }
     }
     // Swords
-    for (const sword of state.values.swords) {
-      if (currentTime - sword.swungAt >= swordSwingDuration) {
-        removeSword(sword.entityID);
-      } else {
-        const diff: number = getCurrentTime() - sword.swungAt;
-        const frame: number = Math.floor((diff / swordSwingDuration) * 3);
-        switch (state.values.playerDirection) {
-          case XDirection.Left:
-            switch (frame) {
-              case 0:
-                setEntityPosition(sword.entityID, {
-                  x: playerPosition.x,
-                  y: playerPosition.y - 16,
-                });
-                break;
-              case 1:
-                setEntityPosition(sword.entityID, {
-                  x: playerPosition.x - 13,
-                  y: playerPosition.y - 13,
-                });
-                break;
-              case 2:
-                setEntityPosition(sword.entityID, {
-                  x: playerPosition.x - 16,
-                  y: playerPosition.y,
-                });
-                break;
-            }
-            break;
-          case XDirection.Right:
-            switch (frame) {
-              case 0:
-                setEntityPosition(sword.entityID, {
-                  x: playerPosition.x,
-                  y: playerPosition.y - 16,
-                });
-                break;
-              case 1:
-                setEntityPosition(sword.entityID, {
-                  x: playerPosition.x + 13,
-                  y: playerPosition.y - 13,
-                });
-                break;
-              case 2:
-                setEntityPosition(sword.entityID, {
-                  x: playerPosition.x + 16,
-                  y: playerPosition.y,
-                });
-                break;
-            }
-            break;
-          case YDirection.Up:
-            switch (frame) {
-              case 0:
-                setEntityPosition(sword.entityID, {
-                  x: playerPosition.x + 16,
-                  y: playerPosition.y,
-                });
-                break;
-              case 1:
-                setEntityPosition(sword.entityID, {
-                  x: playerPosition.x + 13,
-                  y: playerPosition.y - 13,
-                });
-                break;
-              case 2:
-                setEntityPosition(sword.entityID, {
-                  x: playerPosition.x,
-                  y: playerPosition.y - 16,
-                });
-                break;
-            }
-            break;
-          case YDirection.Down:
-            switch (frame) {
-              case 0:
-                setEntityPosition(sword.entityID, {
-                  x: playerPosition.x - 16,
-                  y: playerPosition.y,
-                });
-                break;
-              case 1:
-                setEntityPosition(sword.entityID, {
-                  x: playerPosition.x - 13,
-                  y: playerPosition.y + 13,
-                });
-                break;
-              case 2:
-                setEntityPosition(sword.entityID, {
-                  x: playerPosition.x,
-                  y: playerPosition.y + 16,
-                });
-                break;
-            }
-            break;
-        }
-      }
+    for (const sword of getDefinables(Sword).values()) {
+      sword.update();
     }
     // Arrows
     for (const arrow of getDefinables(Arrow).values()) {
