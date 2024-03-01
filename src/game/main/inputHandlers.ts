@@ -4,14 +4,20 @@ import { isMainGameOngoing } from "./conditions";
 import { isPlayerShootingArrow } from "../../functions/isPlayerShootingArrow";
 import { isPlayerSwingingSword } from "../../functions/isPlayerSwingingSword";
 import { isPlayerTakingKnockback } from "../../functions/isPlayerTakingKnockback";
+import {
+  moveDownInputCollectionID,
+  moveLeftInputCollectionID,
+  moveRightInputCollectionID,
+  moveUpInputCollectionID,
+  primaryWeaponInputCollectionID,
+  secondaryWeaponInputCollectionID,
+} from "./inputCollections";
 import { shootArrow } from "../../functions/shootArrow";
 import { swingSword } from "../../functions/swingSword";
 
 export const swordInputPressHandlerID: string = createInputPressHandler({
   condition: isMainGameOngoing,
-  gamepadButtons: [0, 3],
-  keyboardButtons: [{ value: "KeyZ" }],
-  mouseButtons: [0],
+  inputCollectionID: primaryWeaponInputCollectionID,
   onInput: (): void => {
     if (
       !isPlayerTakingKnockback() &&
@@ -24,9 +30,7 @@ export const swordInputPressHandlerID: string = createInputPressHandler({
 });
 export const arrowInputPressHandlerID: string = createInputPressHandler({
   condition: isMainGameOngoing,
-  gamepadButtons: [1, 2],
-  keyboardButtons: [{ value: "KeyX" }],
-  mouseButtons: [2],
+  inputCollectionID: secondaryWeaponInputCollectionID,
   onInput: (): void => {
     if (
       !isPlayerTakingKnockback() &&
@@ -40,56 +44,24 @@ export const arrowInputPressHandlerID: string = createInputPressHandler({
 export const xInputTickHandlerID: string = createInputTickHandler<XDirection>({
   groups: [
     {
-      gamepadButtons: [14],
       id: XDirection.Left,
-      keyboardButtons: [
-        { value: "ArrowLeft" },
-        { value: "KeyA" },
-        {
-          value: "Numpad4",
-          withoutNumlock: true,
-        },
-      ],
+      inputCollectionID: moveLeftInputCollectionID,
     },
     {
-      gamepadButtons: [15],
       id: XDirection.Right,
-      keyboardButtons: [
-        { value: "ArrowRight" },
-        { value: "KeyD" },
-        {
-          value: "Numpad6",
-          withoutNumlock: true,
-        },
-      ],
+      inputCollectionID: moveRightInputCollectionID,
     },
   ],
 });
 export const yInputTickHandlerID: string = createInputTickHandler<YDirection>({
   groups: [
     {
-      gamepadButtons: [13],
-      id: YDirection.Down,
-      keyboardButtons: [
-        { value: "ArrowDown" },
-        { value: "KeyS" },
-        {
-          value: "Numpad2",
-          withoutNumlock: true,
-        },
-      ],
+      id: YDirection.Up,
+      inputCollectionID: moveUpInputCollectionID,
     },
     {
-      gamepadButtons: [12],
-      id: YDirection.Up,
-      keyboardButtons: [
-        { value: "ArrowUp" },
-        { value: "KeyW" },
-        {
-          value: "Numpad8",
-          withoutNumlock: true,
-        },
-      ],
+      id: YDirection.Down,
+      inputCollectionID: moveDownInputCollectionID,
     },
   ],
 });

@@ -13,5 +13,5 @@ export interface Monster<AnimationID extends string> {
   readonly idleRightInvincibleAnimationID: AnimationID;
   readonly idleUpAnimationID: AnimationID;
   readonly idleUpInvincibleAnimationID: AnimationID;
-  readonly spriteInstanceID: string;
+  readonly spriteID: string;
 }

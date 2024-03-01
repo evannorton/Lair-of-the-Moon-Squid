@@ -1,13 +1,14 @@
-import { CollisionLayer } from "../types/CollisionLayer";
+import { EntityType } from "../types/EntityType";
 import { Monster } from "../types/Monster";
 import {
   OverlapData,
-  createSpriteInstance,
+  createEntity,
+  createSprite,
   getCurrentTime,
-  spawnEntity,
+  getEntityPosition,
 } from "pixel-pigeon";
 import { Sword } from "../types/Sword";
-import { SwordAnimation, swordSpriteID } from "../game/main/sprites";
+import { SwordAnimation } from "../types/animations";
 import { XDirection, YDirection } from "../types/Direction";
 import { isMonsterInvincible } from "./isMonsterInvincible";
 import { state } from "../state";
@@ -17,16 +18,16 @@ export const swingSword = (): void => {
   if (state.values.playerEntityID === null) {
     throw new Error("An sword input was received with no player entity.");
   }
-  const swordSpriteInstanceID: string = createSpriteInstance({
-    getAnimationID: (): SwordAnimation | null => {
+  const swordSpriteID: string = createSprite({
+    animationID: (): SwordAnimation => {
       const sword: Sword | null =
         state.values.swords.find(
           (swordInState: Sword): boolean =>
-            swordInState.spriteInstanceID === swordSpriteInstanceID,
+            swordInState.spriteID === swordSpriteID,
         ) ?? null;
       if (sword === null) {
         throw new Error(
-          "A Sword attempted to get its SpriteInstance AnimationID, but it could not be found in state.",
+          "A Sword attempted to get its Sprite AnimationID, but it could not be found in state.",
         );
       }
       const diff: number = getCurrentTime() - sword.swungAt;
@@ -72,14 +73,173 @@ export const swingSword = (): void => {
               return SwordAnimation.SwingDown3;
           }
       }
-      return null;
+      throw new Error("Attempted to render sword sprite with no animation.");
     },
-    spriteID: swordSpriteID,
+    animations: [
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 0,
+            sourceY: 0,
+            width: 16,
+          },
+        ],
+        id: SwordAnimation.SwingLeft1,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 16,
+            sourceY: 0,
+            width: 16,
+          },
+        ],
+        id: SwordAnimation.SwingLeft2,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 32,
+            sourceY: 0,
+            width: 16,
+          },
+        ],
+        id: SwordAnimation.SwingLeft3,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 0,
+            sourceY: 16,
+            width: 16,
+          },
+        ],
+        id: SwordAnimation.SwingRight1,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 16,
+            sourceY: 16,
+            width: 16,
+          },
+        ],
+        id: SwordAnimation.SwingRight2,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 32,
+            sourceY: 16,
+            width: 16,
+          },
+        ],
+        id: SwordAnimation.SwingRight3,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 0,
+            sourceY: 32,
+            width: 16,
+          },
+        ],
+        id: SwordAnimation.SwingUp1,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 16,
+            sourceY: 32,
+            width: 16,
+          },
+        ],
+        id: SwordAnimation.SwingUp2,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 32,
+            sourceY: 32,
+            width: 16,
+          },
+        ],
+        id: SwordAnimation.SwingUp3,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 0,
+            sourceY: 48,
+            width: 16,
+          },
+        ],
+        id: SwordAnimation.SwingDown1,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 16,
+            sourceY: 48,
+            width: 16,
+          },
+        ],
+        id: SwordAnimation.SwingDown2,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 32,
+            sourceY: 48,
+            width: 16,
+          },
+        ],
+        id: SwordAnimation.SwingDown3,
+      },
+    ],
+    imagePath: "sword",
   });
-  const swordEntityID: string = spawnEntity({
+  const swordEntityID: string = createEntity({
     height: 16,
     layerID: "entities",
-    onOverlap: (overlapData: OverlapData<CollisionLayer>): void => {
+    levelID: "test_level",
+    onOverlap: (overlapData: OverlapData): void => {
       const sword: Sword | null =
         state.values.swords.find(
           (swordInState: Sword): boolean =>
@@ -91,7 +251,7 @@ export const swingSword = (): void => {
         );
       }
       for (const entityCollidable of overlapData.entityCollidables) {
-        if (entityCollidable.collisionLayer === CollisionLayer.Monster) {
+        if (entityCollidable.type === EntityType.Monster) {
           const monster: Monster<SwordAnimation> | null =
             (state.values.monsters.find(
               (monsterInState: Monster<string>): boolean =>
@@ -111,7 +271,9 @@ export const swingSword = (): void => {
         }
       }
     },
-    spriteInstanceID: swordSpriteInstanceID,
+    position: getEntityPosition(state.values.playerEntityID),
+    sprites: [{ spriteID: swordSpriteID }],
+    type: EntityType.Projectile,
     width: 16,
     zIndex: 3,
   });
@@ -119,7 +281,7 @@ export const swingSword = (): void => {
   swords.push({
     entityID: swordEntityID,
     monstersHitAt: new Map(),
-    spriteInstanceID: swordSpriteInstanceID,
+    spriteID: swordSpriteID,
     swungAt: getCurrentTime(),
   });
   state.setValues({

@@ -21,14 +21,14 @@ export const movePlayer = (): void => {
     xDirection === XDirection.Left
       ? -movementSpeed
       : xDirection === XDirection.Right
-      ? movementSpeed
-      : 0;
+        ? movementSpeed
+        : 0;
   const yVelocity: number =
     yDirection === YDirection.Up
       ? -movementSpeed
       : yDirection === YDirection.Down
-      ? movementSpeed
-      : 0;
+        ? movementSpeed
+        : 0;
   moveEntity(state.values.playerEntityID, {
     xVelocity,
     yVelocity,

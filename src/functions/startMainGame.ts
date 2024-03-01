@@ -1,14 +1,8 @@
 import { createMoblin } from "./createMoblin";
 import { createPlayer } from "./createPlayer";
-import {
-  goToLevel,
-  playAudioSource,
-  stopAudioSource,
-  unlockAchievement,
-} from "pixel-pigeon";
+import { goToLevel, playAudioSource, stopAudioSource } from "pixel-pigeon";
 import { musicVolumeChannelID } from "../game/global/volumeChannels";
 import { state } from "../state";
-import { testAchievementID } from "../game/global/achievements";
 
 export const startMainGame = (): void => {
   state.setValues({ isAtTitle: false });
@@ -19,5 +13,4 @@ export const startMainGame = (): void => {
   goToLevel("test_level");
   createPlayer();
   createMoblin();
-  unlockAchievement(testAchievementID);
 };

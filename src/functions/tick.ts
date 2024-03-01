@@ -29,14 +29,9 @@ export const tick = (): void => {
     if (state.values.playerEntityID === null) {
       throw new Error("An attempt was made to tick with no player entity.");
     }
-    const playerPosition: EntityPosition | null = getEntityPosition(
+    const playerPosition: EntityPosition = getEntityPosition(
       state.values.playerEntityID,
     );
-    if (playerPosition === null) {
-      throw new Error(
-        "An attempt was made to tick with no player entity position.",
-      );
-    }
     stopPlayer();
     if (
       !isPlayerTakingKnockback() &&
@@ -92,26 +87,20 @@ export const tick = (): void => {
             switch (frame) {
               case 0:
                 setEntityPosition(sword.entityID, {
-                  position: {
-                    x: playerPosition.x,
-                    y: playerPosition.y - 16,
-                  },
+                  x: playerPosition.x,
+                  y: playerPosition.y - 16,
                 });
                 break;
               case 1:
                 setEntityPosition(sword.entityID, {
-                  position: {
-                    x: playerPosition.x - 13,
-                    y: playerPosition.y - 13,
-                  },
+                  x: playerPosition.x - 13,
+                  y: playerPosition.y - 13,
                 });
                 break;
               case 2:
                 setEntityPosition(sword.entityID, {
-                  position: {
-                    x: playerPosition.x - 16,
-                    y: playerPosition.y,
-                  },
+                  x: playerPosition.x - 16,
+                  y: playerPosition.y,
                 });
                 break;
             }
@@ -120,26 +109,20 @@ export const tick = (): void => {
             switch (frame) {
               case 0:
                 setEntityPosition(sword.entityID, {
-                  position: {
-                    x: playerPosition.x,
-                    y: playerPosition.y - 16,
-                  },
+                  x: playerPosition.x,
+                  y: playerPosition.y - 16,
                 });
                 break;
               case 1:
                 setEntityPosition(sword.entityID, {
-                  position: {
-                    x: playerPosition.x + 13,
-                    y: playerPosition.y - 13,
-                  },
+                  x: playerPosition.x + 13,
+                  y: playerPosition.y - 13,
                 });
                 break;
               case 2:
                 setEntityPosition(sword.entityID, {
-                  position: {
-                    x: playerPosition.x + 16,
-                    y: playerPosition.y,
-                  },
+                  x: playerPosition.x + 16,
+                  y: playerPosition.y,
                 });
                 break;
             }
@@ -148,26 +131,20 @@ export const tick = (): void => {
             switch (frame) {
               case 0:
                 setEntityPosition(sword.entityID, {
-                  position: {
-                    x: playerPosition.x + 16,
-                    y: playerPosition.y,
-                  },
+                  x: playerPosition.x + 16,
+                  y: playerPosition.y,
                 });
                 break;
               case 1:
                 setEntityPosition(sword.entityID, {
-                  position: {
-                    x: playerPosition.x + 13,
-                    y: playerPosition.y - 13,
-                  },
+                  x: playerPosition.x + 13,
+                  y: playerPosition.y - 13,
                 });
                 break;
               case 2:
                 setEntityPosition(sword.entityID, {
-                  position: {
-                    x: playerPosition.x,
-                    y: playerPosition.y - 16,
-                  },
+                  x: playerPosition.x,
+                  y: playerPosition.y - 16,
                 });
                 break;
             }
@@ -176,26 +153,20 @@ export const tick = (): void => {
             switch (frame) {
               case 0:
                 setEntityPosition(sword.entityID, {
-                  position: {
-                    x: playerPosition.x - 16,
-                    y: playerPosition.y,
-                  },
+                  x: playerPosition.x - 16,
+                  y: playerPosition.y,
                 });
                 break;
               case 1:
                 setEntityPosition(sword.entityID, {
-                  position: {
-                    x: playerPosition.x - 13,
-                    y: playerPosition.y + 13,
-                  },
+                  x: playerPosition.x - 13,
+                  y: playerPosition.y + 13,
                 });
                 break;
               case 2:
                 setEntityPosition(sword.entityID, {
-                  position: {
-                    x: playerPosition.x,
-                    y: playerPosition.y + 16,
-                  },
+                  x: playerPosition.x,
+                  y: playerPosition.y + 16,
                 });
                 break;
             }

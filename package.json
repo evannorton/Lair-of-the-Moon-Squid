@@ -2,8 +2,10 @@
     "name": "lair-of-the-moon-squid",
     "scripts": {
         "dev": "pigeon dev",
+        "id": "pigeon id",
         "lint": "pigeon lint",
         "lint:fix": "pigeon lint:fix",
+        "png": "pigeon png",
         "xD": "pigeon xD",
         "zip": "pigeon zip"
     },
@@ -11,7 +13,7 @@
         "pixel-pigeon": "evannorton/Pixel-Pigeon"
     },
     "engines": {
-        "npm": "9.5.1",
-        "node": "18.16.0"
+        "node": "20.11.0",
+        "npm": "10.2.4"
     }
 }

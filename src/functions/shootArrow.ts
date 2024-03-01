@@ -1,18 +1,19 @@
 import { Arrow } from "../types/Arrow";
-import { ArrowAnimation, arrowSpriteID } from "../game/main/sprites";
-import { CollisionLayer } from "../types/CollisionLayer";
+import { ArrowAnimation } from "../types/animations";
 import {
   EntityPosition,
   OverlapData,
-  createSpriteInstance,
+  createEntity,
+  createSprite,
   getCurrentTime,
   getEntityPosition,
   moveEntity,
-  spawnEntity,
   stopEntity,
 } from "pixel-pigeon";
+import { EntityType } from "../types/EntityType";
 import { Monster } from "../types/Monster";
 import { XDirection, YDirection } from "../types/Direction";
+import { arrowBounceDuration } from "../constants/arrowBounceDuration";
 import { arrowShootSpeed } from "../constants/arrowShootSpeed";
 import { isMonsterInvincible } from "./isMonsterInvincible";
 import { removeArrow } from "./removeArrow";
@@ -25,11 +26,6 @@ export const shootArrow = (): void => {
   const playerEntityPosition: EntityPosition | null = getEntityPosition(
     state.values.playerEntityID,
   );
-  if (playerEntityPosition === null) {
-    throw new Error(
-      "An arrow shoot was attempted with the player entity having no position.",
-    );
-  }
   let x: number = playerEntityPosition.x;
   let y: number = playerEntityPosition.y;
   switch (state.values.playerDirection) {
@@ -46,12 +42,12 @@ export const shootArrow = (): void => {
       y += 16;
       break;
   }
-  const arrowSpriteInstanceID: string = createSpriteInstance({
-    getAnimationID: (): ArrowAnimation | null => {
+  const arrowSpriteID: string = createSprite({
+    animationID: (): ArrowAnimation => {
       const arrow: Arrow | null =
         state.values.arrows.find(
           (arrowInState: Arrow): boolean =>
-            arrowInState.spriteInstanceID === arrowSpriteInstanceID,
+            arrowInState.spriteID === arrowSpriteID,
         ) ?? null;
       if (arrow === null) {
         throw new Error(
@@ -84,12 +80,195 @@ export const shootArrow = (): void => {
         }
       }
     },
-    spriteID: arrowSpriteID,
+    animations: [
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 0,
+            sourceY: 0,
+            width: 16,
+          },
+        ],
+        id: ArrowAnimation.ShootLeft,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 0,
+            sourceY: 16,
+            width: 16,
+          },
+        ],
+        id: ArrowAnimation.ShootRight,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 0,
+            sourceY: 32,
+            width: 16,
+          },
+        ],
+        id: ArrowAnimation.ShootUp,
+      },
+      {
+        frames: [
+          {
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 0,
+            sourceY: 48,
+            width: 16,
+          },
+        ],
+        id: ArrowAnimation.ShootDown,
+      },
+      {
+        frames: [
+          {
+            duration: arrowBounceDuration,
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 0,
+            sourceY: 64,
+            width: 16,
+          },
+          {
+            duration: arrowBounceDuration,
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 16,
+            sourceY: 64,
+            width: 16,
+          },
+          {
+            duration: arrowBounceDuration,
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 32,
+            sourceY: 64,
+            width: 16,
+          },
+        ],
+        id: ArrowAnimation.BounceLeft,
+      },
+      {
+        frames: [
+          {
+            duration: arrowBounceDuration,
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 0,
+            sourceY: 80,
+            width: 16,
+          },
+          {
+            duration: arrowBounceDuration,
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 16,
+            sourceY: 80,
+            width: 16,
+          },
+          {
+            duration: arrowBounceDuration,
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 32,
+            sourceY: 80,
+            width: 16,
+          },
+        ],
+        id: ArrowAnimation.BounceRight,
+      },
+      {
+        frames: [
+          {
+            duration: arrowBounceDuration,
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 0,
+            sourceY: 96,
+            width: 16,
+          },
+          {
+            duration: arrowBounceDuration,
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 16,
+            sourceY: 96,
+            width: 16,
+          },
+          {
+            duration: arrowBounceDuration,
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 32,
+            sourceY: 96,
+            width: 16,
+          },
+        ],
+        id: ArrowAnimation.BounceUp,
+      },
+      {
+        frames: [
+          {
+            duration: arrowBounceDuration,
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 0,
+            sourceY: 112,
+            width: 16,
+          },
+          {
+            duration: arrowBounceDuration,
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 16,
+            sourceY: 112,
+            width: 16,
+          },
+          {
+            duration: arrowBounceDuration,
+            height: 16,
+            sourceHeight: 16,
+            sourceWidth: 16,
+            sourceX: 32,
+            sourceY: 112,
+            width: 16,
+          },
+        ],
+        id: ArrowAnimation.BounceDown,
+      },
+    ],
+    imagePath: "arrow",
   });
-  const arrowEntityID: string = spawnEntity<CollisionLayer>({
+  const arrowEntityID: string = createEntity({
     height: 16,
     layerID: "entities",
-    onOverlap: (overlapData: OverlapData<CollisionLayer>): void => {
+    levelID: "test_level",
+    onOverlap: (overlapData: OverlapData): void => {
       const arrow: Arrow | null =
         state.values.arrows.find(
           (arrowInState: Arrow): boolean =>
@@ -103,17 +282,19 @@ export const shootArrow = (): void => {
       if (arrow.bouncedAt === null) {
         let hitCount: number = 0;
         for (const entityCollidable of overlapData.entityCollidables) {
-          const monster: Monster<string> | null =
-            state.values.monsters.find(
-              (monsterInState: Monster<string>): boolean =>
-                monsterInState.entityID === entityCollidable.entityID,
-            ) ?? null;
-          if (monster !== null && !isMonsterInvincible(monster)) {
-            monster.hit = {
-              direction: state.values.playerDirection,
-              time: getCurrentTime(),
-            };
-            hitCount++;
+          if (entityCollidable.type === EntityType.Monster) {
+            const monster: Monster<string> | null =
+              state.values.monsters.find(
+                (monsterInState: Monster<string>): boolean =>
+                  monsterInState.entityID === entityCollidable.entityID,
+              ) ?? null;
+            if (monster !== null && !isMonsterInvincible(monster)) {
+              monster.hit = {
+                direction: state.values.playerDirection,
+                time: getCurrentTime(),
+              };
+              hitCount++;
+            }
           }
         }
         if (hitCount > 0) {
@@ -150,7 +331,12 @@ export const shootArrow = (): void => {
       x,
       y,
     },
-    spriteInstanceID: arrowSpriteInstanceID,
+    sprites: [
+      {
+        spriteID: arrowSpriteID,
+      },
+    ],
+    type: "projectile",
     width: 16,
     zIndex: 2,
   });
@@ -177,7 +363,7 @@ export const shootArrow = (): void => {
     bouncedAt: null,
     entityID: arrowEntityID,
     shootDirection: state.values.playerDirection,
-    spriteInstanceID: arrowSpriteInstanceID,
+    spriteID: arrowSpriteID,
   });
   state.setValues({
     arrows,

@@ -1,5 +1,5 @@
 import { Arrow } from "../types/Arrow";
-import { despawnEntity, removeSpriteInstance } from "pixel-pigeon";
+import { removeEntity } from "pixel-pigeon";
 import { state } from "../state";
 
 export const removeArrow = (arrowEntityID: string): void => {
@@ -10,7 +10,6 @@ export const removeArrow = (arrowEntityID: string): void => {
     throw new Error("An attempt was made to remove a non-existent arrow.");
   }
   const arrow: Arrow = state.values.arrows[arrowIndex];
-  removeSpriteInstance(arrow.spriteInstanceID);
-  despawnEntity(arrow.entityID);
+  removeEntity(arrow.entityID);
   state.values.arrows.splice(arrowIndex, 1);
 };
