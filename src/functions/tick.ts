@@ -1,3 +1,4 @@
+import { Arrow } from "../classes/Arrow";
 import {
   EntityPosition,
   getCurrentTime,
@@ -9,7 +10,7 @@ import {
 } from "pixel-pigeon";
 import { XDirection, YDirection } from "../types/Direction";
 import { applyKnockbackToPlayer } from "./applyKnockbackToPlayer";
-import { arrowBounceDuration } from "../constants/arrowBounceDuration";
+import { getDefinables } from "../definables";
 import { isMainGameOngoing } from "../game/main/conditions";
 import { isMonsterTakingKnockback } from "./isMonsterTakingKnockback";
 import { isPlayerShootingArrow } from "./isPlayerShootingArrow";
@@ -17,7 +18,6 @@ import { isPlayerSwingingSword } from "./isPlayerSwingingSword";
 import { isPlayerTakingKnockback } from "./isPlayerTakingKnockback";
 import { movePlayer } from "./movePlayer";
 import { movementSpeed } from "../constants/movementSpeed";
-import { removeArrow } from "./removeArrow";
 import { removeSword } from "./removeSword";
 import { state } from "../state";
 import { stopPlayer } from "./stopPlayer";
@@ -175,13 +175,8 @@ export const tick = (): void => {
       }
     }
     // Arrows
-    for (const arrow of state.values.arrows) {
-      if (
-        arrow.bouncedAt !== null &&
-        currentTime - arrow.bouncedAt >= arrowBounceDuration * 3
-      ) {
-        removeArrow(arrow.entityID);
-      }
+    for (const arrow of getDefinables(Arrow).values()) {
+      arrow.update();
     }
   }
 };
