@@ -8,6 +8,7 @@ export const startMainGame = (): void => {
   state.setValues({ isAtTitle: false });
   stopAudioSource("title");
   playAudioSource("boss", {
+    loopPoint: 0,
     volumeChannelID: musicVolumeChannelID,
   });
   goToLevel("test_level");

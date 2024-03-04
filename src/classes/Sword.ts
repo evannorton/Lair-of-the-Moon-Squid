@@ -1,4 +1,4 @@
-import { Definable } from "../definables";
+import { Definable, getDefinable } from "../definables";
 import {
   EntityPosition,
   OverlapData,
@@ -10,23 +10,19 @@ import {
   setEntityPosition,
 } from "pixel-pigeon";
 import { EntityType } from "../types/EntityType";
-import { Monster } from "../types/Monster";
+import { Monster } from "./Monster";
 import { SwordAnimation } from "../types/animations";
 import { XDirection, YDirection } from "../types/Direction";
-import { isMonsterInvincible } from "../functions/isMonsterInvincible";
 import { state } from "../state";
 import { swordSwingDuration } from "../constants/swordSwingDuration";
 
 export class Sword extends Definable {
-  private readonly _entityID: string;
-  private readonly _monstersHitAt: Map<string, number | null> = new Map();
   private readonly _swungAt: number = getCurrentTime();
   public constructor() {
     if (state.values.playerEntityID === null) {
       throw new Error("Attempted to construct Sword with no player entity.");
     }
-    super();
-    const swordSpriteID: string = createSprite({
+    const spriteID: string = createSprite({
       animationID: (): SwordAnimation => {
         const diff: number = getCurrentTime() - this._swungAt;
         const frame: number = Math.floor((diff / swordSwingDuration) * 3);
@@ -233,43 +229,35 @@ export class Sword extends Definable {
       ],
       imagePath: "sword",
     });
-    this._entityID = createEntity({
+    const entityID: string = createEntity({
       height: 16,
       layerID: "entities",
       levelID: "test_level",
       onOverlap: (overlapData: OverlapData): void => {
         for (const entityCollidable of overlapData.entityCollidables) {
           if (entityCollidable.type === EntityType.Monster) {
-            const monster: Monster<SwordAnimation> | null =
-              (state.values.monsters.find(
-                (monsterInState: Monster<string>): boolean =>
-                  monsterInState.entityID === entityCollidable.entityID,
-              ) ?? null) as Monster<SwordAnimation> | null;
-            if (monster !== null) {
-              const hitAt: number | null =
-                this._monstersHitAt.get(monster.entityID) ?? null;
-              if (hitAt === null && !isMonsterInvincible(monster)) {
-                this._monstersHitAt.set(monster.entityID, getCurrentTime());
-                monster.hit = {
-                  direction: state.values.playerDirection,
-                  time: getCurrentTime(),
-                };
-              }
+            const monster: Monster<string> = getDefinable(
+              Monster,
+              entityCollidable.entityID,
+            );
+            if (!monster.isInvincible()) {
+              monster.takeHit();
             }
           }
         }
       },
       position: getEntityPosition(state.values.playerEntityID),
-      sprites: [{ spriteID: swordSpriteID }],
+      sprites: [{ spriteID }],
       type: EntityType.Projectile,
       width: 16,
       zIndex: 3,
     });
+    super(entityID);
   }
 
   public remove(): void {
     super.remove();
-    removeEntity(this._entityID);
+    removeEntity(this._id);
   }
 
   public update(): void {
@@ -289,19 +277,19 @@ export class Sword extends Definable {
         case XDirection.Left:
           switch (frame) {
             case 0:
-              setEntityPosition(this._entityID, {
+              setEntityPosition(this._id, {
                 x: playerEntityPosition.x,
                 y: playerEntityPosition.y - 16,
               });
               break;
             case 1:
-              setEntityPosition(this._entityID, {
+              setEntityPosition(this._id, {
                 x: playerEntityPosition.x - 13,
                 y: playerEntityPosition.y - 13,
               });
               break;
             case 2:
-              setEntityPosition(this._entityID, {
+              setEntityPosition(this._id, {
                 x: playerEntityPosition.x - 16,
                 y: playerEntityPosition.y,
               });
@@ -311,19 +299,19 @@ export class Sword extends Definable {
         case XDirection.Right:
           switch (frame) {
             case 0:
-              setEntityPosition(this._entityID, {
+              setEntityPosition(this._id, {
                 x: playerEntityPosition.x,
                 y: playerEntityPosition.y - 16,
               });
               break;
             case 1:
-              setEntityPosition(this._entityID, {
+              setEntityPosition(this._id, {
                 x: playerEntityPosition.x + 13,
                 y: playerEntityPosition.y - 13,
               });
               break;
             case 2:
-              setEntityPosition(this._entityID, {
+              setEntityPosition(this._id, {
                 x: playerEntityPosition.x + 16,
                 y: playerEntityPosition.y,
               });
@@ -333,19 +321,19 @@ export class Sword extends Definable {
         case YDirection.Up:
           switch (frame) {
             case 0:
-              setEntityPosition(this._entityID, {
+              setEntityPosition(this._id, {
                 x: playerEntityPosition.x + 16,
                 y: playerEntityPosition.y,
               });
               break;
             case 1:
-              setEntityPosition(this._entityID, {
+              setEntityPosition(this._id, {
                 x: playerEntityPosition.x + 13,
                 y: playerEntityPosition.y - 13,
               });
               break;
             case 2:
-              setEntityPosition(this._entityID, {
+              setEntityPosition(this._id, {
                 x: playerEntityPosition.x,
                 y: playerEntityPosition.y - 16,
               });
@@ -355,19 +343,19 @@ export class Sword extends Definable {
         case YDirection.Down:
           switch (frame) {
             case 0:
-              setEntityPosition(this._entityID, {
+              setEntityPosition(this._id, {
                 x: playerEntityPosition.x - 16,
                 y: playerEntityPosition.y,
               });
               break;
             case 1:
-              setEntityPosition(this._entityID, {
+              setEntityPosition(this._id, {
                 x: playerEntityPosition.x - 13,
                 y: playerEntityPosition.y + 13,
               });
               break;
             case 2:
-              setEntityPosition(this._entityID, {
+              setEntityPosition(this._id, {
                 x: playerEntityPosition.x,
                 y: playerEntityPosition.y + 16,
               });

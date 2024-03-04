@@ -1,5 +1,5 @@
 import { ArrowAnimation } from "../types/animations";
-import { Definable } from "../definables";
+import { Definable, getDefinable } from "../definables";
 import { Direction, XDirection, YDirection } from "../types/Direction";
 import {
   EntityPosition,
@@ -13,21 +13,18 @@ import {
   stopEntity,
 } from "pixel-pigeon";
 import { EntityType } from "../types/EntityType";
-import { Monster } from "../types/Monster";
+import { Monster } from "./Monster";
 import { arrowBounceDuration } from "../constants/arrowBounceDuration";
 import { arrowShootSpeed } from "../constants/arrowShootSpeed";
-import { isMonsterInvincible } from "../functions/isMonsterInvincible";
 import { state } from "../state";
 
 export class Arrow extends Definable {
   private _bouncedAt: number | null = null;
-  private readonly _entityID: string;
   private readonly _shootDirection: Direction = state.values.playerDirection;
   public constructor() {
     if (state.values.playerEntityID === null) {
       throw new Error("Attempted to construct Arrow with no player entity.");
     }
-    super();
     const playerEntityPosition: EntityPosition | null = getEntityPosition(
       state.values.playerEntityID,
     );
@@ -47,7 +44,7 @@ export class Arrow extends Definable {
         y += 16;
         break;
     }
-    const arrowSpriteID: string = createSprite({
+    const spriteID: string = createSprite({
       animationID: (): ArrowAnimation => {
         if (this._bouncedAt !== null) {
           // Play arrow bounce animation
@@ -259,7 +256,7 @@ export class Arrow extends Definable {
       ],
       imagePath: "arrow",
     });
-    this._entityID = createEntity({
+    const entityID: string = createEntity({
       height: 16,
       layerID: "entities",
       levelID: "test_level",
@@ -268,16 +265,12 @@ export class Arrow extends Definable {
           let hitCount: number = 0;
           for (const entityCollidable of overlapData.entityCollidables) {
             if (entityCollidable.type === EntityType.Monster) {
-              const monster: Monster<string> | null =
-                state.values.monsters.find(
-                  (monsterInState: Monster<string>): boolean =>
-                    monsterInState.entityID === entityCollidable.entityID,
-                ) ?? null;
-              if (monster !== null && !isMonsterInvincible(monster)) {
-                monster.hit = {
-                  direction: state.values.playerDirection,
-                  time: getCurrentTime(),
-                };
+              const monster: Monster<string> = getDefinable(
+                Monster,
+                entityCollidable.entityID,
+              );
+              if (!monster.isInvincible()) {
+                monster.takeHit();
                 hitCount++;
               }
             }
@@ -285,26 +278,26 @@ export class Arrow extends Definable {
           if (hitCount > 0) {
             this.remove();
           } else if (overlapData.map) {
-            stopEntity(this._entityID);
+            stopEntity(this._id);
             this._bouncedAt = getCurrentTime();
             switch (this._shootDirection) {
               case XDirection.Left:
-                moveEntity(this._entityID, {
+                moveEntity(this._id, {
                   xVelocity: Math.floor(arrowShootSpeed / 2),
                 });
                 break;
               case XDirection.Right:
-                moveEntity(this._entityID, {
+                moveEntity(this._id, {
                   xVelocity: -Math.floor(arrowShootSpeed / 2),
                 });
                 break;
               case YDirection.Up:
-                moveEntity(this._entityID, {
+                moveEntity(this._id, {
                   yVelocity: Math.floor(arrowShootSpeed / 2),
                 });
                 break;
               case YDirection.Down:
-                moveEntity(this._entityID, {
+                moveEntity(this._id, {
                   yVelocity: -Math.floor(arrowShootSpeed / 2),
                 });
                 break;
@@ -318,36 +311,37 @@ export class Arrow extends Definable {
       },
       sprites: [
         {
-          spriteID: arrowSpriteID,
+          spriteID,
         },
       ],
       type: "projectile",
       width: 16,
       zIndex: 2,
     });
+    super(entityID);
     switch (state.values.playerDirection) {
       case XDirection.Left:
-        moveEntity(this._entityID, {
+        moveEntity(this._id, {
           xVelocity: -arrowShootSpeed,
         });
         break;
       case XDirection.Right:
-        moveEntity(this._entityID, { xVelocity: arrowShootSpeed });
+        moveEntity(this._id, { xVelocity: arrowShootSpeed });
         break;
       case YDirection.Up:
-        moveEntity(this._entityID, {
+        moveEntity(this._id, {
           yVelocity: -arrowShootSpeed,
         });
         break;
       case YDirection.Down:
-        moveEntity(this._entityID, { yVelocity: arrowShootSpeed });
+        moveEntity(this._id, { yVelocity: arrowShootSpeed });
         break;
     }
   }
 
   public remove(): void {
     super.remove();
-    removeEntity(this._entityID);
+    removeEntity(this._id);
   }
 
   public update(): void {
