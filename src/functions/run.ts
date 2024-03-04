@@ -7,9 +7,8 @@ import {
   playAudioSource,
   setPauseMenuCondition,
 } from "pixel-pigeon";
-import { isAtTitle } from "../game/title/conditions";
-import { isMainGameOngoing } from "../game/main/conditions";
-import { musicVolumeChannelID } from "../game/global/volumeChannels";
+import { isAtTitle, isMainGameOngoing } from "../conditions";
+import { musicVolumeChannelID } from "../volumeChannels";
 import { tick } from "./tick";
 
 export const run = (): void => {

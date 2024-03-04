@@ -1,5 +1,11 @@
 import { NumLock, createInputCollection } from "pixel-pigeon";
 
+export const startInputCollectionID: string = createInputCollection({
+  gamepadButtons: [9],
+  keyboardButtons: [{ value: "Space" }, { value: "Enter" }],
+  mouseButtons: [0],
+  name: "Start",
+});
 export const primaryWeaponInputCollectionID: string = createInputCollection({
   gamepadButtons: [0, 3],
   keyboardButtons: [{ value: "KeyZ" }],
@@ -59,4 +65,8 @@ export const moveDownInputCollectionID: string = createInputCollection({
     },
   ],
   name: "Move left",
+});
+export const screenshotInputCollectionID: string = createInputCollection({
+  keyboardButtons: [{ value: "KeyP" }],
+  name: "Screenshot",
 });

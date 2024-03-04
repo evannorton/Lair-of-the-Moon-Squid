@@ -2,10 +2,7 @@ import { XDirection, YDirection } from "../types/Direction";
 import { getInputTickHandlerGroupID, moveEntity } from "pixel-pigeon";
 import { movementSpeed } from "../constants/movementSpeed";
 import { state } from "../state";
-import {
-  xInputTickHandlerID,
-  yInputTickHandlerID,
-} from "../game/main/inputHandlers";
+import { xInputTickHandlerID, yInputTickHandlerID } from "../inputHandlers";
 
 export const movePlayer = (): void => {
   if (state.values.playerEntityID === null) {

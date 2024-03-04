@@ -18,10 +18,7 @@ import { isPlayerTakingKnockback } from "./isPlayerTakingKnockback";
 import { movementFrameDuration } from "../constants/movementFrameDuration";
 import { state } from "../state";
 import { swordSwingDuration } from "../constants/swordSwingDuration";
-import {
-  xInputTickHandlerID,
-  yInputTickHandlerID,
-} from "../game/main/inputHandlers";
+import { xInputTickHandlerID, yInputTickHandlerID } from "../inputHandlers";
 
 export const createPlayer = (): void => {
   const playerSpriteID: string = createSprite({

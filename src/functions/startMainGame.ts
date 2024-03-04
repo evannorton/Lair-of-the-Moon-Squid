@@ -1,7 +1,7 @@
 import { createMoblin } from "./createMoblin";
 import { createPlayer } from "./createPlayer";
 import { goToLevel, playAudioSource, stopAudioSource } from "pixel-pigeon";
-import { musicVolumeChannelID } from "../game/global/volumeChannels";
+import { musicVolumeChannelID } from "../volumeChannels";
 import { state } from "../state";
 
 export const startMainGame = (): void => {
