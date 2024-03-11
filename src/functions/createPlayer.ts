@@ -15,7 +15,7 @@ import { isPlayerInvincible } from "./isPlayerInvincible";
 import { isPlayerShootingArrow } from "./isPlayerShootingArrow";
 import { isPlayerSwingingSword } from "./isPlayerSwingingSword";
 import { isPlayerTakingKnockback } from "./isPlayerTakingKnockback";
-import { movementFrameDuration } from "../constants/movementFrameDuration";
+import { playerMovementFrameDuration } from "../constants/playerMovementFrameDuration";
 import { state } from "../state";
 import { swordSwingDuration } from "../constants/swordSwingDuration";
 import { xInputTickHandlerID, yInputTickHandlerID } from "../inputHandlers";
@@ -210,7 +210,7 @@ export const createPlayer = (): void => {
       {
         frames: [
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -219,7 +219,7 @@ export const createPlayer = (): void => {
             width: 16,
           },
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -233,7 +233,7 @@ export const createPlayer = (): void => {
       {
         frames: [
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -242,7 +242,7 @@ export const createPlayer = (): void => {
             width: 16,
           },
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -256,7 +256,7 @@ export const createPlayer = (): void => {
       {
         frames: [
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -265,7 +265,7 @@ export const createPlayer = (): void => {
             width: 16,
           },
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -279,7 +279,7 @@ export const createPlayer = (): void => {
       {
         frames: [
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -288,7 +288,7 @@ export const createPlayer = (): void => {
             width: 16,
           },
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -587,7 +587,7 @@ export const createPlayer = (): void => {
       {
         frames: [
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -596,7 +596,7 @@ export const createPlayer = (): void => {
             width: 16,
           },
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -610,7 +610,7 @@ export const createPlayer = (): void => {
       {
         frames: [
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -619,7 +619,7 @@ export const createPlayer = (): void => {
             width: 16,
           },
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -633,7 +633,7 @@ export const createPlayer = (): void => {
       {
         frames: [
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -642,7 +642,7 @@ export const createPlayer = (): void => {
             width: 16,
           },
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -656,7 +656,7 @@ export const createPlayer = (): void => {
       {
         frames: [
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,
@@ -665,7 +665,7 @@ export const createPlayer = (): void => {
             width: 16,
           },
           {
-            duration: movementFrameDuration,
+            duration: playerMovementFrameDuration,
             height: 16,
             sourceHeight: 16,
             sourceWidth: 16,

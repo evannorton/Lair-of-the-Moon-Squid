@@ -13,6 +13,7 @@ import { EntityType } from "../types/EntityType";
 import { Monster } from "./Monster";
 import { SwordAnimation } from "../types/animations";
 import { XDirection, YDirection } from "../types/Direction";
+import { getPlayerPosition } from "../functions/getPlayerPosition";
 import { state } from "../state";
 import { swordSwingDuration } from "../constants/swordSwingDuration";
 
@@ -261,18 +262,13 @@ export class Sword extends Definable {
   }
 
   public update(): void {
-    if (state.values.playerEntityID === null) {
-      throw new Error("Attempted to update Arrow with no player entity.");
-    }
     const currentTime: number = getCurrentTime();
     if (currentTime - this._swungAt >= swordSwingDuration) {
       this.remove();
     } else {
       const diff: number = getCurrentTime() - this._swungAt;
       const frame: number = Math.floor((diff / swordSwingDuration) * 3);
-      const playerEntityPosition: EntityPosition = getEntityPosition(
-        state.values.playerEntityID,
-      );
+      const playerEntityPosition: EntityPosition = getPlayerPosition();
       switch (state.values.playerDirection) {
         case XDirection.Left:
           switch (frame) {

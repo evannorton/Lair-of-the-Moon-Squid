@@ -1,6 +1,6 @@
 import { XDirection, YDirection } from "../types/Direction";
 import { getInputTickHandlerGroupID, moveEntity } from "pixel-pigeon";
-import { movementSpeed } from "../constants/movementSpeed";
+import { playerMovementSpeed } from "../constants/playerMovementSpeed";
 import { state } from "../state";
 import { xInputTickHandlerID, yInputTickHandlerID } from "../inputHandlers";
 
@@ -16,15 +16,15 @@ export const movePlayer = (): void => {
     getInputTickHandlerGroupID<YDirection>(yInputTickHandlerID);
   const xVelocity: number =
     xDirection === XDirection.Left
-      ? -movementSpeed
+      ? -playerMovementSpeed
       : xDirection === XDirection.Right
-        ? movementSpeed
+        ? playerMovementSpeed
         : 0;
   const yVelocity: number =
     yDirection === YDirection.Up
-      ? -movementSpeed
+      ? -playerMovementSpeed
       : yDirection === YDirection.Down
-        ? movementSpeed
+        ? playerMovementSpeed
         : 0;
   moveEntity(state.values.playerEntityID, {
     xVelocity,

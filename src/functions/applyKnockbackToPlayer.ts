@@ -1,6 +1,6 @@
 import { XDirection, YDirection } from "../types/Direction";
 import { moveEntity } from "pixel-pigeon";
-import { movementSpeed } from "../constants/movementSpeed";
+import { playerMovementSpeed } from "../constants/playerMovementSpeed";
 import { state } from "../state";
 
 export const applyKnockbackToPlayer = (): void => {
@@ -17,26 +17,26 @@ export const applyKnockbackToPlayer = (): void => {
   switch (state.values.playerHit.direction) {
     case XDirection.Left:
       moveEntity(state.values.playerEntityID, {
-        xVelocity: -movementSpeed,
+        xVelocity: -playerMovementSpeed,
         yVelocity: 0,
       });
       break;
     case XDirection.Right:
       moveEntity(state.values.playerEntityID, {
-        xVelocity: movementSpeed,
+        xVelocity: playerMovementSpeed,
         yVelocity: 0,
       });
       break;
     case YDirection.Up:
       moveEntity(state.values.playerEntityID, {
         xVelocity: 0,
-        yVelocity: -movementSpeed,
+        yVelocity: -playerMovementSpeed,
       });
       break;
     case YDirection.Down:
       moveEntity(state.values.playerEntityID, {
         xVelocity: 0,
-        yVelocity: movementSpeed,
+        yVelocity: playerMovementSpeed,
       });
       break;
   }
