@@ -25,6 +25,7 @@ import { state } from "../state";
 
 interface Wander {
   chasePlayerChance: number;
+  entityID: string;
   radius: number;
 }
 
@@ -276,15 +277,18 @@ export class Monster extends Definable {
       } else {
         const radiusPX: number = this._wander.radius * 16;
         const entityPosition: EntityPosition = this.getPosition();
+        const centerPosition: EntityPosition = getEntityPosition(
+          this._wander.entityID,
+        );
         const positions: [number, number][] = [];
         for (
-          let y: number = entityPosition.y - radiusPX;
-          y <= entityPosition.y + radiusPX;
+          let y: number = centerPosition.y - radiusPX;
+          y <= centerPosition.y + radiusPX;
           y += 16
         ) {
           for (
-            let x: number = entityPosition.x - radiusPX;
-            x <= entityPosition.x + radiusPX;
+            let x: number = centerPosition.x - radiusPX;
+            x <= centerPosition.x + radiusPX;
             x += 16
           ) {
             if (
@@ -321,9 +325,14 @@ export class Monster extends Definable {
     }
   }
 
-  public wander(radius: number, chasePlayerChance: number): void {
+  public wander(
+    entityID: string,
+    radius: number,
+    chasePlayerChance: number,
+  ): void {
     this._wander = {
       chasePlayerChance,
+      entityID,
       radius,
     };
   }
