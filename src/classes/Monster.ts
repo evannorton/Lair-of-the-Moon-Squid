@@ -272,10 +272,8 @@ export class Monster extends Definable {
         }
       }
       if (chasePosition !== null) {
-        console.log(1);
         this.pathToCoordinates(chasePosition[0], chasePosition[1]);
       } else {
-        console.log(2);
         const radiusPX: number = this._wander.radius * 16;
         const entityPosition: EntityPosition = this.getPosition();
         const positions: [number, number][] = [];
