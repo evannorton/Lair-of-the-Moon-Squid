@@ -31,5 +31,5 @@ export const startPhase1 = (): void => {
     x: 10 * 16,
     y: 3 * 16,
   });
-  squidHead.wander(1, 0.25);
+  squidHead.wander(1, 0.5);
 };

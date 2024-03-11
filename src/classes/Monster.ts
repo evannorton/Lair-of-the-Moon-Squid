@@ -260,10 +260,22 @@ export class Monster extends Definable {
         }
       }
     } else if (this._wander !== null && isEntityPathing(this._id) === false) {
-      if (Math.random() < 0.5) {
+      let chasePosition: [number, number] | null = null;
+      if (Math.random() < this._wander.chasePlayerChance) {
         const playerPosition: EntityPosition = getPlayerPosition();
-        this.pathToCoordinates(playerPosition.x, playerPosition.y);
+        const path: EntityPosition[] = getEntityCalculatedPath(
+          this._id,
+          playerPosition,
+        );
+        if (path.length > 1) {
+          chasePosition = [path[1].x, path[1].y];
+        }
+      }
+      if (chasePosition !== null) {
+        console.log(1);
+        this.pathToCoordinates(chasePosition[0], chasePosition[1]);
       } else {
+        console.log(2);
         const radiusPX: number = this._wander.radius * 16;
         const entityPosition: EntityPosition = this.getPosition();
         const positions: [number, number][] = [];
