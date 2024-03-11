@@ -1,6 +1,7 @@
 import { Monster } from "../../classes/Monster";
 import { Phase } from "../../types/Phase";
 import { state } from "../../state";
+import { wanderMonsterAtSquidHead } from "../wanderMonsterAtSquidHead";
 
 export const startPhase1 = (): void => {
   const squidHeadMovementSpeed: number = 16;
@@ -37,10 +38,6 @@ export const startPhase1 = (): void => {
       y: 3 * 16,
     }),
   ];
-  squidHead.wander(squidHead.id, 1, 0.5);
-  for (const squidArm of squidArms) {
-    squidArm.wander(squidHead.id, 2, 0);
-  }
   state.setValues({
     phase: Phase.Phase1,
     squidArmsMonsterIDs: squidArms.map(
@@ -48,4 +45,8 @@ export const startPhase1 = (): void => {
     ),
     squidHeadMonsterID: squidHead.id,
   });
+  squidHead.wander(squidHead.id, 1, 0.5);
+  for (const squidArm of squidArms) {
+    wanderMonsterAtSquidHead(squidArm.id);
+  }
 };

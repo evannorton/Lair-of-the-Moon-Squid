@@ -18,6 +18,7 @@ import { aggroSquidArms } from "../functions/aggroSquidArms";
 import { getPlayerPosition } from "../functions/getPlayerPosition";
 import { state } from "../state";
 import { swordSwingDuration } from "../constants/swordSwingDuration";
+import { wanderMonsterAtSquidHead } from "../functions/wanderMonsterAtSquidHead";
 
 export class Sword extends Definable {
   private readonly _swungAt: number = getCurrentTime();
@@ -250,6 +251,14 @@ export class Sword extends Definable {
                 entityCollidable.entityID === state.values.squidHeadMonsterID
               ) {
                 aggroSquidArms();
+              }
+              if (
+                state.values.phase === Phase.Phase1 &&
+                state.values.squidArmsMonsterIDs.includes(
+                  entityCollidable.entityID,
+                )
+              ) {
+                wanderMonsterAtSquidHead(entityCollidable.entityID);
               }
             }
           }

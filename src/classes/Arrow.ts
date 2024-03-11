@@ -19,6 +19,7 @@ import { aggroSquidArms } from "../functions/aggroSquidArms";
 import { arrowBounceDuration } from "../constants/arrowBounceDuration";
 import { arrowShootSpeed } from "../constants/arrowShootSpeed";
 import { state } from "../state";
+import { wanderMonsterAtSquidHead } from "../functions/wanderMonsterAtSquidHead";
 
 export class Arrow extends Definable {
   private _bouncedAt: number | null = null;
@@ -279,6 +280,14 @@ export class Arrow extends Definable {
                   entityCollidable.entityID === state.values.squidHeadMonsterID
                 ) {
                   aggroSquidArms();
+                }
+                if (
+                  state.values.phase === Phase.Phase1 &&
+                  state.values.squidArmsMonsterIDs.includes(
+                    entityCollidable.entityID,
+                  )
+                ) {
+                  wanderMonsterAtSquidHead(entityCollidable.entityID);
                 }
               }
             }
