@@ -265,7 +265,7 @@ export class Arrow extends Definable {
           let hitCount: number = 0;
           for (const entityCollidable of overlapData.entityCollidables) {
             if (entityCollidable.type === EntityType.Monster) {
-              const monster: Monster<string> = getDefinable(
+              const monster: Monster = getDefinable(
                 Monster,
                 entityCollidable.entityID,
               );

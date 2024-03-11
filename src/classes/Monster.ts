@@ -2,6 +2,7 @@ import { Definable } from "../definables";
 import { Direction, XDirection, YDirection } from "../types/Direction";
 import { EntityType } from "../types/EntityType";
 import { Hit } from "../types/Hit";
+import { MonsterAnimation } from "../types/animations";
 import {
   createEntity,
   createSprite,
@@ -16,46 +17,41 @@ import { knockbackDuration } from "../constants/knockbackDuration";
 import { movementSpeed } from "../constants/movementSpeed";
 import { state } from "../state";
 
-interface MonsterOptions<AnimationID extends string> {
-  idleDownAnimationID: AnimationID;
-  idleDownInvincibleAnimationID: AnimationID;
-  idleLeftAnimationID: AnimationID;
-  idleLeftInvincibleAnimationID: AnimationID;
-  idleRightAnimationID: AnimationID;
-  idleRightInvincibleAnimationID: AnimationID;
-  idleUpAnimationID: AnimationID;
-  idleUpInvincibleAnimationID: AnimationID;
+interface MonsterOptions {
+  imagePath: string;
+  x: number;
+  y: number;
 }
 
-export class Monster<AnimationID extends string> extends Definable {
+export class Monster extends Definable {
   private readonly _direction: Direction = YDirection.Down;
   private _hit: Hit | null = null;
 
-  public constructor(options: MonsterOptions<AnimationID>) {
+  public constructor(options: MonsterOptions) {
     const spriteID: string = createSprite({
-      animationID: (): AnimationID => {
+      animationID: (): MonsterAnimation => {
         // Play monster idle animation
         switch (this._direction) {
           case XDirection.Left:
             if (this.isInvincible()) {
-              return options.idleLeftInvincibleAnimationID;
+              return MonsterAnimation.IdleLeftInvincible;
             }
-            return options.idleLeftAnimationID;
+            return MonsterAnimation.IdleLeft;
           case XDirection.Right:
             if (this.isInvincible()) {
-              return options.idleRightInvincibleAnimationID;
+              return MonsterAnimation.IdleRightInvincible;
             }
-            return options.idleRightAnimationID;
+            return MonsterAnimation.IdleRight;
           case YDirection.Up:
             if (this.isInvincible()) {
-              return options.idleUpInvincibleAnimationID;
+              return MonsterAnimation.IdleUpInvincible;
             }
-            return options.idleUpAnimationID;
+            return MonsterAnimation.IdleUp;
           case YDirection.Down:
             if (this.isInvincible()) {
-              return options.idleDownInvincibleAnimationID;
+              return MonsterAnimation.IdleDownInvincible;
             }
-            return options.idleDownAnimationID;
+            return MonsterAnimation.IdleDown;
         }
       },
       animations: [
@@ -70,7 +66,7 @@ export class Monster<AnimationID extends string> extends Definable {
               width: 16,
             },
           ],
-          id: options.idleLeftAnimationID,
+          id: MonsterAnimation.IdleLeft,
         },
         {
           frames: [
@@ -83,7 +79,7 @@ export class Monster<AnimationID extends string> extends Definable {
               width: 16,
             },
           ],
-          id: options.idleRightAnimationID,
+          id: MonsterAnimation.IdleRight,
         },
         {
           frames: [
@@ -96,7 +92,7 @@ export class Monster<AnimationID extends string> extends Definable {
               width: 16,
             },
           ],
-          id: options.idleUpAnimationID,
+          id: MonsterAnimation.IdleUp,
         },
         {
           frames: [
@@ -109,7 +105,7 @@ export class Monster<AnimationID extends string> extends Definable {
               width: 16,
             },
           ],
-          id: options.idleDownAnimationID,
+          id: MonsterAnimation.IdleDown,
         },
         {
           frames: [
@@ -122,7 +118,7 @@ export class Monster<AnimationID extends string> extends Definable {
               width: 16,
             },
           ],
-          id: options.idleLeftInvincibleAnimationID,
+          id: MonsterAnimation.IdleLeftInvincible,
         },
         {
           frames: [
@@ -135,7 +131,7 @@ export class Monster<AnimationID extends string> extends Definable {
               width: 16,
             },
           ],
-          id: options.idleRightInvincibleAnimationID,
+          id: MonsterAnimation.IdleRightInvincible,
         },
         {
           frames: [
@@ -148,7 +144,7 @@ export class Monster<AnimationID extends string> extends Definable {
               width: 16,
             },
           ],
-          id: options.idleUpInvincibleAnimationID,
+          id: MonsterAnimation.IdleUpInvincible,
         },
         {
           frames: [
@@ -161,19 +157,20 @@ export class Monster<AnimationID extends string> extends Definable {
               width: 16,
             },
           ],
-          id: options.idleDownInvincibleAnimationID,
+          id: MonsterAnimation.IdleDownInvincible,
         },
       ],
-      imagePath: "monsters/moblin",
+      imagePath: options.imagePath,
     });
     const entityID: string = createEntity({
+      collidableEntityTypes: [EntityType.Monster],
       collidesWithMap: true,
       height: 16,
       layerID: "entities",
       levelID: "test_level",
       position: {
-        x: 96,
-        y: 128,
+        x: options.x,
+        y: options.y,
       },
       sprites: [
         {

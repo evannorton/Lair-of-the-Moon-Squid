@@ -933,8 +933,8 @@ export const createPlayer = (): void => {
       }
     },
     position: {
-      x: 0,
-      y: 0,
+      x: 8 * 16,
+      y: 8 * 16,
     },
     sprites: [
       {

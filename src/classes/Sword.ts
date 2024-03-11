@@ -236,7 +236,7 @@ export class Sword extends Definable {
       onOverlap: (overlapData: OverlapData): void => {
         for (const entityCollidable of overlapData.entityCollidables) {
           if (entityCollidable.type === EntityType.Monster) {
-            const monster: Monster<string> = getDefinable(
+            const monster: Monster = getDefinable(
               Monster,
               entityCollidable.entityID,
             );

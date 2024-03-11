@@ -43,7 +43,7 @@ export enum PlayerAnimation {
   WalkUpInvincible = "walk-up-invincible",
   WalkDownInvincible = "walk-down-invincible",
 }
-export enum MoblinAnimation {
+export enum MonsterAnimation {
   IdleLeft = "idle-left",
   IdleRight = "idle-right",
   IdleUp = "idle-up",
