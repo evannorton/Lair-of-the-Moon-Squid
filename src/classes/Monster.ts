@@ -20,6 +20,7 @@ import { MonsterAnimation } from "../types/animations";
 import { getPlayerPosition } from "../functions/getPlayerPosition";
 import { invincibilityDuration } from "../constants/invincibilityDuration";
 import { knockbackDuration } from "../constants/knockbackDuration";
+import { knockbackSpeed } from "../constants/knockbackSpeed";
 import { state } from "../state";
 
 interface Wander {
@@ -238,22 +239,22 @@ export class Monster extends Definable {
         switch (this._hit.direction) {
           case XDirection.Left:
             moveEntity(this._id, {
-              xVelocity: -this._movementSpeed,
+              xVelocity: -knockbackSpeed,
             });
             break;
           case XDirection.Right:
             moveEntity(this._id, {
-              xVelocity: this._movementSpeed,
+              xVelocity: knockbackSpeed,
             });
             break;
           case YDirection.Up:
             moveEntity(this._id, {
-              yVelocity: -this._movementSpeed,
+              yVelocity: -knockbackSpeed,
             });
             break;
           case YDirection.Down:
             moveEntity(this._id, {
-              yVelocity: this._movementSpeed,
+              yVelocity: knockbackSpeed,
             });
             break;
         }
