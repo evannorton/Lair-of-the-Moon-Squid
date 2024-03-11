@@ -1,7 +1,7 @@
 import { Monster } from "../../classes/Monster";
 
 export const startPhase1 = (): void => {
-  new Monster({
+  const squidHead: Monster = new Monster({
     imagePath: "monsters/squid-head",
     x: 8 * 16,
     y: 3 * 16,
@@ -26,4 +26,5 @@ export const startPhase1 = (): void => {
     x: 10 * 16,
     y: 3 * 16,
   });
+  squidHead.wander(1);
 };

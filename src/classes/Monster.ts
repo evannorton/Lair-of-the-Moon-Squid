@@ -1,17 +1,22 @@
 import { Definable } from "../definables";
 import { Direction, XDirection, YDirection } from "../types/Direction";
-import { EntityType } from "../types/EntityType";
-import { Hit } from "../types/Hit";
-import { MonsterAnimation } from "../types/animations";
 import {
+  EntityPosition,
   createEntity,
   createSprite,
+  getActiveLevelID,
   getCurrentTime,
+  getEntityCalculatedPath,
+  getEntityPosition,
   isEntityPathing,
+  isRectangleInLevel,
   moveEntity,
   pathEntity,
   stopEntity,
 } from "pixel-pigeon";
+import { EntityType } from "../types/EntityType";
+import { Hit } from "../types/Hit";
+import { MonsterAnimation } from "../types/animations";
 import { invincibilityDuration } from "../constants/invincibilityDuration";
 import { knockbackDuration } from "../constants/knockbackDuration";
 import { movementSpeed } from "../constants/movementSpeed";
@@ -26,6 +31,7 @@ interface MonsterOptions {
 export class Monster extends Definable {
   private readonly _direction: Direction = YDirection.Down;
   private _hit: Hit | null = null;
+  private _wanderRadius: number | null = null;
 
   public constructor(options: MonsterOptions) {
     const spriteID: string = createSprite({
@@ -214,8 +220,13 @@ export class Monster extends Definable {
   }
 
   public update(): void {
+    const levelID: string | null = getActiveLevelID();
+    if (levelID === null) {
+      throw new Error(
+        `Attempted to update Monster "${this._id}" with no active level.`,
+      );
+    }
     if (this.isTakingKnockback()) {
-      stopEntity(this._id);
       if (this._hit !== null) {
         switch (this._hit.direction) {
           case XDirection.Left:
@@ -240,10 +251,61 @@ export class Monster extends Definable {
             break;
         }
       }
-    } else {
-      if (!isEntityPathing(this._id)) {
-        stopEntity(this._id);
+    } else if (
+      this._wanderRadius !== null &&
+      isEntityPathing(this._id) === false
+    ) {
+      const radiusPX: number = this._wanderRadius * 16;
+      const entityPosition: EntityPosition = this.getPosition();
+      const positions: [number, number][] = [];
+      for (
+        let y: number = entityPosition.y - radiusPX;
+        y <= entityPosition.y + radiusPX;
+        y += 16
+      ) {
+        for (
+          let x: number = entityPosition.x - radiusPX;
+          x <= entityPosition.x + radiusPX;
+          x += 16
+        ) {
+          if (
+            (x !== entityPosition.x || y !== entityPosition.y) &&
+            isRectangleInLevel({
+              levelID,
+              rectangle: {
+                height: 16,
+                width: 16,
+                x,
+                y,
+              },
+            })
+          ) {
+            positions.push([x, y]);
+          }
+        }
       }
+      positions.sort((): number => Math.random() - 0.5);
+      const position: [number, number] | null =
+        positions.find(([x, y]: [number, number]): boolean => {
+          const path: EntityPosition[] = getEntityCalculatedPath(this._id, {
+            x,
+            y,
+          });
+          return path.length > 0;
+        }) ?? null;
+      if (position !== null) {
+        this.pathToCoordinates(position[0], position[1]);
+      }
+    } else if (isEntityPathing(this._id) === false) {
+      stopEntity(this._id);
     }
+  }
+
+  public wander(radius: number): void {
+    this._wanderRadius = radius;
+  }
+
+  private getPosition(): EntityPosition {
+    return getEntityPosition(this._id);
   }
 }
