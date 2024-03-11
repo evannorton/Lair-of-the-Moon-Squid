@@ -14,6 +14,8 @@ import {
 } from "pixel-pigeon";
 import { EntityType } from "../types/EntityType";
 import { Monster } from "./Monster";
+import { Phase } from "../types/Phase";
+import { aggroSquidArms } from "../functions/aggroSquidArms";
 import { arrowBounceDuration } from "../constants/arrowBounceDuration";
 import { arrowShootSpeed } from "../constants/arrowShootSpeed";
 import { state } from "../state";
@@ -272,6 +274,12 @@ export class Arrow extends Definable {
               if (!monster.isInvincible()) {
                 monster.takeHit();
                 hitCount++;
+                if (
+                  state.values.phase === Phase.Phase1 &&
+                  entityCollidable.entityID === state.values.squidHeadMonsterID
+                ) {
+                  aggroSquidArms();
+                }
               }
             }
           }

@@ -38,6 +38,7 @@ export interface MonsterOptions {
 export class Monster extends Definable {
   private readonly _direction: Direction = YDirection.Down;
   private _hit: Hit | null = null;
+  private _isChasingPlayer: boolean = false;
   private readonly _movementSpeed: number;
   private _wander: Wander | null = null;
 
@@ -199,6 +200,11 @@ export class Monster extends Definable {
     this._movementSpeed = options.movementSpeed;
   }
 
+  public chasePlayer(): void {
+    this._isChasingPlayer = true;
+    this._wander = null;
+  }
+
   public isInvincible(): boolean {
     return (
       this._hit !== null &&
@@ -320,6 +326,15 @@ export class Monster extends Definable {
           this.pathToCoordinates(position[0], position[1]);
         }
       }
+    } else if (this._isChasingPlayer && isEntityPathing(this._id) === false) {
+      const playerPosition: EntityPosition = getPlayerPosition();
+      const path: EntityPosition[] = getEntityCalculatedPath(
+        this._id,
+        playerPosition,
+      );
+      if (path.length > 1) {
+        this.pathToCoordinates(path[1].x, path[1].y);
+      }
     } else if (isEntityPathing(this._id) === false) {
       stopEntity(this._id);
     }
@@ -330,6 +345,7 @@ export class Monster extends Definable {
     radius: number,
     chasePlayerChance: number,
   ): void {
+    this._isChasingPlayer = false;
     this._wander = {
       chasePlayerChance,
       entityID,

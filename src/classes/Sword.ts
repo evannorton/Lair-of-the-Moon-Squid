@@ -11,8 +11,10 @@ import {
 } from "pixel-pigeon";
 import { EntityType } from "../types/EntityType";
 import { Monster } from "./Monster";
+import { Phase } from "../types/Phase";
 import { SwordAnimation } from "../types/animations";
 import { XDirection, YDirection } from "../types/Direction";
+import { aggroSquidArms } from "../functions/aggroSquidArms";
 import { getPlayerPosition } from "../functions/getPlayerPosition";
 import { state } from "../state";
 import { swordSwingDuration } from "../constants/swordSwingDuration";
@@ -243,6 +245,12 @@ export class Sword extends Definable {
             );
             if (!monster.isInvincible()) {
               monster.takeHit();
+              if (
+                state.values.phase === Phase.Phase1 &&
+                entityCollidable.entityID === state.values.squidHeadMonsterID
+              ) {
+                aggroSquidArms();
+              }
             }
           }
         }
