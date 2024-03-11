@@ -18,6 +18,7 @@ import { isPlayerTakingKnockback } from "./isPlayerTakingKnockback";
 import { playerMovementFrameDuration } from "../constants/playerMovementFrameDuration";
 import { state } from "../state";
 import { swordSwingDuration } from "../constants/swordSwingDuration";
+import { wanderMonsterAtSquidHead } from "./wanderMonsterAtSquidHead";
 import { xInputTickHandlerID, yInputTickHandlerID } from "../inputHandlers";
 
 export const createPlayer = (): void => {
@@ -928,6 +929,9 @@ export const createPlayer = (): void => {
                 time: getCurrentTime(),
               },
             });
+            for (const monsterID of state.values.squidArmsMonsterIDs) {
+              wanderMonsterAtSquidHead(monsterID);
+            }
           }
         }
       }
