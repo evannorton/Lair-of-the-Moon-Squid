@@ -1,4 +1,3 @@
-import { createMoblin } from "./createMoblin";
 import { createPlayer } from "./createPlayer";
 import { goToLevel, playAudioSource, stopAudioSource } from "pixel-pigeon";
 import { musicVolumeChannelID } from "../volumeChannels";
@@ -13,5 +12,4 @@ export const startMainGame = (): void => {
   });
   goToLevel("test_level");
   createPlayer();
-  createMoblin();
 };
