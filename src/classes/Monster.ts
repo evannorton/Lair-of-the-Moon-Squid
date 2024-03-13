@@ -12,6 +12,7 @@ import {
   isRectangleInLevel,
   moveEntity,
   pathEntity,
+  removeEntity,
   stopEntity,
 } from "pixel-pigeon";
 import { EntityType } from "../types/EntityType";
@@ -225,6 +226,11 @@ export class Monster extends Definable {
       x,
       y,
     });
+  }
+
+  public remove(): void {
+    super.remove();
+    removeEntity(this._id);
   }
 
   public takeHit(): void {

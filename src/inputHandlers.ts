@@ -4,7 +4,7 @@ import {
   createInputTickHandler,
   takeScreenshot,
 } from "pixel-pigeon";
-import { isAtTitle, isMainGameOngoing } from "./conditions";
+import { isMainGameOngoing } from "./conditions";
 import { isPlayerShootingArrow } from "./functions/isPlayerShootingArrow";
 import { isPlayerSwingingSword } from "./functions/isPlayerSwingingSword";
 import { isPlayerTakingKnockback } from "./functions/isPlayerTakingKnockback";
@@ -16,10 +16,8 @@ import {
   primaryWeaponInputCollectionID,
   screenshotInputCollectionID,
   secondaryWeaponInputCollectionID,
-  startInputCollectionID,
 } from "./inputCollections";
 import { shootArrow } from "./functions/shootArrow";
-import { startMainGame } from "./functions/startMainGame";
 import { swingSword } from "./functions/swingSword";
 
 export const screenshotInputHandlerID: string = createInputPressHandler({
@@ -27,11 +25,6 @@ export const screenshotInputHandlerID: string = createInputPressHandler({
   onInput: (): void => {
     takeScreenshot();
   },
-});
-export const titleInputPressHandlerID: string = createInputPressHandler({
-  condition: isAtTitle,
-  inputCollectionID: startInputCollectionID,
-  onInput: startMainGame,
 });
 export const swordInputPressHandlerID: string = createInputPressHandler({
   condition: isMainGameOngoing,

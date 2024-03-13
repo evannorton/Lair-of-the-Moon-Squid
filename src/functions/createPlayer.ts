@@ -11,6 +11,7 @@ import { EntityType } from "../types/EntityType";
 import { PlayerAnimation } from "../types/animations";
 import { XDirection, YDirection } from "../types/Direction";
 import { getOppositeDirection } from "../functions/getOppositeDirection";
+import { handlePlayerDefeat } from "./handlePlayerDefeat";
 import { isPlayerInvincible } from "./isPlayerInvincible";
 import { isPlayerShootingArrow } from "./isPlayerShootingArrow";
 import { isPlayerSwingingSword } from "./isPlayerSwingingSword";
@@ -923,14 +924,20 @@ export const createPlayer = (): void => {
           overlapData.entityCollidables[0];
         if (entityCollidable.type === EntityType.Monster) {
           if (!isPlayerInvincible()) {
-            state.setValues({
-              playerHit: {
-                direction: getOppositeDirection(state.values.playerDirection),
-                time: getCurrentTime(),
-              },
-            });
-            for (const monsterID of state.values.squidArmsMonsterIDs) {
-              wanderMonsterAtSquidHead(monsterID);
+            const playerHP: number = Math.max(state.values.playerHP - 1, 0);
+            state.setValues({ playerHP });
+            if (playerHP > 0) {
+              state.setValues({
+                playerHit: {
+                  direction: getOppositeDirection(state.values.playerDirection),
+                  time: getCurrentTime(),
+                },
+              });
+              for (const monsterID of state.values.squidArmsMonsterIDs) {
+                wanderMonsterAtSquidHead(monsterID);
+              }
+            } else {
+              handlePlayerDefeat();
             }
           }
         }

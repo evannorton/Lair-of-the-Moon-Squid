@@ -6,6 +6,21 @@ export const startInputCollectionID: string = createInputCollection({
   mouseButtons: [0],
   name: "Start",
 });
+export const advanceInputCollectionID: string = createInputCollection({
+  gamepadButtons: [0],
+  keyboardButtons: [
+    { value: "KeyZ" },
+    {
+      value: "Space",
+    },
+    {
+      numLock: NumLock.Without,
+      value: "Numpad5",
+    },
+  ],
+  mouseButtons: [0],
+  name: "Advance menu",
+});
 export const primaryWeaponInputCollectionID: string = createInputCollection({
   gamepadButtons: [0, 3],
   keyboardButtons: [{ value: "KeyZ" }],
