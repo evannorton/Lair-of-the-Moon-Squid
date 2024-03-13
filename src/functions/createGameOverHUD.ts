@@ -8,6 +8,7 @@ import {
 } from "pixel-pigeon";
 import { isAtGameOver } from "../conditions";
 import { playerMaxHP } from "../constants/playerMaxHP";
+import { playerMaxMP } from "../constants/playerMaxMP";
 import { startTitle } from "./startTitle";
 import { state } from "../state";
 
@@ -32,6 +33,7 @@ export const createGameOverHUD = (): void => {
       startTitle();
       state.setValues({
         playerHP: playerMaxHP,
+        playerMP: playerMaxMP,
       });
     },
   });

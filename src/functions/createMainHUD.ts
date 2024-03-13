@@ -1,6 +1,7 @@
 import { createQuadrilateral, getGameHeight } from "pixel-pigeon";
 import { isMainGameOngoing } from "../conditions";
 import { playerMaxHP } from "../constants/playerMaxHP";
+import { playerMaxMP } from "../constants/playerMaxMP";
 import { state } from "../state";
 
 export const createMainHUD = (): void => {
@@ -44,5 +45,24 @@ export const createMainHUD = (): void => {
     },
     height: barHeight,
     width: barWidth,
+  });
+  createQuadrilateral({
+    color: "#0084ff",
+    coordinates: {
+      condition: isMainGameOngoing,
+      x: 2 + barWidth + 2,
+      y: getGameHeight() - barHeight - 2,
+    },
+    height: barHeight,
+    width: (): number => {
+      let mpBarWidth: number = (state.values.playerMP / playerMaxMP) * barWidth;
+      if (mpBarWidth > 0 && mpBarWidth < 1) {
+        mpBarWidth = 1;
+      }
+      if (mpBarWidth < barWidth && mpBarWidth > barWidth - 1) {
+        mpBarWidth = barWidth - 1;
+      }
+      return Math.round(mpBarWidth);
+    },
   });
 };

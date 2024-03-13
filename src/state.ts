@@ -3,6 +3,7 @@ import { Hit } from "./types/Hit";
 import { Phase } from "./types/Phase";
 import { State } from "pixel-pigeon";
 import { playerMaxHP } from "./constants/playerMaxHP";
+import { playerMaxMP } from "./constants/playerMaxMP";
 
 interface StateSchema {
   isAtTitle: boolean;
@@ -11,6 +12,7 @@ interface StateSchema {
   playerEntityID: string | null;
   playerHP: number;
   playerHit: Hit | null;
+  playerMP: number;
   playerShotArrowAt: number | null;
   playerSwungSwordAt: number | null;
   squidArmsMonsterIDs: string[];
@@ -23,6 +25,7 @@ const defaultState: StateSchema = {
   playerEntityID: null,
   playerHP: playerMaxHP,
   playerHit: null,
+  playerMP: playerMaxMP,
   playerShotArrowAt: null,
   playerSwungSwordAt: null,
   squidArmsMonsterIDs: [],

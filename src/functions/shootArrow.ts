@@ -3,8 +3,13 @@ import { getCurrentTime } from "pixel-pigeon";
 import { state } from "../state";
 
 export const shootArrow = (): void => {
-  new Arrow();
-  state.setValues({
-    playerShotArrowAt: getCurrentTime(),
-  });
+  if (state.values.playerMP >= 1) {
+    new Arrow();
+    state.setValues({
+      playerShotArrowAt: getCurrentTime(),
+    });
+    state.setValues({
+      playerMP: Math.max(state.values.playerMP - 1, 0),
+    });
+  }
 };
