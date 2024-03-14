@@ -13,6 +13,8 @@ interface StateSchema {
   playerHP: number;
   playerHit: Hit | null;
   playerMP: number;
+  playerMPReducedFromMaxAt: number | null;
+  playerMPRestoredAt: number | null;
   playerShotArrowAt: number | null;
   playerSwungSwordAt: number | null;
   squidArmsMonsterIDs: string[];
@@ -26,6 +28,8 @@ const defaultState: StateSchema = {
   playerHP: playerMaxHP,
   playerHit: null,
   playerMP: playerMaxMP,
+  playerMPReducedFromMaxAt: null,
+  playerMPRestoredAt: null,
   playerShotArrowAt: null,
   playerSwungSwordAt: null,
   squidArmsMonsterIDs: [],

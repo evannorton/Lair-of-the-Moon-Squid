@@ -1,1 +1,1 @@
-export const playerMaxMP: number = 3;
+export const playerMaxMP: number = 5;
