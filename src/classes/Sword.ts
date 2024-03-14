@@ -253,6 +253,7 @@ export class Sword extends Definable {
                 aggroSquidArms();
               }
               if (
+                monster.isAlive() &&
                 state.values.phase === Phase.Phase1 &&
                 state.values.squidArmsMonsterIDs.includes(
                   entityCollidable.entityID,

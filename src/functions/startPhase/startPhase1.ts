@@ -8,6 +8,7 @@ export const startPhase1 = (): void => {
   const squidArmMovementSpeed: number = 32;
   const squidHead: Monster = new Monster({
     imagePath: "monsters/squid-head",
+    maxHP: 10,
     movementSpeed: squidHeadMovementSpeed,
     x: 8 * 16,
     y: 3 * 16,
@@ -15,24 +16,28 @@ export const startPhase1 = (): void => {
   const squidArms: Monster[] = [
     new Monster({
       imagePath: "monsters/squid-arm",
+      maxHP: 3,
       movementSpeed: squidArmMovementSpeed,
       x: 6 * 16,
       y: 3 * 16,
     }),
     new Monster({
       imagePath: "monsters/squid-arm",
+      maxHP: 3,
       movementSpeed: squidArmMovementSpeed,
       x: 7 * 16,
       y: 3 * 16,
     }),
     new Monster({
       imagePath: "monsters/squid-arm",
+      maxHP: 3,
       movementSpeed: squidArmMovementSpeed,
       x: 9 * 16,
       y: 3 * 16,
     }),
     new Monster({
       imagePath: "monsters/squid-arm",
+      maxHP: 3,
       movementSpeed: squidArmMovementSpeed,
       x: 10 * 16,
       y: 3 * 16,

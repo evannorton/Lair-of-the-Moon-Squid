@@ -32,6 +32,7 @@ interface Wander {
 
 export interface MonsterOptions {
   imagePath: string;
+  maxHP: number;
   movementSpeed: number;
   x: number;
   y: number;
@@ -39,7 +40,9 @@ export interface MonsterOptions {
 export class Monster extends Definable {
   private readonly _direction: Direction = YDirection.Down;
   private _hit: Hit | null = null;
+  private _hp: number;
   private _isChasingPlayer: boolean = false;
+  private readonly _maxHP: number;
   private readonly _movementSpeed: number;
   private _wander: Wander | null = null;
 
@@ -198,12 +201,18 @@ export class Monster extends Definable {
       zIndex: 0,
     });
     super(entityID);
+    this._maxHP = options.maxHP;
+    this._hp = this._maxHP;
     this._movementSpeed = options.movementSpeed;
   }
 
   public chasePlayer(): void {
     this._isChasingPlayer = true;
     this._wander = null;
+  }
+
+  public isAlive(): boolean {
+    return this._hp > 0;
   }
 
   public isInvincible(): boolean {
@@ -231,6 +240,18 @@ export class Monster extends Definable {
   public remove(): void {
     super.remove();
     removeEntity(this._id);
+    if (state.values.squidHeadMonsterID === this._id) {
+      state.setValues({
+        squidHeadMonsterID: null,
+      });
+    }
+    if (state.values.squidArmsMonsterIDs.includes(this._id)) {
+      state.setValues({
+        squidArmsMonsterIDs: state.values.squidArmsMonsterIDs.filter(
+          (id: string): boolean => id !== this._id,
+        ),
+      });
+    }
   }
 
   public takeHit(): void {
@@ -238,6 +259,10 @@ export class Monster extends Definable {
       direction: state.values.playerDirection,
       time: getCurrentTime(),
     };
+    this._hp = Math.max(this._hp - 1, 0);
+    if (this._hp === 0) {
+      this.remove();
+    }
   }
 
   public update(): void {
