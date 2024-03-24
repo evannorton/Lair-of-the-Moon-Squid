@@ -8,8 +8,10 @@ import {
   lockCameraToEntity,
 } from "pixel-pigeon";
 import { EntityType } from "../types/EntityType";
+import { Monster } from "../classes/Monster";
 import { PlayerAnimation } from "../types/animations";
 import { XDirection, YDirection } from "../types/Direction";
+import { getDefinable } from "../definables";
 import { getOppositeDirection } from "../functions/getOppositeDirection";
 import { handlePlayerDefeat } from "./handlePlayerDefeat";
 import { isPlayerInvincible } from "./isPlayerInvincible";
@@ -923,7 +925,11 @@ export const createPlayer = (): void => {
         const entityCollidable: EntityCollidable =
           overlapData.entityCollidables[0];
         if (entityCollidable.type === EntityType.Monster) {
-          if (!isPlayerInvincible()) {
+          const monster: Monster = getDefinable(
+            Monster,
+            entityCollidable.entityID,
+          );
+          if (monster.isAlive() && !isPlayerInvincible()) {
             const playerHP: number = Math.max(state.values.playerHP - 1, 0);
             state.setValues({ playerHP });
             if (playerHP > 0) {
