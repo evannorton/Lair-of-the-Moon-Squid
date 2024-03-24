@@ -2,6 +2,7 @@ import { Definable } from "../definables";
 import { Direction, XDirection, YDirection } from "../types/Direction";
 import {
   EntityPosition,
+  addEntitySprite,
   createEntity,
   createSprite,
   getActiveLevelID,
@@ -18,6 +19,7 @@ import {
 import { EntityType } from "../types/EntityType";
 import { Hit } from "../types/Hit";
 import { MonsterAnimation } from "../types/animations";
+import { deathAnimationDuration } from "../constants/deathAnimationDuration";
 import { getPlayerPosition } from "../functions/getPlayerPosition";
 import { invincibilityDuration } from "../constants/invincibilityDuration";
 import { knockbackDuration } from "../constants/knockbackDuration";
@@ -42,6 +44,7 @@ export class Monster extends Definable {
   private _hit: Hit | null = null;
   private _hp: number;
   private _isChasingPlayer: boolean = false;
+  private _killedAt: number | null = null;
   private readonly _maxHP: number;
   private readonly _movementSpeed: number;
   private _wander: Wander | null = null;
@@ -212,7 +215,7 @@ export class Monster extends Definable {
   }
 
   public isAlive(): boolean {
-    return this._hp > 0;
+    return this._killedAt === null;
   }
 
   public isInvincible(): boolean {
@@ -255,13 +258,64 @@ export class Monster extends Definable {
   }
 
   public takeHit(): void {
-    this._hit = {
-      direction: state.values.playerDirection,
-      time: getCurrentTime(),
-    };
-    this._hp = Math.max(this._hp - 1, 0);
-    if (this._hp === 0) {
-      this.remove();
+    if (this.isAlive()) {
+      this._hit = {
+        direction: state.values.playerDirection,
+        time: getCurrentTime(),
+      };
+      this._hp = Math.max(this._hp - 1, 0);
+      if (this._hp === 0) {
+        const duration: number = deathAnimationDuration / 4;
+        const spriteID: string = createSprite({
+          animationID: "default",
+          animations: [
+            {
+              frames: [
+                {
+                  duration,
+                  height: 16,
+                  sourceHeight: 16,
+                  sourceWidth: 16,
+                  sourceX: 0,
+                  sourceY: 0,
+                  width: 16,
+                },
+                {
+                  duration,
+                  height: 16,
+                  sourceHeight: 16,
+                  sourceWidth: 16,
+                  sourceX: 16,
+                  sourceY: 0,
+                  width: 16,
+                },
+                {
+                  duration,
+                  height: 16,
+                  sourceHeight: 16,
+                  sourceWidth: 16,
+                  sourceX: 32,
+                  sourceY: 0,
+                  width: 16,
+                },
+                {
+                  height: 16,
+                  sourceHeight: 16,
+                  sourceWidth: 16,
+                  sourceX: 48,
+                  sourceY: 0,
+                  width: 16,
+                },
+              ],
+              id: "default",
+            },
+          ],
+          imagePath: "monster-death",
+        });
+        addEntitySprite(this._id, { spriteID });
+        this._killedAt = getCurrentTime();
+        stopEntity(this._id);
+      }
     }
   }
 
@@ -272,102 +326,109 @@ export class Monster extends Definable {
         `Attempted to update Monster "${this._id}" with no active level.`,
       );
     }
-    if (this.isTakingKnockback()) {
-      if (this._hit !== null) {
-        switch (this._hit.direction) {
-          case XDirection.Left:
-            moveEntity(this._id, {
-              xVelocity: -knockbackSpeed,
-            });
-            break;
-          case XDirection.Right:
-            moveEntity(this._id, {
-              xVelocity: knockbackSpeed,
-            });
-            break;
-          case YDirection.Up:
-            moveEntity(this._id, {
-              yVelocity: -knockbackSpeed,
-            });
-            break;
-          case YDirection.Down:
-            moveEntity(this._id, {
-              yVelocity: knockbackSpeed,
-            });
-            break;
+    if (
+      this._killedAt !== null &&
+      getCurrentTime() > this._killedAt + deathAnimationDuration
+    ) {
+      this.remove();
+    } else if (this.isAlive()) {
+      if (this.isTakingKnockback()) {
+        if (this._hit !== null) {
+          switch (this._hit.direction) {
+            case XDirection.Left:
+              moveEntity(this._id, {
+                xVelocity: -knockbackSpeed,
+              });
+              break;
+            case XDirection.Right:
+              moveEntity(this._id, {
+                xVelocity: knockbackSpeed,
+              });
+              break;
+            case YDirection.Up:
+              moveEntity(this._id, {
+                yVelocity: -knockbackSpeed,
+              });
+              break;
+            case YDirection.Down:
+              moveEntity(this._id, {
+                yVelocity: knockbackSpeed,
+              });
+              break;
+          }
         }
-      }
-    } else if (this._wander !== null && isEntityPathing(this._id) === false) {
-      let chasePosition: [number, number] | null = null;
-      if (Math.random() < this._wander.chasePlayerChance) {
+      } else if (this._wander !== null && isEntityPathing(this._id) === false) {
+        let chasePosition: [number, number] | null = null;
+        if (Math.random() < this._wander.chasePlayerChance) {
+          const playerPosition: EntityPosition = getPlayerPosition();
+          const path: EntityPosition[] = getEntityCalculatedPath(
+            this._id,
+            playerPosition,
+          );
+          if (path.length > 1) {
+            chasePosition = [path[1].x, path[1].y];
+          }
+        }
+        if (chasePosition !== null) {
+          this.pathToCoordinates(chasePosition[0], chasePosition[1]);
+        } else {
+          const radiusPX: number = this._wander.radius * 16;
+          const entityPosition: EntityPosition = this.getPosition();
+          const centerPosition: EntityPosition = getEntityPosition(
+            this._wander.entityID,
+          );
+          const positions: [number, number][] = [];
+          for (
+            let y: number = centerPosition.y - radiusPX;
+            y <= centerPosition.y + radiusPX;
+            y += 16
+          ) {
+            for (
+              let x: number = centerPosition.x - radiusPX;
+              x <= centerPosition.x + radiusPX;
+              x += 16
+            ) {
+              if (
+                (x !== entityPosition.x || y !== entityPosition.y) &&
+                isRectangleInLevel({
+                  levelID,
+                  rectangle: {
+                    height: 16,
+                    width: 16,
+                    x,
+                    y,
+                  },
+                })
+              ) {
+                positions.push([x, y]);
+              }
+            }
+          }
+          positions.sort((): number => Math.random() - 0.5);
+          const position: [number, number] | null =
+            positions.find(([x, y]: [number, number]): boolean => {
+              const path: EntityPosition[] = getEntityCalculatedPath(this._id, {
+                x,
+                y,
+              });
+              return path.length > 0;
+            }) ?? null;
+          if (position !== null) {
+            this.pathToCoordinates(position[0], position[1]);
+          }
+        }
+      } else if (this._isChasingPlayer && isEntityPathing(this._id) === false) {
         const playerPosition: EntityPosition = getPlayerPosition();
         const path: EntityPosition[] = getEntityCalculatedPath(
           this._id,
           playerPosition,
         );
         if (path.length > 1) {
-          chasePosition = [path[1].x, path[1].y];
+          this.pathToCoordinates(path[1].x, path[1].y);
         }
+      } else if (isEntityPathing(this._id) === false) {
+        stopEntity(this._id);
       }
-      if (chasePosition !== null) {
-        this.pathToCoordinates(chasePosition[0], chasePosition[1]);
-      } else {
-        const radiusPX: number = this._wander.radius * 16;
-        const entityPosition: EntityPosition = this.getPosition();
-        const centerPosition: EntityPosition = getEntityPosition(
-          this._wander.entityID,
-        );
-        const positions: [number, number][] = [];
-        for (
-          let y: number = centerPosition.y - radiusPX;
-          y <= centerPosition.y + radiusPX;
-          y += 16
-        ) {
-          for (
-            let x: number = centerPosition.x - radiusPX;
-            x <= centerPosition.x + radiusPX;
-            x += 16
-          ) {
-            if (
-              (x !== entityPosition.x || y !== entityPosition.y) &&
-              isRectangleInLevel({
-                levelID,
-                rectangle: {
-                  height: 16,
-                  width: 16,
-                  x,
-                  y,
-                },
-              })
-            ) {
-              positions.push([x, y]);
-            }
-          }
-        }
-        positions.sort((): number => Math.random() - 0.5);
-        const position: [number, number] | null =
-          positions.find(([x, y]: [number, number]): boolean => {
-            const path: EntityPosition[] = getEntityCalculatedPath(this._id, {
-              x,
-              y,
-            });
-            return path.length > 0;
-          }) ?? null;
-        if (position !== null) {
-          this.pathToCoordinates(position[0], position[1]);
-        }
-      }
-    } else if (this._isChasingPlayer && isEntityPathing(this._id) === false) {
-      const playerPosition: EntityPosition = getPlayerPosition();
-      const path: EntityPosition[] = getEntityCalculatedPath(
-        this._id,
-        playerPosition,
-      );
-      if (path.length > 1) {
-        this.pathToCoordinates(path[1].x, path[1].y);
-      }
-    } else if (isEntityPathing(this._id) === false) {
-      stopEntity(this._id);
     }
   }
 
