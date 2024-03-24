@@ -14,6 +14,7 @@ import {
   moveEntity,
   pathEntity,
   removeEntity,
+  removeEntitySprite,
   stopEntity,
 } from "pixel-pigeon";
 import { EntityType } from "../types/EntityType";
@@ -47,6 +48,7 @@ export class Monster extends Definable {
   private _killedAt: number | null = null;
   private readonly _maxHP: number;
   private readonly _movementSpeed: number;
+  private readonly _spriteID: string;
   private _wander: Wander | null = null;
 
   public constructor(options: MonsterOptions) {
@@ -204,6 +206,7 @@ export class Monster extends Definable {
       zIndex: 0,
     });
     super(entityID);
+    this._spriteID = spriteID;
     this._maxHP = options.maxHP;
     this._hp = this._maxHP;
     this._movementSpeed = options.movementSpeed;
@@ -313,6 +316,7 @@ export class Monster extends Definable {
           imagePath: "monster-death",
         });
         addEntitySprite(this._id, { spriteID });
+        removeEntitySprite(this._id, this._spriteID);
         this._killedAt = getCurrentTime();
         stopEntity(this._id);
       }

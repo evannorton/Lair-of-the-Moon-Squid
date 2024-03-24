@@ -1,1 +1,1 @@
-export const deathAnimationDuration: number = 3000;
+export const deathAnimationDuration: number = 1000;
