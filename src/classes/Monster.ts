@@ -1,4 +1,4 @@
-import { Definable } from "../definables";
+import { Definable } from "definables";
 import { Direction, XDirection, YDirection } from "../types/Direction";
 import {
   EntityPosition,
@@ -365,12 +365,12 @@ export class Monster extends Definable {
         let chasePosition: [number, number] | null = null;
         if (Math.random() < this._wander.chasePlayerChance) {
           const playerPosition: EntityPosition = getPlayerPosition();
-          const path: EntityPosition[] = getEntityCalculatedPath(
+          const path: readonly EntityPosition[] = getEntityCalculatedPath(
             this._id,
             playerPosition,
           );
           if (path.length > 1) {
-            chasePosition = [path[1].x, path[1].y];
+            chasePosition = [(path[1] as EntityPosition).x, (path[1] as EntityPosition).y];
           }
         }
         if (chasePosition !== null) {
@@ -411,7 +411,7 @@ export class Monster extends Definable {
           positions.sort((): number => Math.random() - 0.5);
           const position: [number, number] | null =
             positions.find(([x, y]: [number, number]): boolean => {
-              const path: EntityPosition[] = getEntityCalculatedPath(this._id, {
+              const path: readonly EntityPosition[] = getEntityCalculatedPath(this._id, {
                 x,
                 y,
               });
@@ -423,12 +423,12 @@ export class Monster extends Definable {
         }
       } else if (this._isChasingPlayer && isEntityPathing(this._id) === false) {
         const playerPosition: EntityPosition = getPlayerPosition();
-        const path: EntityPosition[] = getEntityCalculatedPath(
+        const path: readonly EntityPosition[] = getEntityCalculatedPath(
           this._id,
           playerPosition,
         );
         if (path.length > 1) {
-          this.pathToCoordinates(path[1].x, path[1].y);
+          this.pathToCoordinates((path[1] as EntityPosition).x, (path[1] as EntityPosition).y);
         }
       } else if (isEntityPathing(this._id) === false) {
         stopEntity(this._id);

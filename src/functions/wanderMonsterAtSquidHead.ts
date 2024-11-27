@@ -1,5 +1,5 @@
 import { Monster } from "../classes/Monster";
-import { getDefinable } from "../definables";
+import { getDefinable } from "definables";
 import { state } from "../state";
 
 export const wanderMonsterAtSquidHead = (monsterID: string): void => {

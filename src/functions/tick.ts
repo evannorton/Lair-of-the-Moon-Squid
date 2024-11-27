@@ -3,7 +3,7 @@ import { Monster } from "../classes/Monster";
 import { Sword } from "../classes/Sword";
 import { applyKnockbackToPlayer } from "./applyKnockbackToPlayer";
 import { getCurrentTime } from "pixel-pigeon";
-import { getDefinables } from "../definables";
+import { getDefinables } from "definables";
 import { isMainGameOngoing } from "../conditions";
 import { isPlayerShootingArrow } from "./isPlayerShootingArrow";
 import { isPlayerSwingingSword } from "./isPlayerSwingingSword";

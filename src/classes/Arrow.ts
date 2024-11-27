@@ -1,5 +1,5 @@
 import { ArrowAnimation } from "../types/animations";
-import { Definable, getDefinable } from "../definables";
+import { Definable, getDefinable } from "definables";
 import { Direction, XDirection, YDirection } from "../types/Direction";
 import {
   EntityPosition,

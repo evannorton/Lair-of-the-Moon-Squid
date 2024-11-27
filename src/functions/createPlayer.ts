@@ -11,7 +11,7 @@ import { EntityType } from "../types/EntityType";
 import { Monster } from "../classes/Monster";
 import { PlayerAnimation } from "../types/animations";
 import { XDirection, YDirection } from "../types/Direction";
-import { getDefinable } from "../definables";
+import { getDefinable } from "definables";
 import { getOppositeDirection } from "../functions/getOppositeDirection";
 import { handlePlayerDefeat } from "./handlePlayerDefeat";
 import { isPlayerInvincible } from "./isPlayerInvincible";
@@ -923,7 +923,7 @@ export const createPlayer = (): void => {
     onOverlap: (overlapData: OverlapData): void => {
       if (overlapData.entityCollidables.length > 0) {
         const entityCollidable: EntityCollidable =
-          overlapData.entityCollidables[0];
+          overlapData.entityCollidables[0] as EntityCollidable;
         if (entityCollidable.type === EntityType.Monster) {
           const monster: Monster = getDefinable(
             Monster,

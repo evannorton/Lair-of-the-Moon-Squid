@@ -7,7 +7,7 @@ import {
   removeEntity,
   stopAudioSource,
 } from "pixel-pigeon";
-import { getDefinables } from "../definables";
+import { getDefinables } from "definables";
 import { musicVolumeChannelID } from "../volumeChannels";
 import { state } from "../state";
 

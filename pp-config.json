@@ -1,5 +1,6 @@
 {
   "name": "Moon Squid",
   "width": 160,
-  "height": 144
+  "height": 144,
+  "requireClickToFocus": true
 }
