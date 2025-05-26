@@ -922,8 +922,8 @@ export const createPlayer = (): void => {
     levelID: "test_level",
     onOverlap: (overlapData: OverlapData): void => {
       if (overlapData.entityCollidables.length > 0) {
-        const entityCollidable: EntityCollidable =
-          overlapData.entityCollidables[0] as EntityCollidable;
+        const entityCollidable: EntityCollidable = overlapData
+          .entityCollidables[0] as EntityCollidable;
         if (entityCollidable.type === EntityType.Monster) {
           const monster: Monster = getDefinable(
             Monster,

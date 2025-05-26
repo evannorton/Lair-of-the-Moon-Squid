@@ -370,7 +370,10 @@ export class Monster extends Definable {
             playerPosition,
           );
           if (path.length > 1) {
-            chasePosition = [(path[1] as EntityPosition).x, (path[1] as EntityPosition).y];
+            chasePosition = [
+              (path[1] as EntityPosition).x,
+              (path[1] as EntityPosition).y,
+            ];
           }
         }
         if (chasePosition !== null) {
@@ -411,10 +414,13 @@ export class Monster extends Definable {
           positions.sort((): number => Math.random() - 0.5);
           const position: [number, number] | null =
             positions.find(([x, y]: [number, number]): boolean => {
-              const path: readonly EntityPosition[] = getEntityCalculatedPath(this._id, {
-                x,
-                y,
-              });
+              const path: readonly EntityPosition[] = getEntityCalculatedPath(
+                this._id,
+                {
+                  x,
+                  y,
+                },
+              );
               return path.length > 0;
             }) ?? null;
           if (position !== null) {
@@ -428,7 +434,10 @@ export class Monster extends Definable {
           playerPosition,
         );
         if (path.length > 1) {
-          this.pathToCoordinates((path[1] as EntityPosition).x, (path[1] as EntityPosition).y);
+          this.pathToCoordinates(
+            (path[1] as EntityPosition).x,
+            (path[1] as EntityPosition).y,
+          );
         }
       } else if (isEntityPathing(this._id) === false) {
         stopEntity(this._id);
